@@ -1,0 +1,1300 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mestre dos Testes — RPG</title>
+<style>
+:root {
+    --bg-principal:#121214; --bg-card:#1a1a1e; --bg-input:#26262b;
+    --bg-resultado:#0e0e10; --accent:#ff9f43; --accent-hover:#ffb167;
+    --texto:#f5f5f5; --texto-secundario:#a4b0be; --texto-fraco:#747b84;
+    --borda:#323238; --sucesso:#7bed9f; --erro:#ff6b6b;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:var(--bg-principal);color:var(--texto);padding:16px;line-height:1.5}
+h1{color:var(--accent);text-align:center;font-size:24px;margin-bottom:4px;font-weight:800}
+.subtitulo{text-align:center;color:var(--texto-secundario);font-size:12px;margin-bottom:20px}
+h2{font-size:18px;margin-bottom:16px;font-weight:700}
+.container{background:var(--bg-card);padding:16px;border-radius:12px;border:1px solid var(--borda);margin-bottom:24px}
+.grid-atributos{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.input-group{display:flex;flex-direction:column}
+.input-group label{font-weight:700;font-size:11px;margin-bottom:4px;color:var(--texto-secundario);text-align:center;text-transform:uppercase}
+input,select{width:100%;padding:10px;background:var(--bg-input);border:1px solid var(--borda);color:var(--texto);border-radius:8px;font-size:15px;text-align:center;font-weight:bold}
+input:focus,select:focus{border-color:var(--accent);outline:none}
+.secao-titulo{font-size:16px;color:var(--accent);margin:24px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--borda);font-weight:700}
+.lista-pericias{display:flex;flex-direction:column;gap:12px}
+.pericia-card{background:var(--bg-input);padding:14px;border-radius:10px;border-left:4px solid var(--accent);display:flex;flex-direction:column;gap:10px}
+.pericia-header{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.pericia-title{font-weight:700;font-size:16px}
+.pericia-base{font-size:12px;color:var(--texto-secundario);display:flex;align-items:center;gap:4px}
+.pericia-base select{padding:4px 8px;font-size:12px;width:auto;border-radius:6px}
+.pericia-corpo{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:center}
+.resultado-box{background:rgba(0,0,0,.2);padding:8px;border-radius:6px;font-size:13px;text-align:center;border:1px solid var(--borda);display:flex;flex-direction:column;justify-content:center;min-height:64px}
+.resultado-box span{font-size:16px;font-weight:bold;color:var(--accent)}
+.formula{font-size:11px;color:var(--texto-fraco);text-align:center;line-height:1.5}
+.btn-rolar{width:100%;padding:12px;background:var(--accent);color:#121214;border:none;border-radius:8px;font-weight:700;font-size:14px;cursor:pointer;text-transform:uppercase}
+.btn-rolar:hover{background:var(--accent-hover)}
+.btn-secundario{width:100%;padding:10px;background:transparent;color:var(--accent);border:1px solid var(--accent);border-radius:8px;font-weight:700;cursor:pointer;margin-top:10px}
+.btn-secundario:hover{background:rgba(255,159,67,.1)}
+.dados-resultado{background:var(--bg-resultado);padding:10px;border-radius:8px;margin-top:4px;font-size:13px;color:var(--accent);border:1px dashed var(--borda);text-align:center}
+.dados-lista{margin-top:4px;color:var(--texto-secundario);font-size:12px}
+.resultado-final{color:var(--sucesso);font-size:18px;font-weight:800;margin-top:4px}
+.custom-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.custom-full{grid-column:1/-1}
+.aviso{color:var(--texto-secundario);font-size:12px;margin-bottom:12px}
+
+/* --- Ficha / Salvamento --- */
+.ficha-topo{display:flex;flex-direction:column;gap:10px}
+.ficha-nome-row{display:flex;gap:8px}
+.ficha-nome-row input{text-align:left;font-weight:700}
+.btn-linha{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.btn-acao{padding:10px;border-radius:8px;font-weight:700;font-size:13px;cursor:pointer;border:1px solid var(--borda);background:var(--bg-input);color:var(--texto)}
+.btn-acao:hover{border-color:var(--accent);color:var(--accent)}
+.btn-acao.primario{background:var(--accent);color:#121214;border-color:var(--accent)}
+.btn-acao.primario:hover{background:var(--accent-hover)}
+.btn-acao.perigo:hover{border-color:var(--erro);color:var(--erro)}
+.status-msg{font-size:12px;text-align:center;min-height:16px;color:var(--texto-secundario);transition:color .2s}
+.status-msg.ok{color:var(--sucesso)}
+.status-msg.erro{color:var(--erro)}
+.lista-salvas{display:flex;flex-direction:column;gap:8px;margin-top:12px}
+.ficha-salva-item{display:flex;justify-content:space-between;align-items:center;gap:8px;background:var(--bg-input);padding:10px 12px;border-radius:8px;border:1px solid var(--borda)}
+.ficha-salva-info{display:flex;flex-direction:column;gap:2px;overflow:hidden}
+.ficha-salva-nome{font-weight:700;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ficha-salva-data{font-size:11px;color:var(--texto-fraco)}
+.ficha-salva-btns{display:flex;gap:6px;flex-shrink:0}
+.btn-mini{padding:6px 10px;font-size:12px;border-radius:6px;border:1px solid var(--borda);background:var(--bg-principal);color:var(--texto-secundario);cursor:pointer;font-weight:700}
+.btn-mini:hover{border-color:var(--accent);color:var(--accent)}
+.btn-mini.perigo:hover{border-color:var(--erro);color:var(--erro)}
+.vazio-aviso{color:var(--texto-fraco);font-size:12px;text-align:center;padding:12px}
+textarea{width:100%;background:var(--bg-input);border:1px solid var(--borda);color:var(--texto);border-radius:8px;padding:10px;font-size:12px;font-family:monospace;resize:vertical;min-height:80px}
+
+@media(max-width:500px){
+body{padding:10px}.grid-atributos{grid-template-columns:repeat(2,1fr)}
+.pericia-header{align-items:flex-start}.custom-grid{grid-template-columns:1fr}.custom-full{grid-column:auto}
+}
+</style>
+</head>
+<body>
+
+<h1>Mestre dos Testes</h1>
+<div class="subtitulo" id="status-storage">Carregando sistema de fichas…</div>
+
+<div class="container">
+<h2>💾 Ficha do Personagem</h2>
+<div class="ficha-topo">
+  <div class="ficha-nome-row">
+    <input type="text" id="ficha_nome" placeholder="Nome do personagem / ficha" value="Novo Personagem">
+  </div>
+  <div class="btn-linha">
+    <button class="btn-acao primario" onclick="salvarFicha()">💾 Salvar Ficha</button>
+    <button class="btn-acao" onclick="salvarComoNovaFicha()">➕ Salvar como Nova</button>
+  </div>
+  <div class="btn-linha">
+    <button class="btn-acao" onclick="exportarJSON()">⬇️ Exportar (.json)</button>
+    <button class="btn-acao" onclick="document.getElementById('input-importar').click()">⬆️ Importar (.json)</button>
+  </div>
+  <input type="file" id="input-importar" accept="application/json" style="display:none" onchange="importarJSON(event)">
+  <div class="status-msg" id="status-msg"></div>
+</div>
+
+<div class="secao-titulo" style="margin-top:20px">Fichas Salvas</div>
+<div id="lista-fichas-salvas" class="lista-salvas">
+  <div class="vazio-aviso">Nenhuma ficha salva ainda.</div>
+</div>
+</div>
+
+<div class="container">
+<h2>1. Atributos Base</h2>
+<div class="grid-atributos">
+<div class="input-group"><label>HPR</label><input type="number" id="attr_HPR" value="1" min="0" onchange="atualizarPainel()"></div>
+<div class="input-group"><label>PRX</label><input type="number" id="attr_PRX" value="1" min="0" onchange="atualizarPainel()"></div>
+<div class="input-group"><label>PSI</label><input type="number" id="attr_PSI" value="1" min="0" onchange="atualizarPainel()"></div>
+<div class="input-group"><label>QI</label><input type="number" id="attr_QI" value="1" min="0" onchange="atualizarPainel()"></div>
+</div>
+</div>
+
+<div class="container">
+<h2>2. Perícias & Rolagens</h2>
+<div id="painel-pericias">
+<div class="secao-titulo">⚔️ Perícias Militares</div>
+
+<div class="pericia-card">
+  <div class="pericia-header">
+    <div class="pericia-title">Luta</div>
+    <div class="pericia-base">Base: <select id="base_Luta" ><option value="HPR">HPR</option><option value="PRX">PRX</option></select></div>
+  </div>
+  <div class="pericia-corpo">
+    <div class="input-group">
+      <label>Pontos Puros</label>
+      <input type="number" id="pts_Luta" value="0" min="0" onchange="pontos['Luta']=Math.max(0,parseInt(this.value)||0);atualizarPainel()">
+    </div>
+    <div class="resultado-box">Bônus Fixo: <span id="fixo_Luta">0</span></div>
+  </div>
+  <div class="formula" id="formula_Luta">HPR × D6 + PRX + ⌊(Dança + Reflexo) ÷ 2⌋ → Bônus de Perícia: 0</div>
+  <button class="btn-rolar" onclick="rolar('Luta')">Rolar Dados</button>
+  <div id="d_Luta" class="dados-resultado" style="display:none"></div>
+</div>
+
+<div class="pericia-card">
+  <div class="pericia-header">
+    <div class="pericia-title">Pontaria</div>
+    <div class="pericia-base">Base: <strong>PRX</strong></div>
+  </div>
+  <div class="pericia-corpo">
+    <div class="input-group">
+      <label>Pontos Puros</label>
+      <input type="number" id="pts_Pontaria" value="0" min="0" onchange="pontos['Pontaria']=Math.max(0,parseInt(this.value)||0);atualizarPainel()">
+    </div>
+    <div class="resultado-box">Bônus Fixo: <span id="fixo_Pontaria">0</span></div>
+  </div>
+  <div class="formula" id="formula_Pontaria">PRX × D6 → Bônus de Perícia: 0</div>
+  <button class="btn-rolar" onclick="rolar('Pontaria')">Rolar Dados</button>
+  <div id="d_Pontaria" class="dados-resultado" style="display:none"></div>
+</div>
+
+<div class="pericia-card">
+  <div class="pericia-header">
+    <div class="pericia-title">Reflexo</div>
+    <div class="pericia-base">Base: <strong>PRX</strong></div>
+  </div>
+  <div class="pericia-corpo">
+    <div class="input-group">
+      <label>Pontos Puros</label>
+      <input type="number" id="pts_Reflexo" value="0" min="0" onchange="pontos['Reflexo']=Math.max(0,parseInt(this.value)||0);atualizarPainel()">
+    </div>
+    <div class="resultado-box">Bônus Fixo: <span id="fixo_Reflexo">0</span></div>
+  </div>
+  <div class="formula" id="formula_Reflexo">PRX × D6 + ⌊(Atletismo + Acrobacia + Dança) ÷ 2⌋ → Bônus de Perícia: 0</div>
+  <button class="btn-rolar" onclick="rolar('Reflexo')">Rolar Dados</button>
+  <div id="d_Reflexo" class="dados-resultado" style="display:none"></div>
+</div>
+
+<div class="pericia-card">
+  <div class="pericia-header">
+    <div class="pericia-title">Rijeza</div>
+    <div class="pericia-base">Base: <strong>HPR</strong></div>
+  </div>
+  <div class="pericia-corpo">
+    <div class="input-group">
+      <label>Pontos Puros</label>
+      <input type="number" id="pts_Rijeza" value="0" min="0" onchange="pontos['Rijeza']=Math.max(0,parseInt(this.value)||0);atualizarPainel()">
+    </div>
+    <div class="resultado-box">Bônus Fixo: <span id="fixo_Rijeza">0</span></div>
+  </div>
+  <div class="formula" id="formula_Rijeza">HPR × D6 + ⌊(Vigor) ÷ 3⌋ → Bônus de Perícia: 0</div>
+  <button class="btn-rolar" onclick="rolar('Rijeza')">Rolar Dados</button>
+  <div id="d_Rijeza" class="dados-resultado" style="display:none"></div>
+</div>
+
+<div class="pericia-card">
+  <div class="pericia-header">
+    <div class="pericia-title">Cirurgia</div>
+    <div class="pericia-base">Base: <select id="base_Cirurgia" ><option value="QI">QI</option><option value="PRX">PRX</option></select></div>
+  </div>
+  <div class="pericia-corpo">
+    <div class="input-group">
+      <label>Pontos Puros</label>
+      <input type="number" id="pts_Cirurgia" value="0" min="0" onchange="pontos['Cirurgia']=Math.max(0,parseInt(this.value)||0);atualizarPainel()">
+    </div>
+    <div class="resultado-box">Bônus Fixo: <span id="fixo_Cirurgia">0</span></div>
+  </div>
+  <div class="formula" id="formula_Cirurgia">QI × D6 + PRX + ⌊(Medicina) ÷ 2⌋ → Bônus de Perícia: 0</div>
+  <button class="btn-rolar" onclick="rolar('Cirurgia')">Rolar Dados</button>
+  <div id="d_Cirurgia" class="dados-resultado" style="display:none"></div>
+</div>
+
+<div class="pericia-card">
+  <div class="pericia-header">
+    <div class="pericia-title">Furtividade</div>
+    <div class="pericia-base">Base: <select id="base_Furtividade" ><option value="PRX">PRX</option><option value="QI">QI</option></select></div>
+  </div>
+  <div class="pericia-corpo">
+    <div class="input-group">
+      <label>Pontos Puros</label>
+      <input type="number" id="pts_Furtividade" value="0" min="0" onchange="pontos['Furtividade']=Math.max(0,parseInt(this.value)||0);atualizarPainel()">
+    </div>
+    <div class="resultado-box">Bônus Fixo: <span id="fixo_Furtividade">0</span></div>
+  </div>
+  <div class="formula" id="formula_Furtividade">PRX × D6 + QI + ⌊(Tática + Localizar) ÷ 2⌋ → Bônus de Perícia: 0</div>
+  <button class="btn-rolar" onclick="rolar('Furtividade')">Rolar Dados</button>
+  <div id="d_Furtividade" class="dados-resultado" style="display:none"></div>
+</div>
+
+<div class="pericia-card">
+  <div class="pericia-header">
+    <div class="pericia-title">Tática</div>
+    <div class="pericia-base">Base: <strong>QI</strong></div>
+  </div>
+  <div class="pericia-corpo">
+    <div class="input-group">
+      <label>Pontos Puros</label>
+      <input type="number" id="pts_Tatica" value="0" min="0" onchange="pontos['Tática']=Math.max(0,parseInt(this.value)||0);atualizarPainel()">
+    </div>
+    <div class="resultado-box">Bônus Fixo: <span id="fixo_Tatica">0</span></div>
+  </div>
+  <div class="formula" id="formula_Tatica">QI × D6 → Bônus de Perícia: 0</div>
+  <button class="btn-rolar" onclick="rolar('Tática')">Rolar Dados</button>
+  <div id="d_Tatica" class="dados-resultado" style="display:none"></div>
+</div>
+<div class="secao-titulo">🗣️ Perícias Interpessoais</div>
+
+<div class="pericia-card">
+  <div class="pericia-header">
+    <div class="pericia-title">Empatia</div>
+    <div class="pericia-base">Base: <strong>PSI</strong></div>
+  </div>
+  <div class="pericia-corpo">
+    <div class="input-group">
+      <label>Pontos Puros</label>
+      <input type="number" id="pts_Empatia" value="0" min="0" onchange="pontos['Empatia']=Math.max(0,parseInt(this.value)||0);atualizarPainel()">
+    </div>
+    <div class="resultado-box">Bônus Fixo: <span id="fixo_Empatia">0</span></div>
+  </div>
+  <div class="formula" id="formula_Empatia">PSI × D6 + ⌊(Acalanto) ÷ 2⌋ → Bônus de Perícia: 0</div>
+  <button class="btn-rolar" onclick="rolar('Empatia')">Rolar Dados</button>
+  <div id="d_Empatia" class="dados-resultado" style="display:none"></div>
+</div>
+
+<div class="pericia-card">
+  <div class="pericia-header">
+    <div class="pericia-title">Diplomacia</div>
+    <div class="pericia-base">Base: <select id="base_Diplomacia" ><option value="PSI">PSI</option><option value="QI">QI</option></select></div>
+  </div>
+  <div class="pericia-corpo">
+    <div class="input-group">
+      <label>Pontos Puros</label>
+      <input type="number" id="pts_Diplomacia" value="0" min="0" onchange="pontos['Diplomacia']=Math.max(0,parseInt(this.value)||0);atualizarPainel()">
+    </div>
+    <div class="resultado-box">Bônus Fixo: <span id="fixo_Diplomacia">0</span></div>
+  </div>
+  <div class="formula" id="formula_Diplomacia">PSI × D6 + QI + ⌊(Persuasão) ÷ 2⌋ → Bônus de Perícia: 0</div>
+  <button class="btn-rolar" onclick="rolar('Diplomacia')">Rolar Dados</button>
+  <div id="d_Diplomacia" class="dados-resultado" style="display:none"></div>
+</div>
+
+<div class="pericia-card">
+  <div class="pericia-header">
+    <div class="pericia-title">Persuasão</div>
+    <div class="pericia-base">Base: <select id="base_Persuasao" ><option value="PSI">PSI</option><option value="QI">QI</option></select></div>
+  </div>
+  <div class="pericia-corpo">
+    <div class="input-group">
+      <label>Pontos Puros</label>
+      <input type="number" id="pts_Persuasao" value="0" min="0" onchange="pontos['Persuasão']=Math.max(0,parseInt(this.value)||0);atualizarPainel()">
+    </div>
+    <div class="resultado-box">Bônus Fixo: <span id="fixo_Persuasao">0</span></div>
+  </div>
+  <div class="formula" id="formula_Persuasao">PSI × D6 + QI + ⌊(Diplomacia) ÷ 2⌋ → Bônus de Perícia: 0</div>
+  <button class="btn-rolar" onclick="rolar('Persuasão')">Rolar Dados</button>
+  <div id="d_Persuasao" class="dados-resultado" style="display:none"></div>
+</div>
+
+<div class="pericia-card">
+  <div class="pericia-header">
+    <div class="pericia-title">Intimidação</div>
+    <div class="pericia-base">Base: <select id="base_Intimidacao" ><option value="PSI">PSI</option><option value="HPR">HPR</option></select></div>
+  </div>
+  <div class="pericia-corpo">
+    <div class="input-group">
+      <label>Pontos Puros</label>
+      <input type="number" id="pts_Intimidacao" value="0" min="0" onchange="pontos['Intimidação']=Math.max(0,parseInt(this.value)||0);atualizarPainel()">
+    </div>
+    <div class="resultado-box">Bônus Fixo: <span id="fixo_Intimidacao">0</span></div>
+  </div>
+  <div class="formula" id="formula_Intimidacao">PSI × D6 + HPR + ⌊(Persuasão) ÷ 2⌋ → Bônus de Perícia: 0</div>
+  <button class="btn-rolar" onclick="rolar('Intimidação')">Rolar Dados</button>
+  <div id="d_Intimidacao" class="dados-resultado" style="display:none"></div>
+</div>
+
+<div class="pericia-card">
+  <div class="pericia-header">
+    <div class="pericia-title">Acalanto</div>
+    <div class="pericia-base">Base: <strong>PSI</strong></div>
+  </div>
+  <div class="pericia-corpo">
+    <div class="input-group">
+      <label>Pontos Puros</label>
+      <input type="number" id="pts_Acalanto" value="0" min="0" onchange="pontos['Acalanto']=Math.max(0,parseInt(this.value)||0);atualizarPainel()">
+    </div>
+    <div class="resultado-box">Bônus Fixo: <span id="fixo_Acalanto">0</span></div>
+  </div>
+  <div class="formula" id="formula_Acalanto">PSI × D6 + ⌊(Empatia) ÷ 2⌋ → Bônus de Perícia: 0</div>
+  <button class="btn-rolar" onclick="rolar('Acalanto')">Rolar Dados</button>
+  <div id="d_Acalanto" class="dados-resultado" style="display:none"></div>
+</div>
+
+<div class="pericia-card">
+  <div class="pericia-header">
+    <div class="pericia-title">Fé</div>
+    <div class="pericia-base">Base: <strong>PSI</strong></div>
+  </div>
+  <div class="pericia-corpo">
+    <div class="input-group">
+      <label>Pontos Puros</label>
+      <input type="number" id="pts_Fe" value="0" min="0" onchange="pontos['Fé']=Math.max(0,parseInt(this.value)||0);atualizarPainel()">
+    </div>
+    <div class="resultado-box">Bônus Fixo: <span id="fixo_Fe">0</span></div>
+  </div>
+  <div class="formula" id="formula_Fe">PSI × D6 + ⌊(História) ÷ 2⌋ → Bônus de Perícia: 0</div>
+  <button class="btn-rolar" onclick="rolar('Fé')">Rolar Dados</button>
+  <div id="d_Fe" class="dados-resultado" style="display:none"></div>
+</div>
+
+<div class="pericia-card">
+  <div class="pericia-header">
+    <div class="pericia-title">Adestramento</div>
+    <div class="pericia-base">Base: <select id="base_Adestramento" ><option value="PSI">PSI</option><option value="QI">QI</option></select></div>
+  </div>
+  <div class="pericia-corpo">
+    <div class="input-group">
+      <label>Pontos Puros</label>
+      <input type="number" id="pts_Adestramento" value="0" min="0" onchange="pontos['Adestramento']=Math.max(0,parseInt(this.value)||0);atualizarPainel()">
+    </div>
+    <div class="resultado-box">Bônus Fixo: <span id="fixo_Adestramento">0</span></div>
+  </div>
+  <div class="formula" id="formula_Adestramento">PSI × D6 + QI + ⌊(Empatia + Acalanto) ÷ 2⌋ → Bônus de Perícia: 0</div>
+  <button class="btn-rolar" onclick="rolar('Adestramento')">Rolar Dados</button>
+  <div id="d_Adestramento" class="dados-resultado" style="display:none"></div>
+</div>
+<div class="secao-titulo">🧠 Perícias Mentais</div>
+
+<div class="pericia-card">
+  <div class="pericia-header">
+    <div class="pericia-title">Determinação</div>
+    <div class="pericia-base">Base: <strong>PSI</strong></div>
+  </div>
+  <div class="pericia-corpo">
+    <div class="input-group">
+      <label>Pontos Puros</label>
+      <input type="number" id="pts_Determinacao" value="0" min="0" onchange="pontos['Determinação']=Math.max(0,parseInt(this.value)||0);atualizarPainel()">
+    </div>
+    <div class="resultado-box">Bônus Fixo: <span id="fixo_Determinacao">0</span></div>
+  </div>
+  <div class="formula" id="formula_Determinacao">PSI × D6 + ⌊(Fé) ÷ 2⌋ → Bônus de Perícia: 0</div>
+  <button class="btn-rolar" onclick="rolar('Determinação')">Rolar Dados</button>
+  <div id="d_Determinacao" class="dados-resultado" style="display:none"></div>
+</div>
+
+<div class="pericia-card">
+  <div class="pericia-header">
+    <div class="pericia-title">Medicina</div>
+    <div class="pericia-base">Base: <strong>QI</strong></div>
+  </div>
+  <div class="pericia-corpo">
+    <div class="input-group">
+      <label>Pontos Puros</label>
+      <input type="number" id="pts_Medicina" value="0" min="0" onchange="pontos['Medicina']=Math.max(0,parseInt(this.value)||0);atualizarPainel()">
+    </div>
+    <div class="resultado-box">Bônus Fixo: <span id="fixo_Medicina">0</span></div>
+  </div>
+  <div class="formula" id="formula_Medicina">QI × D6 + ⌊(Mnemônica) ÷ 2⌋ → Bônus de Perícia: 0</div>
+  <button class="btn-rolar" onclick="rolar('Medicina')">Rolar Dados</button>
+  <div id="d_Medicina" class="dados-resultado" style="display:none"></div>
+</div>
+
+<div class="pericia-card">
+  <div class="pericia-header">
+    <div class="pericia-title">Instinto</div>
+    <div class="pericia-base">Base: <select id="base_Instinto" ><option value="PSI">PSI</option><option value="QI">QI</option><option value="PRX">PRX</option></select></div>
+  </div>
+  <div class="pericia-corpo">
+    <div class="input-group">
+      <label>Pontos Puros</label>
+      <input type="number" id="pts_Instinto" value="0" min="0" onchange="pontos['Instinto']=Math.max(0,parseInt(this.value)||0);atualizarPainel()">
+    </div>
+    <div class="resultado-box">Bônus Fixo: <span id="fixo_Instinto">0</span></div>
+  </div>
+  <div class="formula" id="formula_Instinto">PSI × D6 + QI + PRX + ⌊(Tática) ÷ 2⌋ → Bônus de Perícia: 0</div>
+  <button class="btn-rolar" onclick="rolar('Instinto')">Rolar Dados</button>
+  <div id="d_Instinto" class="dados-resultado" style="display:none"></div>
+</div>
+
+<div class="pericia-card">
+  <div class="pericia-header">
+    <div class="pericia-title">Localizar</div>
+    <div class="pericia-base">Base: <strong>QI</strong></div>
+  </div>
+  <div class="pericia-corpo">
+    <div class="input-group">
+      <label>Pontos Puros</label>
+      <input type="number" id="pts_Localizar" value="0" min="0" onchange="pontos['Localizar']=Math.max(0,parseInt(this.value)||0);atualizarPainel()">
+    </div>
+    <div class="resultado-box">Bônus Fixo: <span id="fixo_Localizar">0</span></div>
+  </div>
+  <div class="formula" id="formula_Localizar">QI × D6 → Bônus de Perícia: 0</div>
+  <button class="btn-rolar" onclick="rolar('Localizar')">Rolar Dados</button>
+  <div id="d_Localizar" class="dados-resultado" style="display:none"></div>
+</div>
+
+<div class="pericia-card">
+  <div class="pericia-header">
+    <div class="pericia-title">Mnemônica</div>
+    <div class="pericia-base">Base: <strong>QI</strong></div>
+  </div>
+  <div class="pericia-corpo">
+    <div class="input-group">
+      <label>Pontos Puros</label>
+      <input type="number" id="pts_Mnemonica" value="0" min="0" onchange="pontos['Mnemônica']=Math.max(0,parseInt(this.value)||0);atualizarPainel()">
+    </div>
+    <div class="resultado-box">Bônus Fixo: <span id="fixo_Mnemonica">0</span></div>
+  </div>
+  <div class="formula" id="formula_Mnemonica">QI × D6 → Bônus de Perícia: 0</div>
+  <button class="btn-rolar" onclick="rolar('Mnemônica')">Rolar Dados</button>
+  <div id="d_Mnemonica" class="dados-resultado" style="display:none"></div>
+</div>
+
+<div class="pericia-card">
+  <div class="pericia-header">
+    <div class="pericia-title">História</div>
+    <div class="pericia-base">Base: <strong>QI</strong></div>
+  </div>
+  <div class="pericia-corpo">
+    <div class="input-group">
+      <label>Pontos Puros</label>
+      <input type="number" id="pts_Historia" value="0" min="0" onchange="pontos['História']=Math.max(0,parseInt(this.value)||0);atualizarPainel()">
+    </div>
+    <div class="resultado-box">Bônus Fixo: <span id="fixo_Historia">0</span></div>
+  </div>
+  <div class="formula" id="formula_Historia">QI × D6 + ⌊(Mnemônica) ÷ 2⌋ → Bônus de Perícia: 0</div>
+  <button class="btn-rolar" onclick="rolar('História')">Rolar Dados</button>
+  <div id="d_Historia" class="dados-resultado" style="display:none"></div>
+</div>
+
+<div class="pericia-card">
+  <div class="pericia-header">
+    <div class="pericia-title">Naturalismo</div>
+    <div class="pericia-base">Base: <strong>QI</strong></div>
+  </div>
+  <div class="pericia-corpo">
+    <div class="input-group">
+      <label>Pontos Puros</label>
+      <input type="number" id="pts_Naturalismo" value="0" min="0" onchange="pontos['Naturalismo']=Math.max(0,parseInt(this.value)||0);atualizarPainel()">
+    </div>
+    <div class="resultado-box">Bônus Fixo: <span id="fixo_Naturalismo">0</span></div>
+  </div>
+  <div class="formula" id="formula_Naturalismo">QI × D6 → Bônus de Perícia: 0</div>
+  <button class="btn-rolar" onclick="rolar('Naturalismo')">Rolar Dados</button>
+  <div id="d_Naturalismo" class="dados-resultado" style="display:none"></div>
+</div>
+<div class="secao-titulo">🛠️ Perícias Convenientes</div>
+
+<div class="pericia-card">
+  <div class="pericia-header">
+    <div class="pericia-title">Atletismo</div>
+    <div class="pericia-base">Base: <strong>HPR</strong></div>
+  </div>
+  <div class="pericia-corpo">
+    <div class="input-group">
+      <label>Pontos Puros</label>
+      <input type="number" id="pts_Atletismo" value="0" min="0" onchange="pontos['Atletismo']=Math.max(0,parseInt(this.value)||0);atualizarPainel()">
+    </div>
+    <div class="resultado-box">Bônus Fixo: <span id="fixo_Atletismo">0</span></div>
+  </div>
+  <div class="formula" id="formula_Atletismo">HPR × D6 + ⌊(Vigor + Acrobacia) ÷ 2⌋ → Bônus de Perícia: 0</div>
+  <button class="btn-rolar" onclick="rolar('Atletismo')">Rolar Dados</button>
+  <div id="d_Atletismo" class="dados-resultado" style="display:none"></div>
+</div>
+
+<div class="pericia-card">
+  <div class="pericia-header">
+    <div class="pericia-title">Vigor</div>
+    <div class="pericia-base">Base: <strong>HPR</strong></div>
+  </div>
+  <div class="pericia-corpo">
+    <div class="input-group">
+      <label>Pontos Puros</label>
+      <input type="number" id="pts_Vigor" value="0" min="0" onchange="pontos['Vigor']=Math.max(0,parseInt(this.value)||0);atualizarPainel()">
+    </div>
+    <div class="resultado-box">Bônus Fixo: <span id="fixo_Vigor">0</span></div>
+  </div>
+  <div class="formula" id="formula_Vigor">HPR × D6 + ⌊(Atletismo + Dança) ÷ 3⌋ → Bônus de Perícia: 0</div>
+  <button class="btn-rolar" onclick="rolar('Vigor')">Rolar Dados</button>
+  <div id="d_Vigor" class="dados-resultado" style="display:none"></div>
+</div>
+
+<div class="pericia-card">
+  <div class="pericia-header">
+    <div class="pericia-title">Arremesso</div>
+    <div class="pericia-base">Base: <select id="base_Arremesso" ><option value="PRX">PRX</option><option value="HPR">HPR</option></select></div>
+  </div>
+  <div class="pericia-corpo">
+    <div class="input-group">
+      <label>Pontos Puros</label>
+      <input type="number" id="pts_Arremesso" value="0" min="0" onchange="pontos['Arremesso']=Math.max(0,parseInt(this.value)||0);atualizarPainel()">
+    </div>
+    <div class="resultado-box">Bônus Fixo: <span id="fixo_Arremesso">0</span></div>
+  </div>
+  <div class="formula" id="formula_Arremesso">PRX × D6 + HPR + ⌊(Pontaria) ÷ 2⌋ → Bônus de Perícia: 0</div>
+  <button class="btn-rolar" onclick="rolar('Arremesso')">Rolar Dados</button>
+  <div id="d_Arremesso" class="dados-resultado" style="display:none"></div>
+</div>
+
+<div class="pericia-card">
+  <div class="pericia-header">
+    <div class="pericia-title">Engenharia</div>
+    <div class="pericia-base">Base: <strong>QI</strong></div>
+  </div>
+  <div class="pericia-corpo">
+    <div class="input-group">
+      <label>Pontos Puros</label>
+      <input type="number" id="pts_Engenharia" value="0" min="0" onchange="pontos['Engenharia']=Math.max(0,parseInt(this.value)||0);atualizarPainel()">
+    </div>
+    <div class="resultado-box">Bônus Fixo: <span id="fixo_Engenharia">0</span></div>
+  </div>
+  <div class="formula" id="formula_Engenharia">QI × D6 + ⌊(Desenho) ÷ 2⌋ → Bônus de Perícia: 0</div>
+  <button class="btn-rolar" onclick="rolar('Engenharia')">Rolar Dados</button>
+  <div id="d_Engenharia" class="dados-resultado" style="display:none"></div>
+</div>
+
+<div class="pericia-card">
+  <div class="pericia-header">
+    <div class="pericia-title">Alquimia</div>
+    <div class="pericia-base">Base: <strong>QI</strong></div>
+  </div>
+  <div class="pericia-corpo">
+    <div class="input-group">
+      <label>Pontos Puros</label>
+      <input type="number" id="pts_Alquimia" value="0" min="0" onchange="pontos['Alquimia']=Math.max(0,parseInt(this.value)||0);atualizarPainel()">
+    </div>
+    <div class="resultado-box">Bônus Fixo: <span id="fixo_Alquimia">0</span></div>
+  </div>
+  <div class="formula" id="formula_Alquimia">QI × D6 + ⌊(Mnemônica) ÷ 2⌋ → Bônus de Perícia: 0</div>
+  <button class="btn-rolar" onclick="rolar('Alquimia')">Rolar Dados</button>
+  <div id="d_Alquimia" class="dados-resultado" style="display:none"></div>
+</div>
+
+<div class="pericia-card">
+  <div class="pericia-header">
+    <div class="pericia-title">Acrobacia</div>
+    <div class="pericia-base">Base: <strong>PRX</strong></div>
+  </div>
+  <div class="pericia-corpo">
+    <div class="input-group">
+      <label>Pontos Puros</label>
+      <input type="number" id="pts_Acrobacia" value="0" min="0" onchange="pontos['Acrobacia']=Math.max(0,parseInt(this.value)||0);atualizarPainel()">
+    </div>
+    <div class="resultado-box">Bônus Fixo: <span id="fixo_Acrobacia">0</span></div>
+  </div>
+  <div class="formula" id="formula_Acrobacia">PRX × D6 + ⌊(Atletismo + Vigor + Reflexo) ÷ 2⌋ → Bônus de Perícia: 0</div>
+  <button class="btn-rolar" onclick="rolar('Acrobacia')">Rolar Dados</button>
+  <div id="d_Acrobacia" class="dados-resultado" style="display:none"></div>
+</div>
+
+<div class="pericia-card">
+  <div class="pericia-header">
+    <div class="pericia-title">Fôlego</div>
+    <div class="pericia-base">Base: <strong>HPR</strong></div>
+  </div>
+  <div class="pericia-corpo">
+    <div class="input-group">
+      <label>Pontos Puros</label>
+      <input type="number" id="pts_Folego" value="0" min="0" onchange="pontos['Fôlego']=Math.max(0,parseInt(this.value)||0);atualizarPainel()">
+    </div>
+    <div class="resultado-box">Bônus Fixo: <span id="fixo_Folego">0</span></div>
+  </div>
+  <div class="formula" id="formula_Folego">HPR × D6 + ⌊(Vigor) ÷ 2⌋ → Bônus de Perícia: 0</div>
+  <button class="btn-rolar" onclick="rolar('Fôlego')">Rolar Dados</button>
+  <div id="d_Folego" class="dados-resultado" style="display:none"></div>
+</div>
+
+<div class="pericia-card">
+  <div class="pericia-header">
+    <div class="pericia-title">Dança</div>
+    <div class="pericia-base">Base: <strong>PRX</strong></div>
+  </div>
+  <div class="pericia-corpo">
+    <div class="input-group">
+      <label>Pontos Puros</label>
+      <input type="number" id="pts_Danca" value="0" min="0" onchange="pontos['Dança']=Math.max(0,parseInt(this.value)||0);atualizarPainel()">
+    </div>
+    <div class="resultado-box">Bônus Fixo: <span id="fixo_Danca">0</span></div>
+  </div>
+  <div class="formula" id="formula_Danca">PRX × D6 + ⌊(Mnemônica + Acrobacia + Vigor) ÷ 2⌋ → Bônus de Perícia: 0</div>
+  <button class="btn-rolar" onclick="rolar('Dança')">Rolar Dados</button>
+  <div id="d_Danca" class="dados-resultado" style="display:none"></div>
+</div>
+
+<div class="pericia-card">
+  <div class="pericia-header">
+    <div class="pericia-title">Culinária</div>
+    <div class="pericia-base">Base: <strong>QI</strong></div>
+  </div>
+  <div class="pericia-corpo">
+    <div class="input-group">
+      <label>Pontos Puros</label>
+      <input type="number" id="pts_Culinaria" value="0" min="0" onchange="pontos['Culinária']=Math.max(0,parseInt(this.value)||0);atualizarPainel()">
+    </div>
+    <div class="resultado-box">Bônus Fixo: <span id="fixo_Culinaria">0</span></div>
+  </div>
+  <div class="formula" id="formula_Culinaria">QI × D6 + ⌊(Mnemônica + Alquimia) ÷ 2⌋ → Bônus de Perícia: 0</div>
+  <button class="btn-rolar" onclick="rolar('Culinária')">Rolar Dados</button>
+  <div id="d_Culinaria" class="dados-resultado" style="display:none"></div>
+</div>
+
+<div class="pericia-card">
+  <div class="pericia-header">
+    <div class="pericia-title">Musicismo</div>
+    <div class="pericia-base">Base: <select id="base_Musicismo" ><option value="PSI">PSI</option><option value="QI">QI</option><option value="PRX">PRX</option></select></div>
+  </div>
+  <div class="pericia-corpo">
+    <div class="input-group">
+      <label>Pontos Puros</label>
+      <input type="number" id="pts_Musicismo" value="0" min="0" onchange="pontos['Musicismo']=Math.max(0,parseInt(this.value)||0);atualizarPainel()">
+    </div>
+    <div class="resultado-box">Bônus Fixo: <span id="fixo_Musicismo">0</span></div>
+  </div>
+  <div class="formula" id="formula_Musicismo">PSI × D6 + QI + PRX + ⌊(Mnemônica) ÷ 2⌋ → Bônus de Perícia: 0</div>
+  <button class="btn-rolar" onclick="rolar('Musicismo')">Rolar Dados</button>
+  <div id="d_Musicismo" class="dados-resultado" style="display:none"></div>
+</div>
+
+<div class="pericia-card">
+  <div class="pericia-header">
+    <div class="pericia-title">Equitação</div>
+    <div class="pericia-base">Base: <select id="base_Equitacao" ><option value="QI">QI</option><option value="PSI">PSI</option></select></div>
+  </div>
+  <div class="pericia-corpo">
+    <div class="input-group">
+      <label>Pontos Puros</label>
+      <input type="number" id="pts_Equitacao" value="0" min="0" onchange="pontos['Equitação']=Math.max(0,parseInt(this.value)||0);atualizarPainel()">
+    </div>
+    <div class="resultado-box">Bônus Fixo: <span id="fixo_Equitacao">0</span></div>
+  </div>
+  <div class="formula" id="formula_Equitacao">QI × D6 + PSI + ⌊(Vigor + Adestramento) ÷ 2⌋ → Bônus de Perícia: 0</div>
+  <button class="btn-rolar" onclick="rolar('Equitação')">Rolar Dados</button>
+  <div id="d_Equitacao" class="dados-resultado" style="display:none"></div>
+</div>
+
+<div class="pericia-card">
+  <div class="pericia-header">
+    <div class="pericia-title">Desenho</div>
+    <div class="pericia-base">Base: <strong>QI</strong></div>
+  </div>
+  <div class="pericia-corpo">
+    <div class="input-group">
+      <label>Pontos Puros</label>
+      <input type="number" id="pts_Desenho" value="0" min="0" onchange="pontos['Desenho']=Math.max(0,parseInt(this.value)||0);atualizarPainel()">
+    </div>
+    <div class="resultado-box">Bônus Fixo: <span id="fixo_Desenho">0</span></div>
+  </div>
+  <div class="formula" id="formula_Desenho">QI × D6 + ⌊(Engenharia) ÷ 2⌋ → Bônus de Perícia: 0</div>
+  <button class="btn-rolar" onclick="rolar('Desenho')">Rolar Dados</button>
+  <div id="d_Desenho" class="dados-resultado" style="display:none"></div>
+</div>
+
+<div class="pericia-card">
+  <div class="pericia-header">
+    <div class="pericia-title">Pedagogia</div>
+    <div class="pericia-base">Base: <select id="base_Pedagogia" ><option value="PSI">PSI</option><option value="QI">QI</option></select></div>
+  </div>
+  <div class="pericia-corpo">
+    <div class="input-group">
+      <label>Pontos Puros</label>
+      <input type="number" id="pts_Pedagogia" value="0" min="0" onchange="pontos['Pedagogia']=Math.max(0,parseInt(this.value)||0);atualizarPainel()">
+    </div>
+    <div class="resultado-box">Bônus Fixo: <span id="fixo_Pedagogia">0</span></div>
+  </div>
+  <div class="formula" id="formula_Pedagogia">PSI × D6 + QI + ⌊(Mnemônica) ÷ 2⌋ → Bônus de Perícia: 0</div>
+  <button class="btn-rolar" onclick="rolar('Pedagogia')">Rolar Dados</button>
+  <div id="d_Pedagogia" class="dados-resultado" style="display:none"></div>
+</div>
+
+<div class="pericia-card">
+  <div class="pericia-header">
+    <div class="pericia-title">Marinharia</div>
+    <div class="pericia-base">Base: <strong>QI</strong></div>
+  </div>
+  <div class="pericia-corpo">
+    <div class="input-group">
+      <label>Pontos Puros</label>
+      <input type="number" id="pts_Marinharia" value="0" min="0" onchange="pontos['Marinharia']=Math.max(0,parseInt(this.value)||0);atualizarPainel()">
+    </div>
+    <div class="resultado-box">Bônus Fixo: <span id="fixo_Marinharia">0</span></div>
+  </div>
+  <div class="formula" id="formula_Marinharia">QI × D6 → Bônus de Perícia: 0</div>
+  <button class="btn-rolar" onclick="rolar('Marinharia')">Rolar Dados</button>
+  <div id="d_Marinharia" class="dados-resultado" style="display:none"></div>
+</div>
+</div>
+</div>
+
+<div class="container">
+<h2>3. Perícias Personalizadas</h2>
+<p class="aviso">Crie uma Perícia específica para seu personagem. Defina o Atributo Principal, os Pontos Puros e, opcionalmente, Perícias Auxiliares.</p>
+<div class="custom-grid">
+<div class="input-group custom-full"><label>Nome da Perícia</label><input type="text" id="custom_nome" placeholder="Ex.: Navegação Polar"></div>
+<div class="input-group"><label>Atributo Principal</label><select id="custom_atributo"><option>HPR</option><option>PRX</option><option>PSI</option><option>QI</option></select></div>
+<div class="input-group"><label>Pontos Puros</label><input type="number" id="custom_pontos" value="0" min="0"></div>
+<div class="input-group custom-full"><label>Perícias Auxiliares</label><input type="text" id="custom_auxiliares" placeholder="Ex.: História + Naturalismo"></div>
+<div class="input-group"><label>Divisor</label><input type="number" id="custom_divisor" value="1" min="1"></div>
+</div>
+<button class="btn-secundario" onclick="adicionarPericiaPersonalizada()">+ Adicionar Perícia</button>
+<div id="lista-personalizadas" class="lista-pericias" style="margin-top:12px"></div>
+</div>
+
+<script>
+const pericias = [
+{categoria:"⚔️ Perícias Militares",nome:"Luta",atributos:["HPR","PRX"],aux:["Dança","Reflexo"],divisor:2},
+{categoria:"⚔️ Perícias Militares",nome:"Pontaria",atributos:["PRX"],aux:[],divisor:1},
+{categoria:"⚔️ Perícias Militares",nome:"Reflexo",atributos:["PRX"],aux:["Atletismo","Acrobacia","Dança"],divisor:2},
+{categoria:"⚔️ Perícias Militares",nome:"Rijeza",atributos:["HPR"],aux:["Vigor"],divisor:3},
+{categoria:"⚔️ Perícias Militares",nome:"Cirurgia",atributos:["QI","PRX"],aux:["Medicina"],divisor:2},
+{categoria:"⚔️ Perícias Militares",nome:"Furtividade",atributos:["PRX","QI"],aux:["Tática","Localizar"],divisor:2},
+{categoria:"⚔️ Perícias Militares",nome:"Tática",atributos:["QI"],aux:[],divisor:1},
+
+{categoria:"🗣️ Perícias Interpessoais",nome:"Empatia",atributos:["PSI"],aux:["Acalanto"],divisor:2},
+{categoria:"🗣️ Perícias Interpessoais",nome:"Diplomacia",atributos:["PSI","QI"],aux:["Persuasão"],divisor:2},
+{categoria:"🗣️ Perícias Interpessoais",nome:"Persuasão",atributos:["PSI","QI"],aux:["Diplomacia"],divisor:2},
+{categoria:"🗣️ Perícias Interpessoais",nome:"Intimidação",atributos:["PSI","HPR"],aux:["Persuasão"],divisor:2},
+{categoria:"🗣️ Perícias Interpessoais",nome:"Acalanto",atributos:["PSI"],aux:["Empatia"],divisor:2},
+{categoria:"🗣️ Perícias Interpessoais",nome:"Fé",atributos:["PSI"],aux:["História"],divisor:2},
+{categoria:"🗣️ Perícias Interpessoais",nome:"Adestramento",atributos:["PSI","QI"],aux:["Empatia","Acalanto"],divisor:2},
+
+{categoria:"🧠 Perícias Mentais",nome:"Determinação",atributos:["PSI"],aux:["Fé"],divisor:2},
+{categoria:"🧠 Perícias Mentais",nome:"Medicina",atributos:["QI"],aux:["Mnemônica"],divisor:2},
+{categoria:"🧠 Perícias Mentais",nome:"Instinto",atributos:["PSI","QI","PRX"],aux:["Tática"],divisor:2},
+{categoria:"🧠 Perícias Mentais",nome:"Localizar",atributos:["QI"],aux:[],divisor:1},
+{categoria:"🧠 Perícias Mentais",nome:"Mnemônica",atributos:["QI"],aux:[],divisor:1},
+{categoria:"🧠 Perícias Mentais",nome:"História",atributos:["QI"],aux:["Mnemônica"],divisor:2},
+{categoria:"🧠 Perícias Mentais",nome:"Naturalismo",atributos:["QI"],aux:[],divisor:1},
+
+{categoria:"🛠️ Perícias Convenientes",nome:"Atletismo",atributos:["HPR"],aux:["Vigor","Acrobacia"],divisor:2},
+{categoria:"🛠️ Perícias Convenientes",nome:"Vigor",atributos:["HPR"],aux:["Atletismo","Dança"],divisor:3},
+{categoria:"🛠️ Perícias Convenientes",nome:"Arremesso",atributos:["PRX","HPR"],aux:["Pontaria"],divisor:2},
+{categoria:"🛠️ Perícias Convenientes",nome:"Engenharia",atributos:["QI"],aux:["Desenho"],divisor:2},
+{categoria:"🛠️ Perícias Convenientes",nome:"Alquimia",atributos:["QI"],aux:["Mnemônica"],divisor:2},
+{categoria:"🛠️ Perícias Convenientes",nome:"Acrobacia",atributos:["PRX"],aux:["Atletismo","Vigor","Reflexo"],divisor:2},
+{categoria:"🛠️ Perícias Convenientes",nome:"Fôlego",atributos:["HPR"],aux:["Vigor"],divisor:2},
+{categoria:"🛠️ Perícias Convenientes",nome:"Dança",atributos:["PRX"],aux:["Mnemônica","Acrobacia","Vigor"],divisor:2},
+{categoria:"🛠️ Perícias Convenientes",nome:"Culinária",atributos:["QI"],aux:["Mnemônica","Alquimia"],divisor:2},
+{categoria:"🛠️ Perícias Convenientes",nome:"Musicismo",atributos:["PSI","QI","PRX"],aux:["Mnemônica"],divisor:2},
+{categoria:"🛠️ Perícias Convenientes",nome:"Equitação",atributos:["QI","PSI"],aux:["Vigor","Adestramento"],divisor:2},
+{categoria:"🛠️ Perícias Convenientes",nome:"Desenho",atributos:["QI"],aux:["Engenharia"],divisor:2},
+{categoria:"🛠️ Perícias Convenientes",nome:"Pedagogia",atributos:["PSI","QI"],aux:["Mnemônica"],divisor:2},
+{categoria:"🛠️ Perícias Convenientes",nome:"Marinharia",atributos:["QI"],aux:[],divisor:1}
+];
+
+const pontos = {};
+const personalizadas = [];
+
+// ID único desta ficha (gerado uma vez, usado como chave de storage).
+// Enquanto a ficha não for salva pela primeira vez, fichaId é null.
+let fichaId = null;
+let statusTimeout = null;
+
+function idSeguro(nome){
+return nome.normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-zA-Z0-9]/g,"_");
+}
+
+function valorAtributo(nome){
+return Math.max(0,parseInt(document.getElementById("attr_"+nome)?.value)||0);
+}
+
+function pontosPericia(nome){
+return Math.max(0,parseInt(pontos[nome])||0);
+}
+
+function obterAtributoPrincipal(pericia){
+    if (pericia.atributos.length === 1) return pericia.atributos[0];
+
+    const id = "base_" + idSeguro(pericia.nome);
+    const select = document.getElementById(id);
+
+    // O valor atual do seletor é SEMPRE o Atributo Principal.
+    return select && select.value ? select.value : pericia.atributos[0];
+}
+function obterAtributosAuxiliares(pericia){
+if(pericia.atributos.length<=1)return [];
+const principal=obterAtributoPrincipal(pericia);
+return pericia.atributos.filter(attr=>attr!==principal);
+}
+
+function calcularAuxiliares(pericia){
+if(!pericia.aux?.length)return 0;
+let soma=0;
+pericia.aux.forEach(nome=>soma+=pontosPericia(nome));
+return soma;
+}
+
+function calcularBonus(pericia){
+return pontosPericia(pericia.nome)+Math.floor(calcularAuxiliares(pericia)/pericia.divisor);
+}
+
+function criarCard(pericia){
+const card=document.createElement("div");
+card.className="pericia-card";
+const id=idSeguro(pericia.nome);
+if(pontos[pericia.nome]===undefined)pontos[pericia.nome]=0;
+
+const header=document.createElement("div");
+header.className="pericia-header";
+
+const titulo=document.createElement("div");
+titulo.className="pericia-title";
+titulo.textContent=pericia.nome;
+
+const base=document.createElement("div");
+base.className="pericia-base";
+base.append("Base: ");
+
+if(pericia.atributos.length>1){
+const select=document.createElement("select");
+select.id="base_"+id;
+pericia.atributos.forEach(attr=>{
+const option=document.createElement("option");
+option.value=attr; option.textContent=attr;
+select.appendChild(option);
+});
+select.addEventListener("change",function(){ atualizarPainel(); });
+select.addEventListener("input",function(){ atualizarPainel(); });
+base.appendChild(select);
+}else{
+const span=document.createElement("strong");
+span.textContent=pericia.atributos[0];
+base.appendChild(span);
+}
+header.append(titulo,base);
+
+const corpo=document.createElement("div");
+corpo.className="pericia-corpo";
+
+const grupo=document.createElement("div");
+grupo.className="input-group";
+const label=document.createElement("label");
+label.textContent="Pontos Puros";
+
+const input=document.createElement("input");
+input.type="number"; input.min="0"; input.value=pontos[pericia.nome];
+input.id="pts_"+id;
+input.addEventListener("change",function(){
+pontos[pericia.nome]=Math.max(0,parseInt(this.value)||0);
+atualizarPainel();
+});
+grupo.append(label,input);
+
+const resultado=document.createElement("div");
+resultado.className="resultado-box";
+resultado.innerHTML='Bônus Fixo: <span id="fixo_'+id+'">0</span>';
+corpo.append(grupo,resultado);
+
+const formula=document.createElement("div");
+formula.className="formula";
+formula.id="formula_"+id;
+
+const botao=document.createElement("button");
+botao.className="btn-rolar";
+botao.textContent="Rolar Dados";
+botao.onclick=()=>rolar(pericia.nome);
+
+const dados=document.createElement("div");
+dados.id="d_"+id;
+dados.className="dados-resultado";
+dados.style.display="none";
+
+card.append(header,corpo,formula,botao,dados);
+return card;
+}
+
+function criarPainel(){
+/* Os cards já vêm no HTML para funcionarem também em visualizadores
+   Android que demoram ou restringem a execução de JavaScript. */
+pericias.forEach(pericia=>{
+    if(pontos[pericia.nome]===undefined)pontos[pericia.nome]=0;
+});
+atualizarPainel();
+}
+
+function montarFormula(pericia){
+    const principal = obterAtributoPrincipal(pericia);
+    const atributosAux = pericia.atributos.filter(attr => attr !== principal);
+
+    // Principal = quantidade de D6.
+    // Relacionado restante = Atributo Auxiliar, simplesmente somado.
+    let texto = `${principal} × D6`;
+
+    if (atributosAux.length > 0) {
+        texto += " + " + atributosAux.join(" + ");
+    }
+
+    // Bônus proveniente das Perícias Auxiliares.
+    if (pericia.aux && pericia.aux.length > 0) {
+        texto += ` + ⌊(${pericia.aux.join(" + ")}) ÷ ${pericia.divisor}⌋`;
+    }
+
+    return texto;
+}
+
+function atualizarPainel(){
+    pericias.concat(personalizadas).forEach(pericia => {
+        const id = idSeguro(pericia.nome);
+        const bonus = calcularBonus(pericia);
+        const fixo = document.getElementById("fixo_" + id);
+        const formula = document.getElementById("formula_" + id);
+
+        if (fixo) fixo.textContent = bonus;
+
+        if (formula) {
+            formula.textContent =
+                montarFormula(pericia) +
+                ` → Bônus de Perícia: ${bonus}`;
+        }
+    });
+}
+
+function instalarListenersAtributos(){
+    // Liga diretamente cada seletor ao recálculo da fórmula.
+    document.querySelectorAll('select[id^="base_"]').forEach(select => {
+        select.addEventListener("change", function(){
+            atualizarPainel();
+        });
+        select.addEventListener("input", function(){
+            atualizarPainel();
+        });
+    });
+}
+function encontrarPericia(nome){
+return pericias.find(p=>p.nome===nome)||personalizadas.find(p=>p.nome===nome)||null;
+}
+
+function rolar(nome){
+const pericia=encontrarPericia(nome);
+if(!pericia)return;
+
+const id=idSeguro(nome);
+const principal=obterAtributoPrincipal(pericia);
+const quantidadeDados=valorAtributo(principal);
+const atributosAux=obterAtributosAuxiliares(pericia);
+const bonusPericias=calcularBonus(pericia);
+
+const dados=[];
+let somaDados=0;
+
+for(let i=0;i<quantidadeDados;i++){
+const dado=Math.floor(Math.random()*6)+1;
+dados.push(dado);
+somaDados+=dado;
+}
+
+const somaAtributos=atributosAux.reduce((total,attr)=>total+valorAtributo(attr),0);
+const resultadoFinal=somaDados+somaAtributos+bonusPericias;
+
+const resultado=document.getElementById("d_"+id);
+resultado.style.display="block";
+
+resultado.innerHTML=`
+<div><strong>${principal}</strong> → ${quantidadeDados}D6</div>
+<div class="dados-lista">Dados: ${dados.length?dados.join(" + ")+" = "+somaDados:"Nenhum dado"}</div>
+${somaAtributos>0?`<div class="dados-lista">Atributos Auxiliares: +${somaAtributos}</div>`:""}
+<div class="dados-lista">Perícias Auxiliares: +${bonusPericias}</div>
+<div class="resultado-final">RESULTADO: ${resultadoFinal}</div>`;
+}
+
+function adicionarPericiaPersonalizada(){
+const nome=document.getElementById("custom_nome").value.trim();
+if(!nome){alert("Digite um nome para a Perícia.");return;}
+
+if(pericias.some(p=>p.nome.toLowerCase()===nome.toLowerCase())||
+personalizadas.some(p=>p.nome.toLowerCase()===nome.toLowerCase())){
+alert("Já existe uma Perícia com esse nome.");return;
+}
+
+const atributo=document.getElementById("custom_atributo").value;
+const pontosIniciais=Math.max(0,parseInt(document.getElementById("custom_pontos").value)||0);
+const textoAux=document.getElementById("custom_auxiliares").value.trim();
+const divisor=Math.max(1,parseInt(document.getElementById("custom_divisor").value)||1);
+const aux=textoAux?textoAux.split("+").map(x=>x.trim()).filter(Boolean):[];
+
+const nova={categoria:"⭐ Perícias Personalizadas",nome,atributos:[atributo],aux,divisor};
+personalizadas.push(nova);
+pontos[nome]=pontosIniciais;
+
+document.getElementById("lista-personalizadas").appendChild(criarCard(nova));
+atualizarPainel();
+
+document.getElementById("custom_nome").value="";
+document.getElementById("custom_pontos").value="0";
+document.getElementById("custom_auxiliares").value="";
+document.getElementById("custom_divisor").value="1";
+}
+
+/* ============================================================
+   SISTEMA DE SALVAMENTO DE FICHA
+   Usa window.storage (pessoal, por usuário) para persistir a
+   ficha entre sessões. Cada ficha salva vira uma chave
+   "ficha:<id>" e o índice de todas as fichas fica em "fichas:index".
+   Também é possível exportar/importar como arquivo .json,
+   para backup manual ou compartilhamento entre jogadores/mestre.
+   ============================================================ */
+
+function gerarId(){
+    return "f" + Date.now().toString(36) + Math.random().toString(36).slice(2,8);
+}
+
+function mostrarStatus(msg, tipo){
+    const el = document.getElementById("status-msg");
+    el.textContent = msg;
+    el.className = "status-msg" + (tipo ? " " + tipo : "");
+    if(statusTimeout) clearTimeout(statusTimeout);
+    statusTimeout = setTimeout(()=>{ el.textContent=""; el.className="status-msg"; }, 4000);
+}
+
+function coletarEstadoFicha(){
+    const baseSelects = {};
+    document.querySelectorAll('select[id^="base_"]').forEach(sel=>{
+        baseSelects[sel.id] = sel.value;
+    });
+
+    return {
+        nome: document.getElementById("ficha_nome").value.trim() || "Personagem sem nome",
+        atributos: {
+            HPR: valorAtributo("HPR"),
+            PRX: valorAtributo("PRX"),
+            PSI: valorAtributo("PSI"),
+            QI: valorAtributo("QI")
+        },
+        pontos: {...pontos},
+        baseSelects,
+        personalizadas: personalizadas.map(p=>({...p})),
+        atualizadoEm: new Date().toISOString()
+    };
+}
+
+function aplicarEstadoFicha(estado){
+    document.getElementById("ficha_nome").value = estado.nome || "Personagem sem nome";
+
+    document.getElementById("attr_HPR").value = estado.atributos?.HPR ?? 1;
+    document.getElementById("attr_PRX").value = estado.atributos?.PRX ?? 1;
+    document.getElementById("attr_PSI").value = estado.atributos?.PSI ?? 1;
+    document.getElementById("attr_QI").value = estado.atributos?.QI ?? 1;
+
+    // Limpa perícias personalizadas atuais da tela
+    personalizadas.length = 0;
+    document.getElementById("lista-personalizadas").innerHTML = "";
+
+    // Recria as personalizadas salvas
+    (estado.personalizadas || []).forEach(p=>{
+        personalizadas.push(p);
+        if(estado.pontos && estado.pontos[p.nome] !== undefined){
+            pontos[p.nome] = estado.pontos[p.nome];
+        }
+        document.getElementById("lista-personalizadas").appendChild(criarCard(p));
+    });
+
+    // Aplica pontos das perícias fixas
+    pericias.forEach(p=>{
+        pontos[p.nome] = estado.pontos && estado.pontos[p.nome] !== undefined ? estado.pontos[p.nome] : 0;
+        const input = document.getElementById("pts_"+idSeguro(p.nome));
+        if(input) input.value = pontos[p.nome];
+    });
+
+    // Aplica pontos das personalizadas (já criadas acima, garante sync do input)
+    personalizadas.forEach(p=>{
+        const input = document.getElementById("pts_"+idSeguro(p.nome));
+        if(input) input.value = pontos[p.nome] || 0;
+    });
+
+    // Aplica seletores de atributo base
+    if(estado.baseSelects){
+        Object.entries(estado.baseSelects).forEach(([id,val])=>{
+            const sel = document.getElementById(id);
+            if(sel) sel.value = val;
+        });
+    }
+
+    // Esconde resultados de rolagens antigas
+    document.querySelectorAll('[id^="d_"]').forEach(el=>{ el.style.display="none"; el.innerHTML=""; });
+
+    atualizarPainel();
+}
+
+async function carregarIndiceFichas(){
+    try{
+        const res = await window.storage.get("fichas:index", false);
+        if(!res) return [];
+        return JSON.parse(res.value);
+    }catch(e){
+        return [];
+    }
+}
+
+async function salvarIndiceFichas(indice){
+    await window.storage.set("fichas:index", JSON.stringify(indice), false);
+}
+
+async function salvarFicha(){
+    try{
+        if(!fichaId) fichaId = gerarId();
+        const estado = coletarEstadoFicha();
+        await window.storage.set("ficha:"+fichaId, JSON.stringify(estado), false);
+
+        const indice = await carregarIndiceFichas();
+        const existente = indice.find(f=>f.id===fichaId);
+        if(existente){
+            existente.nome = estado.nome;
+            existente.atualizadoEm = estado.atualizadoEm;
+        }else{
+            indice.push({id: fichaId, nome: estado.nome, atualizadoEm: estado.atualizadoEm});
+        }
+        await salvarIndiceFichas(indice);
+
+        mostrarStatus("✓ Ficha \"" + estado.nome + "\" salva com sucesso.", "ok");
+        await renderizarListaFichas();
+    }catch(e){
+        console.error("Erro ao salvar ficha:", e);
+        mostrarStatus("✗ Não foi possível salvar a ficha. Tente novamente.", "erro");
+    }
+}
+
+async function salvarComoNovaFicha(){
+    // Força a criação de uma ficha nova, mesmo que já exista uma carregada.
+    fichaId = null;
+    await salvarFicha();
+}
+
+async function carregarFicha(id){
+    try{
+        const res = await window.storage.get("ficha:"+id, false);
+        if(!res){
+            mostrarStatus("✗ Ficha não encontrada.", "erro");
+            return;
+        }
+        const estado = JSON.parse(res.value);
+        fichaId = id;
+        aplicarEstadoFicha(estado);
+        mostrarStatus("✓ Ficha \"" + estado.nome + "\" carregada.", "ok");
+    }catch(e){
+        console.error("Erro ao carregar ficha:", e);
+        mostrarStatus("✗ Não foi possível carregar a ficha.", "erro");
+    }
+}
+
+async function excluirFicha(id, nome){
+    if(!confirm('Excluir permanentemente a ficha "'+nome+'"? Esta ação não pode ser desfeita.')) return;
+    try{
+        await window.storage.delete("ficha:"+id, false);
+        const indice = await carregarIndiceFichas();
+        const novoIndice = indice.filter(f=>f.id!==id);
+        await salvarIndiceFichas(novoIndice);
+
+        if(fichaId === id) fichaId = null;
+
+        mostrarStatus("Ficha excluída.", "ok");
+        await renderizarListaFichas();
+    }catch(e){
+        console.error("Erro ao excluir ficha:", e);
+        mostrarStatus("✗ Não foi possível excluir a ficha.", "erro");
+    }
+}
+
+function formatarData(iso){
+    try{
+        const d = new Date(iso);
+        return d.toLocaleDateString('pt-BR', {day:'2-digit',month:'2-digit',year:'numeric'}) +
+               " às " + d.toLocaleTimeString('pt-BR', {hour:'2-digit',minute:'2-digit'});
+    }catch(e){
+        return "";
+    }
+}
+
+async function renderizarListaFichas(){
+    const container = document.getElementById("lista-fichas-salvas");
+    const indice = await carregarIndiceFichas();
+
+    if(!indice.length){
+        container.innerHTML = '<div class="vazio-aviso">Nenhuma ficha salva ainda.</div>';
+        return;
+    }
+
+    indice.sort((a,b)=> new Date(b.atualizadoEm) - new Date(a.atualizadoEm));
+
+    container.innerHTML = "";
+    indice.forEach(f=>{
+        const item = document.createElement("div");
+        item.className = "ficha-salva-item";
+
+        const info = document.createElement("div");
+        info.className = "ficha-salva-info";
+        const nomeEl = document.createElement("div");
+        nomeEl.className = "ficha-salva-nome";
+        nomeEl.textContent = f.nome + (fichaId===f.id ? " (aberta)" : "");
+        const dataEl = document.createElement("div");
+        dataEl.className = "ficha-salva-data";
+        dataEl.textContent = formatarData(f.atualizadoEm);
+        info.append(nomeEl, dataEl);
+
+        const btns = document.createElement("div");
+        btns.className = "ficha-salva-btns";
+
+        const btnAbrir = document.createElement("button");
+        btnAbrir.className = "btn-mini";
+        btnAbrir.textContent = "Abrir";
+        btnAbrir.onclick = ()=>carregarFicha(f.id);
+
+        const btnExcluir = document.createElement("button");
+        btnExcluir.className = "btn-mini perigo";
+        btnExcluir.textContent = "Excluir";
+        btnExcluir.onclick = ()=>excluirFicha(f.id, f.nome);
+
+        btns.append(btnAbrir, btnExcluir);
+        item.append(info, btns);
+        container.appendChild(item);
+    });
+}
+
+function exportarJSON(){
+    const estado = coletarEstadoFicha();
+    const blob = new Blob([JSON.stringify(estado, null, 2)], {type:"application/json"});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    const nomeArquivo = (estado.nome || "ficha").replace(/[^a-zA-Z0-9À-ÿ_ -]/g,"").trim() || "ficha";
+    a.href = url;
+    a.download = nomeArquivo + ".json";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    mostrarStatus("✓ Arquivo exportado.", "ok");
+}
+
+function importarJSON(event){
+    const arquivo = event.target.files[0];
+    if(!arquivo) return;
+
+    const leitor = new FileReader();
+    leitor.onload = function(e){
+        try{
+            const estado = JSON.parse(e.target.result);
+            fichaId = null; // importar sempre cria uma ficha "nova" (não salva ainda)
+            aplicarEstadoFicha(estado);
+            mostrarStatus("✓ Ficha \"" + (estado.nome||"") + "\" importada. Clique em Salvar para guardá-la.", "ok");
+        }catch(err){
+            console.error("Erro ao importar JSON:", err);
+            mostrarStatus("✗ Arquivo inválido. Verifique se é um .json exportado por esta ficha.", "erro");
+        }
+        event.target.value = "";
+    };
+    leitor.onerror = function(){
+        mostrarStatus("✗ Não foi possível ler o arquivo.", "erro");
+        event.target.value = "";
+    };
+    leitor.readAsText(arquivo);
+}
+
+async function inicializarStorage(){
+    const statusEl = document.getElementById("status-storage");
+    try{
+        await renderizarListaFichas();
+        statusEl.textContent = "Fichas salvas neste dispositivo/conta — use Exportar para backup.";
+    }catch(e){
+        console.error("Erro ao inicializar storage:", e);
+        statusEl.textContent = "⚠ Sistema de fichas salvas indisponível agora. Você ainda pode exportar/importar em .json.";
+    }
+}
+
+criarPainel();
+instalarListenersAtributos();
+inicializarStorage();
+</script>
+</body>
+</html>
