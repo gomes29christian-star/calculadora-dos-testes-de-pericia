@@ -788,7 +788,28 @@ input:focus,select:focus{border-color:var(--accent);outline:none;box-shadow:0 0 
 /* ---------- Perícias & Rolagens (Categorias em Abas) ---------- */
 
 .categoria-controles{
-  display:flex;gap:8px;justify-content:flex-end;margin-bottom:14px;
+  display:flex;gap:8px;justify-content:flex-end;align-items:center;flex-wrap:wrap;margin-bottom:14px;
+}
+.badge-historico{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-width:17px;
+  height:17px;
+  padding:0 4px;
+  border-radius:9px;
+  background:rgba(255,255,255,0.08);
+  border:1px solid var(--line);
+  font-size:10px;
+  font-family:monospace;
+  color:var(--accent);
+  margin-left:4px;
+  transition:all .18s ease;
+}
+.btn-categoria-acao:hover .badge-historico{
+  background:var(--accent);
+  color:#0e1012;
+  border-color:var(--accent);
 }
 .btn-categoria-acao{
   background:var(--bg-panel-2);
@@ -807,6 +828,26 @@ input:focus,select:focus{border-color:var(--accent);outline:none;box-shadow:0 0 
   color:var(--accent);
   border-color:var(--accent-dim);
   background:var(--bg-panel);
+}
+
+.btn-toggle-som{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  user-select:none;
+}
+.btn-toggle-som .icone-som{
+  font-size:12px;
+  line-height:1;
+}
+.btn-toggle-som.som-mutado{
+  opacity:0.6;
+  border-style:dashed;
+  color:var(--ink-faint);
+}
+.btn-toggle-som.som-mutado:hover{
+  opacity:1;
+  color:var(--accent);
 }
 
 #painel-pericias{
@@ -1102,6 +1143,10 @@ input:focus,select:focus{border-color:var(--accent);outline:none;box-shadow:0 0 
   background:#0a0203;
   box-shadow:inset 0 0 0 1px rgba(255,255,255,0.08), inset 0 0 24px rgba(0,0,0,0.9), 0 0 18px rgba(255,68,68,0.22);
 }
+/* Faz a forca e galhos de DESASTRE sobreporem o selo de texto */
+.resultado-painel.desastre .resultado-galhos-container{
+  z-index: 5;
+}
 .resultado-painel.desastre .resultado-painel-titulo{
   color:#ffffff !important;
   font-weight:600;
@@ -1136,16 +1181,17 @@ input:focus,select:focus{border-color:var(--accent);outline:none;box-shadow:0 0 
 .resultado-painel.desastre .laco-forca{
   stroke:#ffffff;
   fill:none;
-  filter:drop-shadow(0 0 4px var(--desastre-glow));
+  filter:drop-shadow(0 2px 5px rgba(0,0,0,0.95)) drop-shadow(0 0 5px var(--desastre-glow));
 }
-.resultado-painel.desastre .corda-trilha{stroke-width:2.6px;}
+.resultado-painel.desastre .corda-trilha{stroke-width:2.8px;}
 .resultado-painel.desastre .corda-hatch,
-.resultado-painel.desastre .no-espiral{stroke-width:1.4px;}
-.resultado-painel.desastre .laco-forca{stroke-width:2.6px;}
+.resultado-painel.desastre .no-espiral{stroke-width:1.5px;}
+.resultado-painel.desastre .laco-forca{stroke-width:2.8px;}
 .resultado-painel.desastre .no-corpo{
   fill:#140305;
   stroke:#ffffff;
-  stroke-width:1.6px;
+  stroke-width:1.8px;
+  filter:drop-shadow(0 2px 6px rgba(0,0,0,0.95)) drop-shadow(0 0 4px var(--desastre-glow));
 }
 .resultado-painel.desastre .no-anel{
   fill:#ffffff;
@@ -1185,41 +1231,52 @@ input:focus,select:focus{border-color:var(--accent);outline:none;box-shadow:0 0 
   fill:none;
   filter:drop-shadow(0 0 3px var(--amaldicoado-glow));
 }
-.resultado-painel.amaldicoado .corda-trilha,
-.resultado-painel.amaldicoado .corda-hatch,
-.resultado-painel.amaldicoado .no-espiral,
-.resultado-painel.amaldicoado .corda-ponta,
-.resultado-painel.amaldicoado .laco-forca{
-  stroke:#ffffff;
-  fill:none;
-  filter:drop-shadow(0 0 4px var(--amaldicoado-glow));
-}
-.resultado-painel.amaldicoado .corda-trilha{stroke-width:2.6px;}
-.resultado-painel.amaldicoado .corda-hatch,
-.resultado-painel.amaldicoado .no-espiral{stroke-width:1.4px;}
-.resultado-painel.amaldicoado .laco-forca{stroke-width:2.6px;}
-.resultado-painel.amaldicoado .no-corpo{
+.resultado-painel.amaldicoado .cruz-corpo{
   fill:#0f0418;
   stroke:#ffffff;
-  stroke-width:1.6px;
+  stroke-width:1.8px;
+  stroke-linejoin:miter;
+  filter:drop-shadow(0 0 5px var(--amaldicoado-glow));
 }
-.resultado-painel.amaldicoado .no-anel{
-  fill:#ffffff;
-  stroke:none;
+.resultado-painel.amaldicoado .cruz-bisel{
+  stroke:rgba(255,255,255,0.45);
+  stroke-width:1.2px;
+}
+.resultado-painel.amaldicoado .cruz-halo{
+  stroke:var(--amaldicoado-glow);
+  stroke-width:1.4px;
+  filter:drop-shadow(0 0 6px var(--amaldicoado-glow));
+}
+.resultado-painel.amaldicoado .cruz-videira{
+  stroke:#f8fafc;
+  stroke-width:2px;
+  stroke-linecap:round;
+  filter:drop-shadow(0 0 3px var(--amaldicoado-glow));
 }
 
-/* Animação suave e solene da forca pendurada */
+/* Animação evidente da forca balançando sobrepondo a mensagem (DESASTRE) */
 .forca-grupo{
-  transform-origin: 364px 15px;
-  animation: balanco-forca 4.5s ease-in-out infinite alternate;
+  transform-origin: 344px 14px;
+  animation: balanco-forca 3.2s cubic-bezier(0.42, 0, 0.58, 1) infinite alternate;
 }
 @keyframes balanco-forca{
-  0%{transform:rotate(0deg);}
-  50%{transform:rotate(2.2deg);}
-  100%{transform:rotate(-1.8deg);}
+  0%{transform:rotate(-6.5deg);}
+  100%{transform:rotate(7deg);}
 }
+
+/* Animação e pulso místico da Cruz Gótica (AMALDIÇOADO) */
+.cruz-grupo{
+  transform-origin: 364px 85px;
+  animation: cruz-amaldicoada-pulso 4s ease-in-out infinite alternate;
+}
+@keyframes cruz-amaldicoada-pulso{
+  0%{transform:scale(1);filter:drop-shadow(0 0 3px rgba(176,96,255,0.4));}
+  50%{transform:scale(1.025);filter:drop-shadow(0 0 8px rgba(176,96,255,0.8));}
+  100%{transform:scale(1);filter:drop-shadow(0 0 3px rgba(176,96,255,0.4));}
+}
+
 @media(prefers-reduced-motion:reduce){
-  .forca-grupo{animation:none;}
+  .forca-grupo, .cruz-grupo{animation:none;}
 }
 
 .resultado-painel.normal{
@@ -1338,11 +1395,762 @@ input:focus,select:focus{border-color:var(--accent);outline:none;box-shadow:0 0 
   .galho-svg{display:none}
 }
 
+/* ---------- Modal de Histórico de Rolagens (Últimas 10 Rolagens) ---------- */
+
+.modal-historico-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.78);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.22s ease, visibility 0.22s ease;
+}
+.modal-historico-overlay.aberto {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal-historico-janela {
+  background: linear-gradient(180deg, #16181b 0%, #0d0f12 100%);
+  border: 1px solid var(--line);
+  border-top: 2px solid var(--accent);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.95), 0 0 35px rgba(0, 0, 0, 0.85);
+  border-radius: 4px;
+  width: 100%;
+  max-width: 640px;
+  max-height: 88vh;
+  display: flex;
+  flex-direction: column;
+  transform: translateY(12px) scale(0.98);
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+}
+.modal-historico-overlay.aberto .modal-historico-janela {
+  transform: translateY(0) scale(1);
+}
+
+.modal-historico-cabecalho {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px 12px;
+  border-bottom: 1px solid var(--line);
+  background: rgba(0, 0, 0, 0.35);
+}
+
+.modal-historico-titulo-bloco {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.modal-historico-sub {
+  font-family: 'MirageFinal', serif;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: var(--accent-dim);
+  text-transform: uppercase;
+}
+.modal-historico-titulo {
+  margin: 0;
+  font-family: 'MirageFinal', serif;
+  font-size: clamp(16px, 2.8vw, 20px);
+  color: var(--ink);
+  letter-spacing: 0.06em;
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.modal-historico-fechar {
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--ink-dim);
+  font-size: 24px;
+  line-height: 1;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: all 0.15s ease;
+}
+.modal-historico-fechar:hover {
+  color: var(--ink);
+  border-color: var(--line);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.modal-historico-subbarra {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 20px;
+  background: rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  font-size: 12px;
+  color: var(--ink-muted);
+}
+.btn-limpar-historico {
+  background: transparent;
+  border: none;
+  color: var(--ink-muted);
+  font-size: 11.5px;
+  cursor: pointer;
+  padding: 3px 6px;
+  border-radius: 2px;
+  transition: all 0.15s ease;
+  font-family: 'EB Garamond', serif;
+}
+.btn-limpar-historico:hover {
+  color: #ff6b6b;
+  text-decoration: underline;
+}
+
+.modal-historico-corpo {
+  padding: 16px 20px;
+  overflow-y: auto;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--line) transparent;
+}
+.modal-historico-corpo::-webkit-scrollbar {
+  width: 6px;
+}
+.modal-historico-corpo::-webkit-scrollbar-thumb {
+  background: var(--line);
+  border-radius: 3px;
+}
+
+.historico-vazio {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--ink-muted);
+  font-family: 'EB Garamond', serif;
+  font-style: italic;
+  font-size: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+.historico-vazio-icone {
+  font-size: 30px;
+  opacity: 0.4;
+  margin-bottom: 4px;
+}
+
+.historico-card {
+  background: var(--bg-panel-2);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--accent);
+  border-radius: 3px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: transform 0.15s ease, border-color 0.15s ease;
+}
+.historico-card:hover {
+  border-color: var(--accent-dim);
+  transform: translateX(2px);
+}
+.historico-card.tipo-desastre {
+  border-left-color: #8b1515;
+  background: linear-gradient(90deg, rgba(139, 21, 21, 0.15) 0%, var(--bg-panel-2) 100%);
+}
+.historico-card.tipo-amaldicoado {
+  border-left-color: #7c2d96;
+  background: linear-gradient(90deg, rgba(124, 45, 150, 0.15) 0%, var(--bg-panel-2) 100%);
+}
+
+.historico-card-topo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.historico-card-pericia-bloco {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+.historico-pericia-indice {
+  font-family: 'MirageFinal', serif;
+  font-size: 11px;
+  color: var(--accent-dim);
+  opacity: 0.7;
+}
+.historico-pericia-nome {
+  font-family: 'MirageFinal', serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.historico-horario {
+  font-size: 11px;
+  color: var(--ink-faint);
+  font-family: monospace;
+}
+
+.historico-card-resultado-bloco {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.historico-resultado-num {
+  font-family: 'MirageFinal', serif;
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1;
+}
+.historico-resultado-badge {
+  font-family: 'MirageFinal', serif;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  padding: 3px 7px;
+  border-radius: 2px;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+.historico-resultado-badge.normal {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--line);
+  color: var(--ink-dim);
+}
+.historico-resultado-badge.desastre {
+  background: rgba(139, 21, 21, 0.35);
+  border: 1px solid #8b1515;
+  color: #ff7b7b;
+}
+.historico-resultado-badge.amaldicoado {
+  background: rgba(124, 45, 150, 0.35);
+  border: 1px solid #7c2d96;
+  color: #df9eff;
+}
+
+.historico-detalhes {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  font-size: 12px;
+  color: var(--ink-muted);
+  border-top: 1px dashed rgba(255, 255, 255, 0.06);
+  padding-top: 6px;
+}
+.historico-item-dado-chips {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.historico-dado-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 17px;
+  height: 17px;
+  padding: 0 3px;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  font-size: 11px;
+  font-family: monospace;
+  color: var(--accent);
+}
+
+.historico-calculo-formula {
+  font-family: 'EB Garamond', serif;
+  font-style: italic;
+  font-size: 13px;
+  color: var(--ink-dim);
+  margin-left: auto;
+}
+
+.modal-historico-rodape {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  border-top: 1px solid var(--line);
+  background: rgba(0, 0, 0, 0.3);
+}
+.modal-historico-dica {
+  font-size: 11.5px;
+  color: var(--ink-faint);
+  font-family: 'EB Garamond', serif;
+  font-style: italic;
+}
+.btn-fechar-historico {
+  background: var(--bg-panel-2);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  font-family: 'MirageFinal', serif;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 6px 16px;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: all 0.15s ease;
+}
+.btn-fechar-historico:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+@media(max-width:500px){
+  .historico-calculo-formula{margin-left:0;width:100%;}
+  .modal-historico-rodape{flex-direction:column;gap:8px;align-items:stretch;text-align:center;}
+}
+
+/* ---------- Modal de Confirmação Seguro (In-Iframe Dialog) ---------- */
+.modal-confirmacao-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.78);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+.modal-confirmacao-overlay.aberto {
+  opacity: 1;
+  visibility: visible;
+}
+.modal-confirmacao-janela {
+  background: linear-gradient(180deg, #181514 0%, #0d0c0c 100%);
+  border: 1px solid var(--line);
+  border-top: 2px solid var(--erro);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.95), 0 0 35px rgba(139, 21, 21, 0.35);
+  border-radius: 4px;
+  width: 100%;
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  transform: translateY(12px) scale(0.98);
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+}
+.modal-confirmacao-overlay.aberto .modal-confirmacao-janela {
+  transform: translateY(0) scale(1);
+}
+.modal-confirmacao-cabecalho {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px 12px;
+  border-bottom: 1px solid var(--line);
+  background: rgba(0, 0, 0, 0.35);
+}
+.modal-confirmacao-titulo-bloco {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.modal-confirmacao-sub {
+  font-family: 'EB Garamond', serif;
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+  color: var(--ink-faint);
+  text-transform: uppercase;
+}
+.modal-confirmacao-titulo {
+  margin: 0;
+  font-family: 'MirageFinal', 'Old Europe', Georgia, serif;
+  font-size: 17px;
+  letter-spacing: 0.05em;
+  color: #ff7b7b;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.modal-confirm-icone {
+  font-size: 15px;
+  color: #ff6b6b;
+}
+.modal-confirmacao-fechar {
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--ink-dim);
+  font-size: 20px;
+  line-height: 1;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: all 0.15s ease;
+}
+.modal-confirmacao-fechar:hover {
+  color: var(--ink);
+  border-color: var(--line);
+  background: rgba(255, 255, 255, 0.05);
+}
+.modal-confirmacao-corpo {
+  padding: 20px;
+  color: var(--ink);
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 15px;
+  line-height: 1.5;
+}
+.modal-confirmacao-texto strong {
+  color: var(--accent);
+  font-weight: 700;
+}
+.modal-confirmacao-rodape {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 12px 20px;
+  border-top: 1px solid var(--line);
+  background: rgba(0, 0, 0, 0.3);
+}
+.btn-confirm-cancelar {
+  background: var(--bg-panel-2);
+  border: 1px solid var(--line);
+  color: var(--ink-dim);
+  font-family: 'MirageFinal', serif;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 8px 16px;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: all 0.15s ease;
+}
+.btn-confirm-cancelar:hover {
+  border-color: var(--ink-dim);
+  color: var(--ink);
+}
+.btn-confirm-perigo {
+  background: #8b1515;
+  border: 1px solid #b32424;
+  color: #ffffff;
+  font-family: 'MirageFinal', serif;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 8px 18px;
+  cursor: pointer;
+  border-radius: 2px;
+  font-weight: 600;
+  box-shadow: 0 0 14px rgba(139, 21, 21, 0.5);
+  transition: all 0.15s ease;
+}
+.btn-confirm-perigo:hover {
+  background: #aa1e1e;
+  border-color: #ff6b6b;
+  box-shadow: 0 0 20px rgba(255, 107, 107, 0.4);
+}
+.btn-acao.neutro:hover {
+  border-color: var(--accent-dim);
+  color: var(--ink);
+}
+
+body.modo-claro .modal-confirmacao-janela {
+  background: #fdfbf7;
+  border-color: #d1c7b7;
+  border-top: 2px solid #a82424;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25);
+}
+body.modo-claro .modal-confirmacao-cabecalho {
+  background: #f4eee1;
+  border-bottom-color: #d8cebe;
+}
+body.modo-claro .modal-confirmacao-titulo {
+  color: #a82424;
+}
+body.modo-claro .modal-confirmacao-corpo {
+  color: #1e1b18;
+}
+body.modo-claro .modal-confirmacao-rodape {
+  background: #f4eee1;
+  border-top-color: #d8cebe;
+}
+body.modo-claro .btn-confirm-cancelar {
+  background: #ebe3d3;
+  border-color: #cbbeaa;
+  color: #4a453e;
+}
+body.modo-claro .btn-confirm-cancelar:hover {
+  border-color: #2b2723;
+  color: #141311;
+}
+
+/* ============================================================
+   BOTÃO DE ALTERNÂNCIA DE TEMA (CLARO / ESCURO)
+   ============================================================ */
+.cabecalho-tema-wrap {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 10;
+}
+
+.btn-tema-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg-panel);
+  border: 1px solid var(--line);
+  color: var(--ink-dim);
+  font-family: 'MirageFinal', serif;
+  font-size: 11.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 6px 14px;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+.btn-tema-toggle:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--bg-panel-2);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5), 0 0 10px color-mix(in srgb, var(--accent) 25%, transparent);
+}
+
+.btn-tema-icone {
+  font-size: 14px;
+  line-height: 1;
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+
+.btn-tema-toggle:hover .btn-tema-icone {
+  transform: rotate(20deg) scale(1.1);
+}
+
+@media(max-width: 768px) {
+  .cabecalho-tema-wrap {
+    position: static;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 14px;
+  }
+}
+
+/* ============================================================
+   MODO CLARO (Gothic Parchment / Manuscrito Antigo)
+   ============================================================ */
+html[data-theme="claro"],
+body.modo-claro {
+  --bg-void: #ebe6dc;
+  --bg-panel: #fcfbfa;
+  --bg-panel-2: #f4efe6;
+  --bg-inset: #e6e0d4;
+  --ink: #141311;
+  --ink-dim: #3f3b35;
+  --ink-faint: #736d62;
+  --line: #d1c9bd;
+  --line-soft: #dfd7cb;
+  --accent-dim: color-mix(in srgb, var(--accent) 70%, #1e1912 25%);
+  --desastre: #8b1515;
+  --desastre-glow: #b91c1c;
+  --amaldicoado: #4c1d95;
+  --amaldicoado-glow: #7c3aed;
+  --sucesso: var(--accent);
+  --erro: var(--desastre-glow);
+}
+
+body.modo-claro {
+  background:
+    radial-gradient(ellipse 120% 70% at 50% -10%, #ded7ca 0%, transparent 60%),
+    radial-gradient(ellipse 140% 90% at 50% 110%, #e2dbcf 0%, transparent 65%),
+    var(--bg-void);
+  color: var(--ink);
+}
+
+body.modo-claro ::selection {
+  background: var(--accent);
+  color: #ffffff;
+}
+
+body.modo-claro ::-webkit-scrollbar-track {
+  background: var(--bg-void);
+}
+body.modo-claro ::-webkit-scrollbar-thumb {
+  background: var(--line);
+  border: 2px solid var(--bg-void);
+}
+body.modo-claro ::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-dim);
+}
+
+body.modo-claro h1.titulo-principal {
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 0 14px color-mix(in srgb, var(--accent) 20%, transparent);
+}
+
+body.modo-claro .galho-svg {
+  opacity: 0.38;
+  stroke: var(--accent-dim);
+}
+
+body.modo-claro .container {
+  box-shadow: 0 4px 22px rgba(0, 0, 0, 0.05);
+}
+
+body.modo-claro .ficha-perfil-card {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7), 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+body.modo-claro .btn-tema-toggle {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+body.modo-claro .btn-tema-toggle:hover {
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+}
+
+body.modo-claro .grid-atributos input {
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+body.modo-claro .select-wrap select,
+body.modo-claro input[type="text"],
+body.modo-claro input[type="number"] {
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.06);
+}
+
+body.modo-claro .btn-rolar {
+  color: #ffffff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+}
+body.modo-claro .btn-rolar:hover {
+  background: var(--ink);
+  color: #ffffff;
+}
+
+body.modo-claro .btn-secundario {
+  background: color-mix(in srgb, var(--accent) 5%, transparent);
+}
+
+body.modo-claro .dificuldade-normal {
+  text-shadow: none;
+  font-weight: 600;
+  background: color-mix(in srgb, var(--accent) 12%, #ffffff);
+}
+
+body.modo-claro .dado-chip {
+  background: #f4efe7;
+  border-color: var(--line);
+  color: var(--ink);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+
+body.modo-claro .ponto-item {
+  background: #ede7dc;
+  border-color: var(--line-soft);
+}
+
+body.modo-claro .modal-historico-overlay {
+  background: rgba(28, 25, 20, 0.52);
+}
+
+body.modo-claro .modal-historico-janela {
+  background: linear-gradient(180deg, #fdfcf9 0%, #f3efe6 100%);
+  border-color: var(--line);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.2), 0 2px 10px rgba(0, 0, 0, 0.08);
+}
+
+body.modo-claro .modal-historico-cabecalho {
+  background: rgba(0, 0, 0, 0.03);
+  border-bottom-color: var(--line);
+}
+
+body.modo-claro .modal-historico-subbarra {
+  background: rgba(0, 0, 0, 0.02);
+  border-bottom-color: var(--line);
+}
+
+body.modo-claro .modal-historico-rodape {
+  background: rgba(0, 0, 0, 0.03);
+  border-top-color: var(--line);
+}
+
+body.modo-claro .historico-card {
+  background: #fbf9f4;
+  border-color: var(--line);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+}
+body.modo-claro .historico-card:hover {
+  background: #ffffff;
+}
+
+body.modo-claro .historico-dado-chip {
+  background: rgba(0, 0, 0, 0.06);
+  border-color: var(--line);
+  color: var(--ink);
+}
+
+body.modo-claro .btn-mini,
+body.modo-claro .btn-controle-cat {
+  background: var(--bg-panel);
+  border-color: var(--line);
+  color: var(--ink-dim);
+}
+
+body.modo-claro .btn-mini:hover,
+body.modo-claro .btn-controle-cat:hover {
+  background: var(--bg-panel-2);
+  border-color: var(--accent);
+  color: var(--ink);
+}
+
+body.modo-claro .resultado-box {
+  background: var(--bg-inset);
+  border-color: var(--line);
+}
+
+body.modo-claro .btn-acao.primario {
+  background: color-mix(in srgb, var(--accent) 15%, #ffffff);
+  color: color-mix(in srgb, var(--accent) 75%, #000000);
+}
+body.modo-claro .btn-acao.primario:hover {
+  background: var(--accent);
+  color: #ffffff;
+}
+
 </style>
 </head>
 <body>
 
 <div class="cabecalho-topo">
+<!-- Botão Alternador de Modo Claro / Escuro -->
+<div class="cabecalho-tema-wrap">
+  <button type="button" class="btn-tema-toggle" id="btn-tema-toggle" onclick="alternarModoTema()" title="Mudar para Modo Claro" aria-label="Alternar entre modo escuro e claro">
+    <span class="btn-tema-icone" id="btn-tema-icone">☀️</span>
+    <span class="btn-tema-rotulo" id="btn-tema-rotulo">Modo Claro</span>
+  </button>
+</div>
 <svg class="galho-svg galho-titulo-esq" viewBox="-20 -160 220 340" xmlns="http://www.w3.org/2000/svg"><g stroke-width="1"><line x1="0.0" y1="30.0" x2="38.2" y2="18.1" stroke-width="4.00"/>
 <line x1="38.2" y1="18.1" x2="76.8" y2="7.6" stroke-width="4.00"/>
 <line x1="76.8" y1="7.6" x2="115.7" y2="-1.9" stroke-width="4.00"/>
@@ -1520,7 +2328,7 @@ input:focus,select:focus{border-color:var(--accent);outline:none;box-shadow:0 0 
           <button type="button" class="avatar-remover" id="avatar_remover" title="Remover imagem" onclick="event.stopPropagation();removerAvatar()">&times;</button>
         </div>
       </div>
-      <input type="file" id="input-avatar" accept="image/png,image/jpeg,image/gif" style="display:none" onchange="carregarAvatar(event)">
+      <input type="file" id="input-avatar" accept="image/png,image/jpeg,image/webp,image/gif" style="display:none" onchange="carregarAvatar(event)">
 
       <!-- Informações do Personagem -->
       <div class="ficha-cabecalho-info">
@@ -1597,6 +2405,9 @@ input:focus,select:focus{border-color:var(--accent);outline:none;box-shadow:0 0 
         <button type="button" class="btn-acao secundario" onclick="salvarComoNovaFicha()">
           <span class="btn-icone">✧</span> Salvar como Nova
         </button>
+        <button type="button" class="btn-acao neutro" onclick="novaFicha()" title="Limpar formulário para criar um novo personagem">
+          <span class="btn-icone">↺</span> Nova Ficha
+        </button>
       </div>
       <div class="ficha-acoes-arquivos">
         <button type="button" class="btn-acao utilitario" onclick="exportarJSON()" title="Exportar dados da ficha para arquivo JSON">
@@ -1642,6 +2453,12 @@ input:focus,select:focus{border-color:var(--accent);outline:none;box-shadow:0 0 
 <div class="categoria-controles">
   <button type="button" class="btn-categoria-acao" onclick="alternarTodasCategorias(true)">Expandir Todas</button>
   <button type="button" class="btn-categoria-acao" onclick="alternarTodasCategorias(false)">Recolher Todas</button>
+  <button type="button" class="btn-categoria-acao" id="btn-historico-rolagens" onclick="abrirModalHistorico()" title="Histórico das últimas 10 rolagens do jogador">
+    <span>📜</span> Histórico <span class="badge-historico" id="historico-badge-qtd">0</span>
+  </button>
+  <button type="button" class="btn-categoria-acao btn-toggle-som" onclick="alternarSom()" title="Efeitos Sonoros: Ativados (clique para silenciar)">
+    <span class="icone-som">🔔</span> <span class="texto-som">Som: Ativado</span>
+  </button>
 </div>
 <div id="painel-pericias">
 <details class="categoria-grupo" id="cat-militares" open>
@@ -2501,7 +3318,70 @@ if(window.innerWidth <= 768){
 </svg>
 </div>
 
+<!-- Modal de Histórico de Rolagens (Últimas 10 Rolagens) -->
+<div id="modal-historico" class="modal-historico-overlay" aria-hidden="true" style="display:none;" onclick="fecharModalHistoricoPorOverlay(event)">
+  <div class="modal-historico-janela" role="dialog" aria-labelledby="modal-historico-titulo" aria-modal="true">
+    <div class="modal-historico-cabecalho">
+      <div class="modal-historico-titulo-bloco">
+        <span class="modal-historico-sub">WE'RE STRANGERS • REGISTRO DE TESTES</span>
+        <h3 id="modal-historico-titulo" class="modal-historico-titulo">
+          <span>📜</span> Histórico de Rolagens
+        </h3>
+      </div>
+      <button type="button" class="modal-historico-fechar" onclick="fecharModalHistorico()" title="Fechar histórico (Esc)">&times;</button>
+    </div>
+    <div class="modal-historico-subbarra">
+      <span id="modal-historico-contador">0 de 10 rolagens registradas</span>
+      <button type="button" class="btn-limpar-historico" onclick="limparHistoricoRolagens()" title="Limpar todas as rolagens registradas">
+        <span>🗑</span> Limpar Histórico
+      </button>
+    </div>
+    <div class="modal-historico-corpo" id="modal-historico-lista">
+      <!-- Rolagens renderizadas dinamicamente via JavaScript -->
+    </div>
+    <div class="modal-historico-rodape">
+      <span class="modal-historico-dica">Mostrando as últimas 10 rolagens em ordem cronológica reversa.</span>
+      <button type="button" class="btn-fechar-historico" onclick="fecharModalHistorico()">Fechar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de Confirmação Seguro (In-Iframe Dialog sem dependência de window.confirm) -->
+<div id="modal-confirmacao" class="modal-confirmacao-overlay" aria-hidden="true" style="display:none;" onclick="fecharModalConfirmacaoPorOverlay(event)">
+  <div class="modal-confirmacao-janela" role="alertdialog" aria-labelledby="modal-confirm-titulo" aria-describedby="modal-confirm-msg" aria-modal="true">
+    <div class="modal-confirmacao-cabecalho">
+      <div class="modal-confirmacao-titulo-bloco">
+        <span class="modal-confirmacao-sub">WE'RE STRANGERS • CONFIRMAÇÃO</span>
+        <h3 id="modal-confirm-titulo" class="modal-confirmacao-titulo">
+          <span class="modal-confirm-icone">⚠</span> Excluir Ficha
+        </h3>
+      </div>
+      <button type="button" class="modal-confirmacao-fechar" onclick="fecharModalConfirmacao()" title="Cancelar (Esc)">&times;</button>
+    </div>
+    <div class="modal-confirmacao-corpo">
+      <div id="modal-confirm-msg" class="modal-confirmacao-texto">
+        Tem certeza que deseja excluir esta ficha?
+      </div>
+    </div>
+    <div class="modal-confirmacao-rodape">
+      <button type="button" class="btn-confirm-cancelar" onclick="fecharModalConfirmacao()">Cancelar</button>
+      <button type="button" id="btn-modal-confirm-acao" class="btn-confirm-perigo" onclick="executarConfirmacao()">Excluir Ficha</button>
+    </div>
+  </div>
+</div>
+
 <script>
+// Previne piscamento de tema claro ao carregar a página (FOUC)
+let modoClaroAtivo = false;
+const STORAGE_TEMA_KEY = "we_are_strangers_modo_tema";
+try {
+  if (localStorage.getItem(STORAGE_TEMA_KEY) === "claro") {
+    document.documentElement.setAttribute("data-theme", "claro");
+    document.body.classList.add("modo-claro");
+    modoClaroAtivo = true;
+  }
+} catch(e) {}
+
 const pericias = [
 {categoria:"Perícias Militares",nome:"Luta",atributos:["HPR","PRX"],aux:["Dança","Reflexo"],divisor:2},
 {categoria:"Perícias Militares",nome:"Pontaria",atributos:["PRX"],aux:[],divisor:1},
@@ -2825,27 +3705,103 @@ function aplicarAvatar(){
     }
 }
 
-function carregarAvatar(event){
+function otimizarImagemAvatar(fonte, maxW = 320, maxH = 420, qualidade = 0.82){
+    return new Promise((resolve) => {
+        if(!fonte) return resolve("");
+
+        const img = new Image();
+        img.crossOrigin = "anonymous";
+
+        img.onload = function(){
+            try{
+                let w = img.naturalWidth || img.width;
+                let h = img.naturalHeight || img.height;
+                if(!w || !h){
+                    return resolve(typeof fonte === "string" ? fonte : "");
+                }
+
+                // Mantém proporção e limita resolução máxima
+                const escala = Math.min(maxW / w, maxH / h, 1);
+                const larguraFinal = Math.max(1, Math.round(w * escala));
+                const alturaFinal = Math.max(1, Math.round(h * escala));
+
+                const canvas = document.createElement("canvas");
+                canvas.width = larguraFinal;
+                canvas.height = alturaFinal;
+                const ctx = canvas.getContext("2d");
+                if(!ctx){
+                    return resolve(typeof fonte === "string" ? fonte : "");
+                }
+
+                ctx.imageSmoothingEnabled = true;
+                ctx.imageSmoothingQuality = "high";
+                ctx.drawImage(img, 0, 0, larguraFinal, alturaFinal);
+
+                // Tenta WebP para máxima compressão
+                let resultado = "";
+                try {
+                    resultado = canvas.toDataURL("image/webp", qualidade);
+                } catch(e){}
+
+                // Fallback para JPEG se WebP não for suportado ou não retornar formato esperado
+                if(!resultado || !resultado.startsWith("data:image/webp")){
+                    resultado = canvas.toDataURL("image/jpeg", qualidade);
+                }
+
+                resolve(resultado);
+            }catch(err){
+                console.warn("Falha ao otimizar imagem no canvas:", err);
+                resolve(typeof fonte === "string" ? fonte : "");
+            }
+        };
+
+        img.onerror = function(){
+            resolve(typeof fonte === "string" ? fonte : "");
+        };
+
+        if(typeof fonte === "string"){
+            img.src = fonte;
+        } else if(fonte instanceof Blob){
+            const reader = new FileReader();
+            reader.onload = function(e){
+                img.src = e.target.result;
+            };
+            reader.onerror = function(){
+                resolve("");
+            };
+            reader.readAsDataURL(fonte);
+        } else {
+            resolve("");
+        }
+    });
+}
+
+async function carregarAvatar(event){
     const arquivo = event.target.files[0];
     if(!arquivo) return;
 
-    const tiposValidos = ["image/png","image/jpeg","image/jpg","image/gif"];
-    if(!tiposValidos.includes(arquivo.type)){
-        mostrarStatus("✗ Envie uma imagem PNG, JPEG ou GIF.", "erro");
+    const tiposValidos = ["image/png","image/jpeg","image/jpg","image/gif","image/webp"];
+    if(!tiposValidos.includes(arquivo.type) && !arquivo.type.startsWith("image/")){
+        mostrarStatus("✗ Envie uma imagem válida (PNG, JPEG, WebP ou GIF).", "erro");
         event.target.value = "";
         return;
     }
 
-    const leitor = new FileReader();
-    leitor.onload = function(e){
-        avatarAtual = e.target.result;
+    try {
+        mostrarStatus("Otimizando imagem do retrato...", "");
+        const imagemOtimizada = await otimizarImagemAvatar(arquivo, 320, 420, 0.82);
+        if(!imagemOtimizada){
+            throw new Error("Falha na conversão da imagem.");
+        }
+        avatarAtual = imagemOtimizada;
         aplicarAvatar();
-    };
-    leitor.onerror = function(){
+        mostrarStatus("✓ Retrato carregado e otimizado com sucesso.", "ok");
+    } catch(err) {
+        console.error("Erro ao carregar retrato:", err);
         mostrarStatus("✗ Não foi possível carregar a imagem.", "erro");
-    };
-    leitor.readAsDataURL(arquivo);
-    event.target.value = "";
+    } finally {
+        event.target.value = "";
+    }
 }
 
 function removerAvatar(){
@@ -2855,6 +3811,471 @@ function removerAvatar(){
 
 function definirCorPrincipal(valor){
     document.documentElement.style.setProperty('--accent', valor);
+}
+
+// ============================================================================
+// Sistema de Efeitos Sonoros Procedurais Viscerais (Web Audio API Nativa)
+// Síntese de impacto físico de dados, batimentos cardíacos, tensão de corda e sinos
+// ============================================================================
+let audioCtx = null;
+let somAtivado = true;
+let reverbBuffer = null;
+
+try {
+    const salvo = localStorage.getItem("we_are_strangers_som");
+    if (salvo !== null) {
+        somAtivado = salvo === "true";
+    }
+} catch (e) {
+    somAtivado = true;
+}
+
+function obterAudioContext() {
+    if (!audioCtx) {
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        if (AudioContextClass) {
+            audioCtx = new AudioContextClass();
+            gerarReverbBuffer(audioCtx);
+        }
+    }
+    if (audioCtx && audioCtx.state === "suspended") {
+        audioCtx.resume();
+    }
+    return audioCtx;
+}
+
+function gerarReverbBuffer(ctx) {
+    if (reverbBuffer || !ctx) return;
+    try {
+        const rate = ctx.sampleRate;
+        const dur = 1.8;
+        const length = Math.floor(rate * dur);
+        const buffer = ctx.createBuffer(2, length, rate);
+        for (let ch = 0; ch < 2; ch++) {
+            const data = buffer.getChannelData(ch);
+            for (let i = 0; i < length; i++) {
+                const decaimento = Math.exp(-i / (rate * 0.42));
+                data[i] = (Math.random() * 2 - 1) * decaimento;
+            }
+        }
+        reverbBuffer = buffer;
+    } catch (e) {}
+}
+
+function alternarSom() {
+    somAtivado = !somAtivado;
+    try {
+        localStorage.setItem("we_are_strangers_som", String(somAtivado));
+    } catch (e) {}
+    atualizarBotoesSom();
+    if (somAtivado) {
+        tocarEfeitoSonoro({ nome: "NORMAL", tipo: "normal" }, 5, 2);
+    }
+}
+
+function atualizarBotoesSom() {
+    const botoes = document.querySelectorAll(".btn-toggle-som");
+    botoes.forEach(btn => {
+        const icone = btn.querySelector(".icone-som");
+        const texto = btn.querySelector(".texto-som");
+        if (somAtivado) {
+            btn.classList.remove("som-mutado");
+            btn.title = "Efeitos Sonoros: Ativados (clique para silenciar)";
+            if (icone) icone.textContent = "🔔";
+            if (texto) texto.textContent = "Som: Ativado";
+        } else {
+            btn.classList.add("som-mutado");
+            btn.title = "Efeitos Sonoros: Silenciados (clique para ativar)";
+            if (icone) icone.textContent = "🔕";
+            if (texto) texto.textContent = "Som: Mudo";
+        }
+    });
+}
+
+function criarCadeiaSaida(ctx, nivelReverb = 0.22) {
+    const compressor = ctx.createDynamicsCompressor();
+    compressor.threshold.setValueAtTime(-14, ctx.currentTime);
+    compressor.knee.setValueAtTime(6, ctx.currentTime);
+    compressor.ratio.setValueAtTime(4.5, ctx.currentTime);
+    compressor.attack.setValueAtTime(0.003, ctx.currentTime);
+    compressor.release.setValueAtTime(0.18, ctx.currentTime);
+    compressor.connect(ctx.destination);
+
+    const busEntrada = ctx.createGain();
+    busEntrada.gain.setValueAtTime(1.0, ctx.currentTime);
+    busEntrada.connect(compressor);
+
+    if (reverbBuffer && nivelReverb > 0) {
+        try {
+            const convolver = ctx.createConvolver();
+            convolver.buffer = reverbBuffer;
+            const revGain = ctx.createGain();
+            revGain.gain.setValueAtTime(nivelReverb, ctx.currentTime);
+            busEntrada.connect(convolver);
+            convolver.connect(revGain);
+            revGain.connect(compressor);
+        } catch (e) {}
+    }
+
+    return busEntrada;
+}
+
+function tocarDadosMadeira(ctx, destino, agora, qtdImpactos = 3, peso = 1) {
+    const tempos = [0, 0.05, 0.11, 0.18];
+    const total = Math.min(Math.max(qtdImpactos, 2), 4);
+
+    for (let i = 0; i < total; i++) {
+        const t = agora + (tempos[i] || i * 0.055);
+        const ehUltimo = i === total - 1;
+
+        const osc = ctx.createOscillator();
+        const oscGain = ctx.createGain();
+        const filter = ctx.createBiquadFilter();
+
+        const baseF = (180 + Math.random() * 80) * (peso > 1.2 ? 0.8 : 1);
+        osc.type = "triangle";
+        osc.frequency.setValueAtTime(baseF, t);
+        osc.frequency.exponentialRampToValueAtTime(38, t + 0.07);
+
+        filter.type = "bandpass";
+        filter.frequency.setValueAtTime(baseF * 2.2, t);
+        filter.Q.setValueAtTime(3.5, t);
+
+        const vol = (ehUltimo ? 0.48 : 0.26) * peso;
+        oscGain.gain.setValueAtTime(0.001, t);
+        oscGain.gain.linearRampToValueAtTime(vol, t + 0.003);
+        oscGain.gain.exponentialRampToValueAtTime(0.0001, t + 0.08);
+
+        osc.connect(filter);
+        filter.connect(oscGain);
+        oscGain.connect(destino);
+
+        osc.start(t);
+        osc.stop(t + 0.09);
+
+        // Micro estalo de contato (transiente tátil de osso/madeira)
+        try {
+            const len = Math.floor(ctx.sampleRate * 0.015);
+            const buf = ctx.createBuffer(1, len, ctx.sampleRate);
+            const d = buf.getChannelData(0);
+            for (let k = 0; k < len; k++) {
+                d[k] = (Math.random() * 2 - 1) * Math.exp(-k / (ctx.sampleRate * 0.003));
+            }
+            const noise = ctx.createBufferSource();
+            noise.buffer = buf;
+            const nGain = ctx.createGain();
+            nGain.gain.setValueAtTime((ehUltimo ? 0.28 : 0.16) * peso, t);
+            noise.connect(nGain);
+            nGain.connect(destino);
+            noise.start(t);
+            noise.stop(t + 0.02);
+        } catch (e) {}
+    }
+}
+
+function tocarBatimentoCardiaco(ctx, destino, tempo, intensidade = 0.8, ritmoDuplo = false) {
+    const pulsos = [
+        { atraso: 0, freq: 58, freqFim: 36, vol: intensidade, dur: 0.13 },
+        { atraso: 0.135, freq: 70, freqFim: 40, vol: intensidade * 0.78, dur: 0.11 }
+    ];
+    if (ritmoDuplo) {
+        pulsos.push(
+            { atraso: 0.36, freq: 64, freqFim: 38, vol: intensidade * 0.95, dur: 0.13 },
+            { atraso: 0.495, freq: 76, freqFim: 42, vol: intensidade * 0.74, dur: 0.11 }
+        );
+    }
+
+    pulsos.forEach(p => {
+        const t = tempo + p.atraso;
+        const oscSub = ctx.createOscillator();
+        const oscTri = ctx.createOscillator();
+        const gain = ctx.createGain();
+        const filter = ctx.createBiquadFilter();
+
+        oscSub.type = "sine";
+        oscSub.frequency.setValueAtTime(p.freq, t);
+        oscSub.frequency.exponentialRampToValueAtTime(p.freqFim, t + p.dur);
+
+        oscTri.type = "triangle";
+        oscTri.frequency.setValueAtTime(p.freq * 1.5, t);
+        oscTri.frequency.exponentialRampToValueAtTime(p.freqFim * 1.1, t + p.dur);
+
+        filter.type = "lowpass";
+        filter.frequency.setValueAtTime(120, t);
+        filter.frequency.exponentialRampToValueAtTime(45, t + p.dur);
+
+        gain.gain.setValueAtTime(0.001, t);
+        gain.gain.linearRampToValueAtTime(p.vol, t + 0.016);
+        gain.gain.exponentialRampToValueAtTime(0.0001, t + p.dur + 0.03);
+
+        oscSub.connect(filter);
+        oscTri.connect(filter);
+        filter.connect(gain);
+        gain.connect(destino);
+
+        oscSub.start(t);
+        oscTri.start(t);
+        oscSub.stop(t + p.dur + 0.04);
+        oscTri.stop(t + p.dur + 0.04);
+    });
+}
+
+function tocarSubImpacto(ctx, destino, tempo, freqIni = 85, freqFim = 28, dur = 0.55, vol = 0.65) {
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    const filter = ctx.createBiquadFilter();
+
+    osc.type = "sine";
+    osc.frequency.setValueAtTime(freqIni, tempo);
+    osc.frequency.exponentialRampToValueAtTime(freqFim, tempo + dur);
+
+    filter.type = "lowpass";
+    filter.frequency.setValueAtTime(140, tempo);
+    filter.frequency.exponentialRampToValueAtTime(36, tempo + dur);
+
+    gain.gain.setValueAtTime(0.001, tempo);
+    gain.gain.linearRampToValueAtTime(vol, tempo + 0.02);
+    gain.gain.exponentialRampToValueAtTime(0.0001, tempo + dur);
+
+    osc.connect(filter);
+    filter.connect(gain);
+    gain.connect(destino);
+
+    osc.start(tempo);
+    osc.stop(tempo + dur + 0.02);
+}
+
+function tocarDroneTensao(ctx, destino, tempo, dur = 1.3, freq = 65) {
+    [freq, freq * 1.5].forEach((f, idx) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        const filter = ctx.createBiquadFilter();
+
+        osc.type = "sawtooth";
+        osc.frequency.setValueAtTime(f, tempo);
+        osc.detune.setValueAtTime(idx === 0 ? -4 : 4, tempo);
+
+        filter.type = "lowpass";
+        filter.frequency.setValueAtTime(180, tempo);
+        filter.frequency.exponentialRampToValueAtTime(70, tempo + dur);
+
+        const v = idx === 0 ? 0.28 : 0.16;
+        gain.gain.setValueAtTime(0.001, tempo);
+        gain.gain.linearRampToValueAtTime(v, tempo + 0.1);
+        gain.gain.exponentialRampToValueAtTime(0.0001, tempo + dur);
+
+        osc.connect(filter);
+        filter.connect(gain);
+        gain.connect(destino);
+
+        osc.start(tempo);
+        osc.stop(tempo + dur + 0.05);
+    });
+}
+
+function tocarSinoAncestral(ctx, destino, tempo, dur = 2.5) {
+    const parciais = [
+        { f: 261.63, vol: 0.35, d: dur },
+        { f: 392.00, vol: 0.24, d: dur * 0.8 },
+        { f: 523.25, vol: 0.18, d: dur * 0.65 },
+        { f: 784.00, vol: 0.10, d: dur * 0.45 }
+    ];
+    parciais.forEach(p => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = "sine";
+        osc.frequency.setValueAtTime(p.f, tempo);
+        gain.gain.setValueAtTime(0.001, tempo);
+        gain.gain.linearRampToValueAtTime(p.vol, tempo + 0.015);
+        gain.gain.exponentialRampToValueAtTime(0.0001, tempo + p.d);
+
+        osc.connect(gain);
+        gain.connect(destino);
+        osc.start(tempo);
+        osc.stop(tempo + p.d + 0.05);
+    });
+}
+
+function tocarCadafalsoEForca(ctx, destino, agora) {
+    // 1. O estalo violento do alçapão de carvalho se abrindo
+    try {
+        const len = Math.floor(ctx.sampleRate * 0.22);
+        const buf = ctx.createBuffer(1, len, ctx.sampleRate);
+        const d = buf.getChannelData(0);
+        for (let k = 0; k < len; k++) {
+            d[k] = (Math.random() * 2 - 1) * Math.sin(k * 0.09) * Math.exp(-k / (ctx.sampleRate * 0.04));
+        }
+        const noise = ctx.createBufferSource();
+        noise.buffer = buf;
+        const nFilter = ctx.createBiquadFilter();
+        nFilter.type = "bandpass";
+        nFilter.frequency.setValueAtTime(680, agora);
+        nFilter.frequency.exponentialRampToValueAtTime(140, agora + 0.2);
+        nFilter.Q.setValueAtTime(5, agora);
+
+        const nGain = ctx.createGain();
+        nGain.gain.setValueAtTime(0.001, agora);
+        nGain.gain.linearRampToValueAtTime(0.65, agora + 0.01);
+        nGain.gain.exponentialRampToValueAtTime(0.001, agora + 0.21);
+
+        noise.connect(nFilter);
+        nFilter.connect(nGain);
+        nGain.connect(destino);
+        noise.start(agora);
+        noise.stop(agora + 0.22);
+    } catch (e) {}
+
+    // 2. O rangido áspero de corda de cânhamo tensionando bruscamente
+    const ropeStart = agora + 0.04;
+    const oscCorda = ctx.createOscillator();
+    const cordaGain = ctx.createGain();
+    const cordaFilter = ctx.createBiquadFilter();
+
+    oscCorda.type = "sawtooth";
+    oscCorda.frequency.setValueAtTime(320, ropeStart);
+    oscCorda.frequency.exponentialRampToValueAtTime(160, ropeStart + 0.28);
+
+    cordaFilter.type = "bandpass";
+    cordaFilter.frequency.setValueAtTime(450, ropeStart);
+    cordaFilter.frequency.exponentialRampToValueAtTime(220, ropeStart + 0.28);
+    cordaFilter.Q.setValueAtTime(8, ropeStart);
+
+    cordaGain.gain.setValueAtTime(0.001, ropeStart);
+    cordaGain.gain.linearRampToValueAtTime(0.5, ropeStart + 0.04);
+    cordaGain.gain.exponentialRampToValueAtTime(0.001, ropeStart + 0.3);
+
+    oscCorda.connect(cordaFilter);
+    cordaFilter.connect(cordaGain);
+    cordaGain.connect(destino);
+
+    oscCorda.start(ropeStart);
+    oscCorda.stop(ropeStart + 0.31);
+
+    // 3. O baque sub-grave aterrador da forca (choque no peito)
+    tocarSubImpacto(ctx, destino, agora + 0.08, 95, 26, 0.65, 0.85);
+
+    // 4. Batimento cardíaco súbito e sufocado (o choque do jogador)
+    tocarBatimentoCardiaco(ctx, destino, agora + 0.25, 0.7, false);
+}
+
+function tocarSinoGoticoAmaldicoado(ctx, destino, agora) {
+    // 1. Sino fúnebre colossal gótico (parciais metálicos inharmônicos e sombrios)
+    const fundamental = 110; // A2 fúnebre
+    const parciais = [
+        { mult: 0.55, ganho: 0.42, dur: 2.8 },
+        { mult: 1.00, ganho: 0.58, dur: 3.2 },
+        { mult: 1.33, ganho: 0.38, dur: 2.6 },
+        { mult: 1.98, ganho: 0.32, dur: 2.2 },
+        { mult: 2.49, ganho: 0.24, dur: 1.7 },
+        { mult: 3.52, ganho: 0.18, dur: 1.3 },
+        { mult: 4.64, ganho: 0.12, dur: 0.9 }
+    ];
+
+    parciais.forEach(p => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = "sine";
+        osc.frequency.setValueAtTime(fundamental * p.mult, agora);
+        osc.detune.setValueAtTime((Math.random() - 0.5) * 8, agora);
+
+        gain.gain.setValueAtTime(0.001, agora);
+        gain.gain.linearRampToValueAtTime(p.ganho, agora + 0.02);
+        gain.gain.exponentialRampToValueAtTime(0.0001, agora + p.dur);
+
+        osc.connect(gain);
+        gain.connect(destino);
+
+        osc.start(agora);
+        osc.stop(agora + p.dur + 0.05);
+    });
+
+    // 2. Sopro espectral e sussurro sobrenatural invertido
+    try {
+        const len = Math.floor(ctx.sampleRate * 0.65);
+        const buf = ctx.createBuffer(1, len, ctx.sampleRate);
+        const d = buf.getChannelData(0);
+        for (let k = 0; k < len; k++) {
+            d[k] = (Math.random() * 2 - 1);
+        }
+        const noise = ctx.createBufferSource();
+        noise.buffer = buf;
+        const nFilter = ctx.createBiquadFilter();
+        nFilter.type = "bandpass";
+        nFilter.frequency.setValueAtTime(1400, agora);
+        nFilter.frequency.exponentialRampToValueAtTime(320, agora + 0.6);
+        nFilter.Q.setValueAtTime(6, agora);
+
+        const nGain = ctx.createGain();
+        nGain.gain.setValueAtTime(0.001, agora);
+        nGain.gain.linearRampToValueAtTime(0.35, agora + 0.15);
+        nGain.gain.exponentialRampToValueAtTime(0.0001, agora + 0.62);
+
+        noise.connect(nFilter);
+        nFilter.connect(nGain);
+        nGain.connect(destino);
+        noise.start(agora);
+        noise.stop(agora + 0.65);
+    } catch (e) {}
+
+    // 3. Sub-grave profundo de arrepio gótico
+    tocarSubImpacto(ctx, destino, agora + 0.05, 75, 24, 0.8, 0.7);
+}
+
+function tocarEfeitoSonoro(faixa, resultado, qtdDados = 2) {
+    if (!somAtivado) return;
+    const ctx = obterAudioContext();
+    if (!ctx) return;
+
+    const nomeFaixa = (faixa && faixa.nome ? faixa.nome : "").toUpperCase();
+    const agora = ctx.currentTime;
+
+    if (nomeFaixa === "DESASTRE!" || (faixa && faixa.tipo === "desastre")) {
+        const destino = criarCadeiaSaida(ctx, 0.35);
+        tocarCadafalsoEForca(ctx, destino, agora);
+        return;
+    }
+
+    if (nomeFaixa === "AMALDIÇOADO" || (faixa && faixa.tipo === "amaldicoado")) {
+        const destino = criarCadeiaSaida(ctx, 0.45);
+        tocarSinoGoticoAmaldicoado(ctx, destino, agora);
+        return;
+    }
+
+    // Para as demais faixas, começamos com a rolagem tátil e física dos dados
+    const destinoDados = criarCadeiaSaida(ctx, 0.18);
+    const pesoDados = nomeFaixa === "ABSURDO" || nomeFaixa === "SOBREHUMANO" ? 1.3 : 1.0;
+    tocarDadosMadeira(ctx, destinoDados, agora, qtdDados, pesoDados);
+
+    // E adicionamos a assinatura psicológica de cada faixa de dificuldade:
+    if (nomeFaixa === "FÁCIL") {
+        // Alívio e calma mundana: um tom morno e harmônico relaxante
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = "sine";
+        osc.frequency.setValueAtTime(220, agora + 0.12);
+        gain.gain.setValueAtTime(0.001, agora + 0.12);
+        gain.gain.linearRampToValueAtTime(0.2, agora + 0.16);
+        gain.gain.exponentialRampToValueAtTime(0.0001, agora + 0.45);
+        osc.connect(gain);
+        gain.connect(destinoDados);
+        osc.start(agora + 0.12);
+        osc.stop(agora + 0.5);
+    } else if (nomeFaixa === "NORMAL") {
+        // Equilíbrio neutro e firme (os dados de carvalho falam por si)
+    } else if (nomeFaixa === "DIFÍCIL") {
+        // Tensão sutil: zumbido sombrio no ar que eleva a guarda dos jogadores
+        tocarDroneTensao(ctx, destinoDados, agora + 0.12, 1.1, 65);
+    } else if (nomeFaixa === "DESAFIADOR") {
+        // Tensão alta: o coração dispara! Batimento cardíaco no peito (LUB-DUB)
+        tocarBatimentoCardiaco(ctx, destinoDados, agora + 0.18, 0.85, false);
+    } else if (nomeFaixa === "ABSURDO") {
+        // Adrenalina pura: batimento cardíaco duplo acelerado + sub-drop de choque
+        tocarBatimentoCardiaco(ctx, destinoDados, agora + 0.16, 0.95, true);
+        tocarSubImpacto(ctx, destinoDados, agora + 0.18, 90, 30, 0.55, 0.7);
+    } else if (nomeFaixa === "POSSÍVEL?" || nomeFaixa === "SOBREHUMANO") {
+        // Feito sobre-humano: carrilhão ancestral ressonante
+        tocarSinoAncestral(ctx, destinoDados, agora + 0.14, 2.4);
+    }
 }
 
 // Tabela de Dificuldades. Qualquer resultado abaixo de 2 conta como DESASTRE!
@@ -2889,6 +4310,55 @@ return `<div class="dificuldade-evento ${classeEvento}" title="${faixa.nome}">${
 
 function montarGalhosInvasores(tipo){
 if(tipo!=="desastre"&&tipo!=="amaldicoado")return "";
+
+const elementoDireito = tipo==="desastre" ? `
+      <!-- A FORCA (Nó e Laço de Xilogravura em Alto Contraste para DESASTRE) -->
+      <g class="forca-grupo">
+        <!-- Corda principal descendo do galho -->
+        <path class="corda-trilha" d="M344,14 L344,80" />
+        <!-- Entalhes de textura da corda retorcida -->
+        <line class="corda-hatch" x1="341" y1="24" x2="347" y2="28" />
+        <line class="corda-hatch" x1="341" y1="36" x2="347" y2="40" />
+        <line class="corda-hatch" x1="341" y1="48" x2="347" y2="52" />
+        <line class="corda-hatch" x1="341" y1="60" x2="347" y2="64" />
+        <line class="corda-hatch" x1="341" y1="72" x2="347" y2="76" />
+
+        <!-- Barril do nó de forca (espirais características) -->
+        <rect class="no-corpo" x="338" y="80" width="12" height="26" rx="2" />
+        <line class="no-espiral" x1="338" y1="85" x2="350" y2="85" />
+        <line class="no-espiral" x1="338" y1="90" x2="350" y2="90" />
+        <line class="no-espiral" x1="338" y1="95" x2="350" y2="95" />
+        <line class="no-espiral" x1="338" y1="100" x2="350" y2="100" />
+
+        <!-- Ponta solta cortada da corda -->
+        <path class="corda-ponta" d="M350,83 C357,80 361,86 359,92" />
+
+        <!-- Laço aberto da forca em alto contraste sobrepondo a mensagem de DESASTRE -->
+        <path class="laco-forca" d="M344,106 C322,126 318,168 344,188 C370,168 366,126 344,106 Z" />
+        <circle class="no-anel" cx="344" cy="106" r="3" />
+      </g>` : `
+      <!-- A CRUZ GÓTICA EM ALTO CONTRASTE (Para AMALDIÇOADO) -->
+      <g class="cruz-grupo">
+        <!-- Halo ou aura de espinhos radiantes no centro da cruz -->
+        <circle class="cruz-halo" cx="364" cy="85" r="22" fill="none" stroke-dasharray="2,3" />
+        
+        <!-- Corpo principal da Cruz Gótica chanfrada/talhada -->
+        <path class="cruz-corpo" d="M 358,35 L 364,28 L 370,35 L 370,74 L 396,74 L 403,80 L 396,86 L 370,86 L 370,158 L 364,166 L 358,158 L 358,86 L 332,86 L 325,80 L 332,74 L 358,74 Z" />
+        
+        <!-- Entalhes de bisel central em relevo de xilogravura -->
+        <line class="cruz-bisel" x1="364" y1="32" x2="364" y2="162" />
+        <line class="cruz-bisel" x1="328" y1="80" x2="400" y2="80" />
+
+        <!-- Raízes espinhosas retorcidas enroscando na cruz -->
+        <path class="cruz-videira" d="M 350,165 C 356,150 372,145 372,130 C 372,118 358,112 358,98 C 358,88 374,82 374,68 C 374,55 362,50 364,36" fill="none" />
+        <path class="raiz-espinho" d="M 372,130 C 382,126 388,132 386,138" fill="none" />
+        <path class="raiz-espinho" d="M 358,98 C 348,94 344,102 346,108" fill="none" />
+        <path class="raiz-espinho" d="M 374,68 C 384,65 388,72 385,78" fill="none" />
+        <path class="cruz-videira" d="M 330,86 C 344,82 352,78 364,80 C 376,82 386,76 398,84" fill="none" />
+        <path class="raiz-espinho" d="M 348,80 C 350,72 344,66 340,68" fill="none" />
+        <path class="raiz-espinho" d="M 382,78 C 386,70 392,72 394,68" fill="none" />
+      </g>`;
+
 return `<div class="resultado-galhos-container" aria-hidden="true">
   <svg class="resultado-galhos-svg" viewBox="0 0 420 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
     <g class="raizes-woodcut-grupo">
@@ -2906,41 +4376,18 @@ return `<div class="resultado-galhos-container" aria-hidden="true">
       <path class="raiz-espinho" d="M82,112 C86,118 92,122 100,124" />
       <path class="raiz-tendril" d="M98,138 C120,136 142,144 158,156" />
 
-      <!-- Raízes retorcidas inferiores direitas sob a forca -->
+      <!-- Raízes retorcidas inferiores direitas sob o elemento focal -->
       <path class="raiz-corpo" d="M430,210 L430,145 C405,152 390,165 378,180 C362,168 345,162 320,160 C338,172 350,186 358,202 L430,210 Z" />
       <path class="raiz-tendril" d="M378,180 C355,155 330,138 298,130" />
       <path class="raiz-espinho" d="M345,150 C340,142 334,136 325,134" />
       <path class="raiz-espinho" d="M320,140 C318,148 314,154 306,158" />
 
-      <!-- Galho retorcido superior direito que sustenta a corda da forca -->
+      <!-- Galho retorcido superior direito que emoldura o canto -->
       <path class="raiz-corpo" d="M430,-10 L330,-10 C342,12 356,24 372,32 C350,28 332,32 315,42 C330,44 345,42 360,38 C380,48 405,55 430,58 Z" />
       <path class="raiz-tendril" d="M315,42 C285,55 255,60 225,58" />
       <path class="raiz-espinho" d="M280,53 C274,45 272,36 274,28" />
 
-      <!-- A FORCA (Nó e Laço de Xilogravura em Alto Contraste à Direita) -->
-      <g class="forca-grupo">
-        <!-- Corda principal descendo do galho -->
-        <path class="corda-trilha" d="M364,15 L364,68" />
-        <!-- Entalhes de textura da corda retorcida -->
-        <line class="corda-hatch" x1="361" y1="24" x2="367" y2="28" />
-        <line class="corda-hatch" x1="361" y1="34" x2="367" y2="38" />
-        <line class="corda-hatch" x1="361" y1="44" x2="367" y2="48" />
-        <line class="corda-hatch" x1="361" y1="54" x2="367" y2="58" />
-
-        <!-- Barril do nó de forca (espirais características) -->
-        <rect class="no-corpo" x="358" y="68" width="12" height="26" rx="2" />
-        <line class="no-espiral" x1="358" y1="73" x2="370" y2="73" />
-        <line class="no-espiral" x1="358" y1="78" x2="370" y2="78" />
-        <line class="no-espiral" x1="358" y1="83" x2="370" y2="83" />
-        <line class="no-espiral" x1="358" y1="88" x2="370" y2="88" />
-
-        <!-- Ponta solta cortada da corda -->
-        <path class="corda-ponta" d="M370,71 C377,68 381,74 379,80" />
-
-        <!-- Laço aberto da forca em alto contraste -->
-        <path class="laco-forca" d="M364,94 C344,110 342,148 364,166 C386,148 384,110 364,94 Z" />
-        <circle class="no-anel" cx="364" cy="94" r="3" />
-      </g>
+      ${elementoDireito}
     </g>
   </svg>
 </div>`;
@@ -3019,6 +4466,31 @@ const totalPontosFormatado=(totalPontos>=0?"+":"")+totalPontos;
 const faixa=obterDificuldade(resultadoFinal);
 const seloDificuldade=montarSeloDificuldade(resultadoFinal);
 
+// Dispara efeito sonoro visceral adaptado à faixa de teste, valor e quantidade de dados
+tocarEfeitoSonoro(faixa, resultadoFinal, dados.length);
+
+// Registra rolagem no histórico das últimas 10 rolagens
+registrarRolagemHistorico({
+  pericia: pericia.nome,
+  horario: new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
+  resultadoFinal,
+  faixaNome: faixa.nome,
+  faixaTipo: faixa.tipo,
+  principal,
+  dadosBase,
+  modDados,
+  quantidadeDados,
+  atributoZerado,
+  dados: [...dados],
+  somaDados,
+  atributosAux: [...atributosAux],
+  somaAtributos,
+  puros,
+  bonusPts,
+  relacionados,
+  totalPontos
+});
+
 painel.innerHTML=`
 <summary>Detalhes da rolagem <span class="resultado-resumo ${faixa.tipo}">→ ${resultadoFinal}</span></summary>
 <div class="dados-conteudo">
@@ -3052,11 +4524,16 @@ painel.open=true;
 
 function adicionarPericiaPersonalizada(){
 const nome=document.getElementById("custom_nome").value.trim();
-if(!nome){alert("Digite um nome para a Perícia.");return;}
+if(!nome){
+    mostrarStatus("✗ Digite um nome para a Perícia personalizada.", "erro");
+    document.getElementById("custom_nome").focus();
+    return;
+}
 
 if(pericias.some(p=>p.nome.toLowerCase()===nome.toLowerCase())||
 personalizadas.some(p=>p.nome.toLowerCase()===nome.toLowerCase())){
-alert("Já existe uma Perícia com esse nome.");return;
+    mostrarStatus("✗ Já existe uma Perícia com o nome \"" + nome + "\".", "erro");
+    return;
 }
 
 const atributo=document.getElementById("custom_atributo").value;
@@ -3127,6 +4604,7 @@ function coletarEstadoFicha(){
         pontosBonus: {...pontosBonus},
         baseSelects,
         personalizadas: personalizadas.map(p=>({...p})),
+        modoClaro: modoClaroAtivo,
         atualizadoEm: new Date().toISOString()
     };
 }
@@ -3197,7 +4675,136 @@ function aplicarEstadoFicha(estado){
     // Fecha e limpa resultados de rolagens antigas
     document.querySelectorAll('[id^="d_"]').forEach(el=>{ el.innerHTML=""; el.removeAttribute("open"); });
 
+    if(typeof estado.modoClaro === "boolean"){
+        aplicarModoTema(estado.modoClaro ? "claro" : "escuro", true);
+    }
+
     atualizarPainel();
+}
+
+/* ============================================================
+   CAMADA DE PERSISTÊNCIA ROBUSTA (localStorage + IndexedDB Fallback)
+   Garante armazenamento de fichas sem estourar a quota de 5MB
+   mesmo com fotos de alta resolução, além de limpeza automática.
+   ============================================================ */
+const DB_NOME = "MestreDosTestesDB";
+const DB_VERSAO = 1;
+const DB_STORE = "fichas";
+
+function abrirDB(){
+    return new Promise((resolve, reject) => {
+        if(typeof window === "undefined" || !window.indexedDB){
+            return reject(new Error("IndexedDB não disponível"));
+        }
+        try{
+            const req = window.indexedDB.open(DB_NOME, DB_VERSAO);
+            req.onupgradeneeded = (e) => {
+                const db = e.target.result;
+                if(!db.objectStoreNames.contains(DB_STORE)){
+                    db.createObjectStore(DB_STORE, { keyPath: "id" });
+                }
+            };
+            req.onsuccess = () => resolve(req.result);
+            req.onerror = () => reject(req.error);
+        }catch(e){
+            reject(e);
+        }
+    });
+}
+
+async function salvarFichaIDB(id, estado){
+    try{
+        const db = await abrirDB();
+        return new Promise((resolve) => {
+            const tx = db.transaction(DB_STORE, "readwrite");
+            const store = tx.objectStore(DB_STORE);
+            store.put({ id, estado, atualizadoEm: estado.atualizadoEm });
+            tx.oncomplete = () => resolve(true);
+            tx.onerror = () => resolve(false);
+        });
+    }catch(e){
+        return false;
+    }
+}
+
+async function carregarFichaIDB(id){
+    try{
+        const db = await abrirDB();
+        return new Promise((resolve) => {
+            const tx = db.transaction(DB_STORE, "readonly");
+            const store = tx.objectStore(DB_STORE);
+            const req = store.get(id);
+            req.onsuccess = () => resolve(req.result ? req.result.estado : null);
+            req.onerror = () => resolve(null);
+        });
+    }catch(e){
+        return null;
+    }
+}
+
+async function excluirFichaIDB(id){
+    try{
+        const db = await abrirDB();
+        return new Promise((resolve) => {
+            const tx = db.transaction(DB_STORE, "readwrite");
+            const store = tx.objectStore(DB_STORE);
+            store.delete(id);
+            tx.oncomplete = () => resolve(true);
+            tx.onerror = () => resolve(false);
+        });
+    }catch(e){
+        return false;
+    }
+}
+
+function limparChavesOrfas(){
+    try{
+        const indice = carregarIndiceFichas();
+        const idsValidos = new Set(indice.map(f=>f.id));
+        if(fichaId) idsValidos.add(fichaId);
+
+        const chavesParaRemover = [];
+        for(let i = 0; i < localStorage.length; i++){
+            const chave = localStorage.key(i);
+            if(chave && chave.startsWith(CHAVE_PREFIXO+"ficha:") && !chave.endsWith(":index")){
+                const id = chave.replace(CHAVE_PREFIXO+"ficha:", "");
+                if(!idsValidos.has(id)){
+                    chavesParaRemover.push(chave);
+                }
+            }
+        }
+        chavesParaRemover.forEach(ch => {
+            try { localStorage.removeItem(ch); } catch(e){}
+        });
+    }catch(e){
+        console.warn("Aviso ao limpar chaves órfãs:", e);
+    }
+}
+
+async function otimizarArmazenamentoExistente(){
+    limparChavesOrfas();
+    try{
+        const indice = carregarIndiceFichas();
+        for(const item of indice){
+            const chave = CHAVE_PREFIXO + "ficha:" + item.id;
+            const bruto = localStorage.getItem(chave);
+            if(bruto && bruto.length > 60000){
+                try{
+                    const est = JSON.parse(bruto);
+                    if(est && est.avatar && est.avatar.length > 50000){
+                        const avatarOtimizado = await otimizarImagemAvatar(est.avatar, 320, 420, 0.80);
+                        if(avatarOtimizado && avatarOtimizado.length < est.avatar.length){
+                            est.avatar = avatarOtimizado;
+                            localStorage.setItem(chave, JSON.stringify(est));
+                            salvarFichaIDB(item.id, est).catch(()=>{});
+                        }
+                    }
+                }catch(eFicha){}
+            }
+        }
+    }catch(e){
+        console.warn("Aviso na otimização de segundo plano:", e);
+    }
 }
 
 function carregarIndiceFichas(){
@@ -3214,11 +4821,68 @@ function salvarIndiceFichas(indice){
     localStorage.setItem(CHAVE_PREFIXO+"fichas:index", JSON.stringify(indice));
 }
 
-function salvarFicha(){
+async function salvarFicha(){
     try{
         if(!fichaId) fichaId = gerarId();
+
+        // Se o avatar na memória for pesado, otimiza antes de tentar persistir
+        if(avatarAtual && avatarAtual.length > 60000){
+            try{
+                mostrarStatus("Compactando imagem do retrato...", "");
+                avatarAtual = await otimizarImagemAvatar(avatarAtual, 320, 420, 0.80);
+                aplicarAvatar();
+            }catch(errOtim){
+                console.warn("Aviso na compressão pré-salvamento:", errOtim);
+            }
+        }
+
         const estado = coletarEstadoFicha();
-        localStorage.setItem(CHAVE_PREFIXO+"ficha:"+fichaId, JSON.stringify(estado));
+        let salvoComSucesso = false;
+
+        // Tentativa 1: salvar normalmente no localStorage
+        try{
+            localStorage.setItem(CHAVE_PREFIXO+"ficha:"+fichaId, JSON.stringify(estado));
+            salvoComSucesso = true;
+        }catch(errQuota){
+            console.warn("Aviso de quota ao salvar no localStorage. Executando rotinas de alívio...", errQuota);
+
+            // 1. Limpa chaves órfãs que possam estar ocupando espaço
+            limparChavesOrfas();
+
+            // 2. Comprime o avatar ainda mais agressivamente se estiver presente
+            if(estado.avatar && estado.avatar.length > 25000){
+                try{
+                    estado.avatar = await otimizarImagemAvatar(estado.avatar, 240, 320, 0.70);
+                    avatarAtual = estado.avatar;
+                    aplicarAvatar();
+                }catch(eComp){}
+            }
+
+            // 3. Tenta salvar novamente no localStorage
+            try{
+                localStorage.setItem(CHAVE_PREFIXO+"ficha:"+fichaId, JSON.stringify(estado));
+                salvoComSucesso = true;
+            }catch(errQuota2){
+                console.warn("localStorage permaneceu cheio. Salvando no IndexedDB:", errQuota2);
+                // 4. Salva ficha completa com imagem no IndexedDB (sem limite de 5MB)
+                const salvoIDB = await salvarFichaIDB(fichaId, estado);
+                if(salvoIDB){
+                    // No localStorage, guarda uma versão leve para manter integridade da lista
+                    const estadoLeve = {...estado, avatar: ""};
+                    try{
+                        localStorage.setItem(CHAVE_PREFIXO+"ficha:"+fichaId, JSON.stringify(estadoLeve));
+                    }catch(eLeve){}
+                    salvoComSucesso = true;
+                }
+            }
+        }
+
+        if(!salvoComSucesso){
+            throw new Error("Espaço de armazenamento esgotado no navegador.");
+        }
+
+        // Backup de segurança assíncrono no IndexedDB
+        salvarFichaIDB(fichaId, estado).catch(()=>{});
 
         const indice = carregarIndiceFichas();
         const existente = indice.find(f=>f.id===fichaId);
@@ -3234,10 +4898,10 @@ function salvarFicha(){
         renderizarListaFichas();
     }catch(e){
         console.error("Erro ao salvar ficha:", e);
-        if(e && e.name === "QuotaExceededError"){
-            mostrarStatus("✗ Espaço de armazenamento do navegador cheio. Exporte fichas antigas e exclua algumas.", "erro");
+        if(e && (e.name === "QuotaExceededError" || e.code === 22 || (e.message && (e.message.includes("quota") || e.message.includes("espaço"))))){
+            mostrarStatus("✗ Espaço local insuficiente. Exporte a ficha em .json ou exclua fichas antigas.", "erro");
         }else{
-            mostrarStatus("✗ Não foi possível salvar a ficha. Tente novamente.", "erro");
+            mostrarStatus("✗ Não foi possível salvar a ficha. Tente novamente ou use Exportar .json.", "erro");
         }
     }
 }
@@ -3248,14 +4912,32 @@ function salvarComoNovaFicha(){
     salvarFicha();
 }
 
-function carregarFicha(id){
+async function carregarFicha(id){
     try{
+        let estado = null;
         const bruto = localStorage.getItem(CHAVE_PREFIXO+"ficha:"+id);
-        if(!bruto){
+        if(bruto){
+            try{
+                estado = JSON.parse(bruto);
+            }catch(e){}
+        }
+
+        // Se a ficha no localStorage não tiver avatar ou se não existir no localStorage, busca no IndexedDB
+        if(!estado || !estado.avatar){
+            const estadoIDB = await carregarFichaIDB(id);
+            if(estadoIDB){
+                if(!estado){
+                    estado = estadoIDB;
+                } else if(!estado.avatar && estadoIDB.avatar){
+                    estado.avatar = estadoIDB.avatar;
+                }
+            }
+        }
+
+        if(!estado){
             mostrarStatus("✗ Ficha não encontrada.", "erro");
             return;
         }
-        const estado = JSON.parse(bruto);
         fichaId = id;
         aplicarEstadoFicha(estado);
         mostrarStatus("✓ Ficha \"" + estado.nome + "\" carregada.", "ok");
@@ -3265,22 +4947,84 @@ function carregarFicha(id){
     }
 }
 
-function excluirFicha(id, nome){
-    if(!confirm('Excluir permanentemente a ficha "'+nome+'"? Esta ação não pode ser desfeita.')) return;
+function escapeHTML(str){
+    if(!str) return "";
+    return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+function solicitarExcluirFicha(id, nome){
+    const nomeFicha = nome || "Ficha sem nome";
+    abrirModalConfirmacao({
+        titulo: "Excluir Ficha",
+        icone: "🗑",
+        mensagem: `Tem certeza que deseja excluir permanentemente a ficha <strong>"${escapeHTML(nomeFicha)}"</strong>?<br><span style="display:block;margin-top:8px;font-size:0.9em;opacity:0.85;color:var(--ink-faint);">Esta ação removerá a ficha salva do seu navegador e não poderá ser desfeita.</span>`,
+        rotuloConfirmar: "Sim, Excluir Ficha",
+        aoConfirmar: async () => {
+            await confirmarExcluirFicha(id, nomeFicha);
+        }
+    });
+}
+
+async function confirmarExcluirFicha(id, nome){
     try{
         localStorage.removeItem(CHAVE_PREFIXO+"ficha:"+id);
+        await excluirFichaIDB(id);
         const indice = carregarIndiceFichas();
         const novoIndice = indice.filter(f=>f.id!==id);
         salvarIndiceFichas(novoIndice);
 
-        if(fichaId === id) fichaId = null;
+        if(fichaId === id){
+            fichaId = null;
+        }
 
-        mostrarStatus("Ficha excluída.", "ok");
+        mostrarStatus("✓ Ficha \"" + nome + "\" excluída com sucesso.", "ok");
         renderizarListaFichas();
     }catch(e){
         console.error("Erro ao excluir ficha:", e);
         mostrarStatus("✗ Não foi possível excluir a ficha.", "erro");
     }
+}
+
+// Mantém compatibilidade com chamadas diretas
+function excluirFicha(id, nome){
+    solicitarExcluirFicha(id, nome);
+}
+
+function novaFicha(){
+    abrirModalConfirmacao({
+        titulo: "Criar Nova Ficha",
+        icone: "↺",
+        mensagem: `Deseja limpar todos os campos para iniciar uma <strong>Nova Ficha</strong> do zero?<br><span style="display:block;margin-top:8px;font-size:0.9em;opacity:0.85;color:var(--ink-faint);">Quaisquer alterações não salvas na ficha atualmente aberta serão perdidas.</span>`,
+        rotuloConfirmar: "Criar Nova Ficha",
+        aoConfirmar: () => {
+            resetarFichaParaPadrao();
+        }
+    });
+}
+
+function resetarFichaParaPadrao(){
+    fichaId = null;
+    const estadoPadrao = {
+        nome: "Novo Personagem",
+        nivel: "",
+        classe1: "",
+        classe2: "",
+        avatar: "",
+        cor: "#c9b183",
+        atributos: { HPR: 1, PRX: 1, PSI: 1, QI: 1 },
+        pontosPuros: {},
+        pontosBonus: {},
+        baseSelects: {},
+        personalizadas: []
+    };
+    aplicarEstadoFicha(estadoPadrao);
+    renderizarListaFichas();
+    mostrarStatus("✓ Ficha limpa. Pronto para criar um novo personagem.", "ok");
 }
 
 function formatarData(iso){
@@ -3351,7 +5095,7 @@ function renderizarListaFichas(){
         btnExcluir.type = "button";
         btnExcluir.className = "btn-mini perigo";
         btnExcluir.textContent = "Excluir";
-        btnExcluir.onclick = ()=>excluirFicha(f.id, f.nome);
+        btnExcluir.onclick = ()=>solicitarExcluirFicha(f.id, f.nome);
 
         btns.append(btnAbrir, btnExcluir);
         item.append(info, btns);
@@ -3379,10 +5123,16 @@ function importarJSON(event){
     if(!arquivo) return;
 
     const leitor = new FileReader();
-    leitor.onload = function(e){
+    leitor.onload = async function(e){
         try{
             const estado = JSON.parse(e.target.result);
             fichaId = null; // importar sempre cria uma ficha "nova" (não salva ainda)
+            if(estado.avatar && estado.avatar.length > 60000){
+                mostrarStatus("Otimizando retrato da ficha importada...", "");
+                try{
+                    estado.avatar = await otimizarImagemAvatar(estado.avatar, 320, 420, 0.82);
+                }catch(errOtim){}
+            }
             aplicarEstadoFicha(estado);
             mostrarStatus("✓ Ficha \"" + (estado.nome||"") + "\" importada. Clique em Salvar para guardá-la.", "ok");
         }catch(err){
@@ -3403,6 +5153,7 @@ function inicializarStorage(){
     try{
         renderizarListaFichas();
         statusEl.textContent = "Fichas salvas neste navegador — use Exportar para levar a ficha a outro dispositivo.";
+        otimizarArmazenamentoExistente();
     }catch(e){
         console.error("Erro ao inicializar localStorage:", e);
         statusEl.textContent = "⚠ Este navegador não permite salvar fichas localmente. Use Exportar/Importar em .json.";
@@ -3436,12 +5187,325 @@ window.addEventListener('resize', () => {
     ultimaLarguraJanela = window.innerWidth;
 });
 
+/* ============================================================
+   HISTÓRICO DAS ÚLTIMAS 10 ROLAGENS
+   ============================================================ */
+let historicoRolagens = [];
+const MAX_HISTORICO_ROLAGENS = 10;
+const STORAGE_HISTORICO_KEY = "we_are_strangers_historico_rolagens";
+
+function inicializarHistoricoRolagens() {
+    try {
+        const salvo = localStorage.getItem(STORAGE_HISTORICO_KEY);
+        if (salvo) {
+            const parsed = JSON.parse(salvo);
+            if (Array.isArray(parsed)) {
+                historicoRolagens = parsed.slice(0, MAX_HISTORICO_ROLAGENS);
+            }
+        }
+    } catch (e) {
+        historicoRolagens = [];
+    }
+    atualizarBadgeHistorico();
+}
+
+function salvarHistoricoNoStorage() {
+    try {
+        localStorage.setItem(STORAGE_HISTORICO_KEY, JSON.stringify(historicoRolagens));
+    } catch (e) {}
+}
+
+function registrarRolagemHistorico(item) {
+    historicoRolagens.unshift(item);
+    if (historicoRolagens.length > MAX_HISTORICO_ROLAGENS) {
+        historicoRolagens.length = MAX_HISTORICO_ROLAGENS;
+    }
+    salvarHistoricoNoStorage();
+    atualizarBadgeHistorico();
+
+    const modal = document.getElementById("modal-historico");
+    if (modal && modal.classList.contains("aberto")) {
+        renderizarListaHistorico();
+    }
+}
+
+function atualizarBadgeHistorico() {
+    const badge = document.getElementById("historico-badge-qtd");
+    if (badge) {
+        badge.textContent = String(historicoRolagens.length);
+    }
+    const contador = document.getElementById("modal-historico-contador");
+    if (contador) {
+        contador.textContent = `${historicoRolagens.length} de ${MAX_HISTORICO_ROLAGENS} rolagens registradas`;
+    }
+}
+
+function abrirModalHistorico() {
+    renderizarListaHistorico();
+    atualizarBadgeHistorico();
+    const modal = document.getElementById("modal-historico");
+    if (modal) {
+        modal.style.display = "flex";
+        void modal.offsetWidth;
+        modal.classList.add("aberto");
+        modal.setAttribute("aria-hidden", "false");
+        document.body.style.overflow = "hidden";
+    }
+}
+
+function fecharModalHistorico() {
+    const modal = document.getElementById("modal-historico");
+    if (modal) {
+        modal.classList.remove("aberto");
+        modal.setAttribute("aria-hidden", "true");
+        setTimeout(() => {
+            if (!modal.classList.contains("aberto")) {
+                modal.style.display = "none";
+            }
+        }, 220);
+        document.body.style.overflow = "";
+    }
+}
+
+function fecharModalHistoricoPorOverlay(event) {
+    if (event.target === document.getElementById("modal-historico")) {
+        fecharModalHistorico();
+    }
+}
+
+function limparHistoricoRolagens() {
+    if (historicoRolagens.length === 0) return;
+    historicoRolagens = [];
+    try {
+        localStorage.removeItem(STORAGE_HISTORICO_KEY);
+    } catch (e) {}
+    atualizarBadgeHistorico();
+    renderizarListaHistorico();
+}
+
+function renderizarListaHistorico() {
+    const listaEl = document.getElementById("modal-historico-lista");
+    if (!listaEl) return;
+
+    if (historicoRolagens.length === 0) {
+        listaEl.innerHTML = `
+            <div class="historico-vazio">
+                <span class="historico-vazio-icone">📜</span>
+                <div style="color:var(--ink);font-weight:500;">Nenhuma rolagem registrada ainda.</div>
+                <div style="font-size:13px;opacity:0.7;">Clique no botão "Rolar Dados" de qualquer perícia para que o teste seja gravado aqui.</div>
+            </div>
+        `;
+        return;
+    }
+
+    let html = "";
+    historicoRolagens.forEach((item, index) => {
+        const tipoClass = item.faixaTipo === "desastre" ? "tipo-desastre" : (item.faixaTipo === "amaldicoado" ? "tipo-amaldicoado" : "");
+        const badgeClass = item.faixaTipo === "desastre" ? "desastre" : (item.faixaTipo === "amaldicoado" ? "amaldicoado" : "normal");
+
+        let dadosChipsHtml = "";
+        if (item.atributoZerado) {
+            dadosChipsHtml = `<span style="color:var(--accent-dim);font-size:11px;margin-right:2px;">2D6 (menor):</span> ` +
+                item.dados.map(d => `<span class="historico-dado-chip">${d}</span>`).join(" e ") +
+                ` → <strong style="color:var(--ink);">${item.somaDados}</strong>`;
+        } else if (item.dados.length > 0) {
+            dadosChipsHtml = `<span style="color:var(--accent-dim);font-size:11px;margin-right:2px;">${item.quantidadeDados}D6:</span> ` +
+                item.dados.map(d => `<span class="historico-dado-chip">${d}</span>`).join(" + ") +
+                ` = <strong style="color:var(--ink);">${item.somaDados}</strong>`;
+        } else {
+            dadosChipsHtml = `<span style="font-size:11px;color:var(--ink-faint);">0D6 (0)</span>`;
+        }
+
+        const auxHtml = (item.somaAtributos > 0)
+            ? `<span>Aux: <strong style="color:var(--ink);">+${item.somaAtributos}</strong></span>`
+            : "";
+
+        const ptsFormatado = (item.totalPontos >= 0 ? "+" : "") + item.totalPontos;
+        const ptsHtml = `<span>Pts: <strong style="color:var(--ink);">${ptsFormatado}</strong></span>`;
+
+        html += `
+            <div class="historico-card ${tipoClass}">
+                <div class="historico-card-topo">
+                    <div class="historico-card-pericia-bloco">
+                        <span class="historico-pericia-indice">#${index + 1}</span>
+                        <span class="historico-pericia-nome">${item.pericia}</span>
+                        <span class="historico-horario">${item.horario}</span>
+                    </div>
+                    <div class="historico-card-resultado-bloco">
+                        <span class="historico-resultado-num">${item.resultadoFinal}</span>
+                        <span class="historico-resultado-badge ${badgeClass}">${item.faixaNome}</span>
+                    </div>
+                </div>
+                <div class="historico-detalhes">
+                    <div class="historico-item-dado-chips">
+                        ${dadosChipsHtml}
+                    </div>
+                    ${auxHtml}
+                    ${ptsHtml}
+                    <div class="historico-calculo-formula">
+                        (${item.somaDados} dados + ${item.somaAtributos} aux + ${item.totalPontos} pts = ${item.resultadoFinal})
+                    </div>
+                </div>
+            </div>
+        `;
+    });
+
+    listaEl.innerHTML = html;
+}
+
+// Fechar modais com tecla Escape
+document.addEventListener("keydown", function(e) {
+    if (e.key === "Escape") {
+        const modalConf = document.getElementById("modal-confirmacao");
+        if(modalConf && modalConf.style.display !== "none" && modalConf.classList.contains("aberto")){
+            fecharModalConfirmacao();
+            return;
+        }
+        fecharModalHistoricoPorEscape(e);
+    }
+});
+
+function fecharModalHistoricoPorEscape(e) {
+    const modal = document.getElementById("modal-historico");
+    if (modal && modal.style.display !== "none") {
+        fecharModalHistorico();
+    }
+}
+
+/* ============================================================
+   CONTROLE DO MODAL DE CONFIRMAÇÃO SEGURO (IN-IFRAME)
+   ============================================================ */
+let modalConfirmacaoCallback = null;
+
+function abrirModalConfirmacao({ titulo, icone = "⚠", mensagem, rotuloConfirmar = "Confirmar", aoConfirmar }){
+    const modal = document.getElementById("modal-confirmacao");
+    if(!modal) return;
+
+    const tituloEl = document.getElementById("modal-confirm-titulo");
+    const msgEl = document.getElementById("modal-confirm-msg");
+    const btnAcao = document.getElementById("btn-modal-confirm-acao");
+
+    if(tituloEl) {
+        tituloEl.innerHTML = `<span class="modal-confirm-icone">${icone}</span> ${escapeHTML(titulo || "Confirmar")}`;
+    }
+    if(msgEl) {
+        msgEl.innerHTML = mensagem || "Tem certeza?";
+    }
+    if(btnAcao) {
+        btnAcao.textContent = rotuloConfirmar;
+    }
+
+    modalConfirmacaoCallback = aoConfirmar;
+    modal.style.display = "flex";
+    requestAnimationFrame(() => {
+        modal.classList.add("aberto");
+        modal.setAttribute("aria-hidden", "false");
+    });
+}
+
+function fecharModalConfirmacao(){
+    const modal = document.getElementById("modal-confirmacao");
+    if(!modal) return;
+    modal.classList.remove("aberto");
+    modal.setAttribute("aria-hidden", "true");
+    setTimeout(() => {
+        if(!modal.classList.contains("aberto")){
+            modal.style.display = "none";
+        }
+    }, 200);
+    modalConfirmacaoCallback = null;
+}
+
+function fecharModalConfirmacaoPorOverlay(e){
+    if(e.target === document.getElementById("modal-confirmacao")){
+        fecharModalConfirmacao();
+    }
+}
+
+function executarConfirmacao(){
+    if(typeof modalConfirmacaoCallback === "function"){
+        const cb = modalConfirmacaoCallback;
+        modalConfirmacaoCallback = null;
+        fecharModalConfirmacao();
+        try {
+            cb();
+        } catch(err) {
+            console.error("Erro ao executar confirmação:", err);
+        }
+    } else {
+        fecharModalConfirmacao();
+    }
+}
+
+/* ============================================================
+   CONTROLE DE TEMA (MODO CLARO / ESCURO)
+   ============================================================ */
+function aplicarModoTema(modo, salvarStorage = true) {
+    modoClaroAtivo = (modo === "claro");
+    if (modoClaroAtivo) {
+        document.documentElement.setAttribute("data-theme", "claro");
+        document.body.classList.add("modo-claro");
+    } else {
+        document.documentElement.removeAttribute("data-theme");
+        document.body.classList.remove("modo-claro");
+    }
+
+    const icone = document.getElementById("btn-tema-icone");
+    const rotulo = document.getElementById("btn-tema-rotulo");
+    const botao = document.getElementById("btn-tema-toggle");
+
+    if (icone && rotulo && botao) {
+        if (modoClaroAtivo) {
+            icone.textContent = "🌙";
+            rotulo.textContent = "Modo Escuro";
+            botao.title = "Mudar para Modo Escuro";
+            botao.setAttribute("aria-label", "Mudar para Modo Escuro");
+        } else {
+            icone.textContent = "☀️";
+            rotulo.textContent = "Modo Claro";
+            botao.title = "Mudar para Modo Claro";
+            botao.setAttribute("aria-label", "Mudar para Modo Claro");
+        }
+    }
+
+    if (salvarStorage) {
+        try {
+            localStorage.setItem(STORAGE_TEMA_KEY, modoClaroAtivo ? "claro" : "escuro");
+        } catch (e) {}
+    }
+}
+
+function alternarModoTema() {
+    aplicarModoTema(modoClaroAtivo ? "escuro" : "claro", true);
+}
+
+function inicializarModoTema() {
+    try {
+        const salvo = localStorage.getItem(STORAGE_TEMA_KEY);
+        if (salvo === "claro") {
+            aplicarModoTema("claro", false);
+            return;
+        }
+    } catch (e) {}
+    aplicarModoTema("escuro", false);
+}
+
 criarPainel();
 instalarListenersAtributos();
 atualizarOpcoesClasse();
 aplicarAvatar();
 inicializarStorage();
 inicializarAbasCategorias();
+atualizarBotoesSom();
+inicializarHistoricoRolagens();
+inicializarModoTema();
+
+// Desbloqueia AudioContext na primeira interação do usuário (conformidade com políticas de autoplay)
+document.addEventListener("click", function desbloquearAudio() {
+    if (somAtivado && !audioCtx) {
+        obterAudioContext();
+    }
+}, { once: true });
 </script>
 </body>
 </html>
