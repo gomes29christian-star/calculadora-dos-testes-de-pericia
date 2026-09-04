@@ -182,44 +182,194 @@ h2::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--li
 
 /* ---------- Ficha do Personagem ---------- */
 
-.ficha-topo{display:flex;flex-direction:column;gap:16px}
+.ficha-topo{
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+}
 
-.ficha-cabecalho-row{display:flex;gap:18px;align-items:flex-start;position:relative}
+/* Moldura e Cartão de Perfil */
+.ficha-perfil-card{
+  background:color-mix(in srgb, var(--bg-void) 45%, var(--bg-panel));
+  border:1px solid var(--line);
+  padding:clamp(16px, 2.4vw, 22px);
+  border-radius:2px;
+  position:relative;
+  box-shadow:inset 0 1px 0 color-mix(in srgb, var(--accent) 15%, transparent);
+}
+
+.ficha-cabecalho-row{
+  display:flex;
+  gap:22px;
+  align-items:stretch;
+  position:relative;
+}
+
+/* Retrato / Avatar */
+.ficha-avatar-wrapper{
+  flex:0 0 auto;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
 
 .ficha-avatar{
-  position:relative;flex:0 0 auto;width:clamp(80px,20vw,112px);aspect-ratio:3/4;
-  overflow:visible;background:var(--bg-inset);
-  border:1px solid var(--line);cursor:pointer;
-  display:flex;align-items:center;justify-content:center;
-  box-shadow:inset 0 0 0 4px var(--bg-void), inset 0 0 0 5px var(--line-soft);
+  position:relative;
+  width:clamp(92px, 14vw, 116px);
+  aspect-ratio:3/4;
+  background:var(--bg-inset);
+  border:1px solid var(--line);
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow:inset 0 0 0 3px var(--bg-void), inset 0 0 0 4px var(--line-soft), 0 2px 8px rgba(0,0,0,.4);
+  transition:border-color .2s ease, box-shadow .2s ease;
+  border-radius:2px;
 }
-.ficha-avatar:hover{border-color:var(--accent)}
-.ficha-avatar img{width:100%;height:100%;object-fit:cover;display:none;filter:grayscale(.35) contrast(1.08)}
-.avatar-placeholder{font-family:'EB Garamond',serif;font-style:italic;font-size:10px;color:var(--ink-faint);text-align:center;line-height:1.5;padding:6px}
-.avatar-remover{position:absolute;top:-8px;right:-8px;width:20px;height:20px;border-radius:50%;background:var(--bg-void);border:1px solid var(--line);color:var(--ink-dim);font-size:11px;line-height:1;cursor:pointer;display:none;align-items:center;justify-content:center}
-.avatar-remover:hover{border-color:var(--erro);color:var(--erro)}
+.ficha-avatar:hover{
+  border-color:var(--accent);
+  box-shadow:inset 0 0 0 3px var(--bg-void), inset 0 0 0 4px var(--line-soft), 0 0 12px color-mix(in srgb, var(--accent) 25%, transparent);
+}
+.ficha-avatar img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:none;
+  filter:grayscale(.25) contrast(1.06);
+  border-radius:1px;
+}
 
-.ficha-cabecalho-info{flex:1;display:flex;flex-direction:column;gap:12px;min-width:0}
+.avatar-placeholder{
+  font-family:'EB Garamond',serif;
+  font-style:italic;
+  font-size:12px;
+  color:var(--ink-faint);
+  text-align:center;
+  line-height:1.4;
+  padding:8px 6px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:3px;
+  user-select:none;
+}
+.avatar-icone-add{
+  font-size:14px;
+  color:var(--accent-dim);
+  font-style:normal;
+  margin-bottom:2px;
+  transition:color .2s ease, transform .2s ease;
+}
+.ficha-avatar:hover .avatar-icone-add{
+  color:var(--accent);
+  transform:scale(1.15);
+}
+.avatar-dica{
+  font-size:10px;
+  letter-spacing:.05em;
+  text-transform:uppercase;
+  opacity:.7;
+}
 
-.ficha-classe-grid{display:grid;grid-template-columns:1fr;gap:10px}
+.avatar-remover{
+  position:absolute;
+  top:-7px;
+  right:-7px;
+  width:22px;
+  height:22px;
+  border-radius:50%;
+  background:var(--bg-void);
+  border:1px solid var(--line);
+  color:var(--ink-dim);
+  font-size:13px;
+  line-height:1;
+  cursor:pointer;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  transition:all .15s ease;
+  z-index:2;
+}
+.avatar-remover:hover{
+  border-color:var(--erro);
+  color:var(--erro);
+  background:color-mix(in srgb, var(--erro) 15%, var(--bg-void));
+}
 
-.ficha-nome-row{display:flex;gap:8px}
-.ficha-nome-row input{
-  text-align:left;font-weight:700;font-family:'Old Europe',serif;font-size:18px;
+/* Dados da Identidade */
+.ficha-cabecalho-info{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  gap:14px;
+  min-width:0;
+}
+
+.ficha-rotulo{
+  font-family:'EB Garamond',Georgia,serif;
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:var(--ink-dim);
+  display:block;
+  margin-bottom:5px;
+  user-select:none;
+}
+
+.ficha-campo-nome{
+  display:flex;
+  flex-direction:column;
+}
+
+.ficha-input-nome-wrap{
+  position:relative;
+  width:100%;
+}
+.ficha-input-nome-wrap input{
+  text-align:left;
+  font-weight:700;
+  font-family:'Old Europe',serif;
+  font-size:clamp(17px, 1.8vw, 22px);
   letter-spacing:.03em;
+  padding:10px 14px;
+  background:var(--bg-inset);
+  border:1px solid var(--line);
+  border-radius:2px;
+  color:var(--ink);
+  transition:border-color .2s ease, box-shadow .2s ease;
+}
+.ficha-input-nome-wrap input:focus{
+  border-color:var(--accent);
+  box-shadow:0 0 10px color-mix(in srgb, var(--accent) 25%, transparent), inset 0 1px 3px rgba(0,0,0,.5);
+}
+
+/* Grid de Metadados: Nível, 1ª Classe, 2ª Classe e Cor Principal */
+.ficha-metadados-grid{
+  display:grid;
+  grid-template-columns:1fr 1.3fr 1.3fr auto;
+  gap:12px;
+  align-items:end;
 }
 
 .input-group{display:flex;flex-direction:column}
 .input-group label{
-  font-family:'Old Europe',serif;font-weight:400;font-size:12px;margin-bottom:5px;
-  color:var(--ink-faint);text-align:center;text-transform:capitalize;letter-spacing:.04em;
+  font-family:'EB Garamond',Georgia,serif;
+  font-weight:600;
+  font-size:11px;
+  margin-bottom:5px;
+  color:var(--ink-dim);
+  text-transform:uppercase;
+  letter-spacing:.08em;
 }
 
 input,select{
-  width:100%;padding:10px;background:var(--bg-inset);
+  width:100%;padding:10px 12px;background:var(--bg-inset);
   border:1px solid var(--line);color:var(--ink);border-radius:1px;
-  font-family:'EB Garamond',serif;font-size:clamp(14px,1.1vw,16px);
-  text-align:center;font-weight:600;
+  font-family:'EB Garamond',serif;font-size:clamp(14px,1.1vw,15px);
+  text-align:left;font-weight:600;
   box-sizing:border-box;
 }
 input[type="number"]::-webkit-outer-spin-button,
@@ -230,58 +380,365 @@ input[type="number"]::-webkit-inner-spin-button{
 input[type="number"]{
   font-family:'Old Europe',serif;
   -moz-appearance:textfield;
+  text-align:center;
 }
 input::placeholder{color:var(--ink-faint);font-style:italic}
 input:focus,select:focus{border-color:var(--accent);outline:none;box-shadow:0 0 0 1px var(--accent)}
 
-/* Seletor de Cor Principal */
-.cor-principal-linha{display:flex;align-items:center;gap:10px;justify-content:flex-start;padding:2px 0 0}
-.cor-principal-linha label{
-  font-family:'Old Europe',serif;font-size:12px;color:var(--ink-faint);
-  text-transform:capitalize;letter-spacing:.04em;
+.select-wrap{
+  position:relative;
+  width:100%;
 }
-input[type="color"]{
-  width:34px;height:34px;padding:0;background:none;border:1px solid var(--line);
-  cursor:pointer;border-radius:50%;overflow:hidden;
+.select-wrap select{
+  appearance:none;
+  -webkit-appearance:none;
+  padding:10px 28px 10px 12px;
+  text-align:left;
+  cursor:pointer;
+  font-size:13.5px;
+  font-family:'EB Garamond',Georgia,serif;
+  letter-spacing:.02em;
 }
-input[type="color"]::-webkit-color-swatch-wrapper{padding:0}
-input[type="color"]::-webkit-color-swatch{border:none;border-radius:50%}
+.select-wrap::after{
+  content:"▾";
+  position:absolute;
+  right:10px;
+  top:50%;
+  transform:translateY(-50%);
+  font-size:11px;
+  color:var(--ink-faint);
+  pointer-events:none;
+  transition:color .15s ease;
+}
+.select-wrap:hover::after{
+  color:var(--accent);
+}
 
-.btn-linha{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+/* Seletor de Cor Integrado */
+.ficha-cor-grupo{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+.ficha-cor-caixa{
+  height:42px;
+  min-width:115px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  padding:0 10px;
+  background:var(--bg-inset);
+  border:1px solid var(--line);
+  border-radius:2px;
+  cursor:pointer;
+  transition:border-color .2s ease, background .2s ease, box-shadow .2s ease;
+  user-select:none;
+  box-sizing:border-box;
+}
+.ficha-cor-caixa:hover{
+  border-color:var(--accent);
+  background:color-mix(in srgb, var(--accent) 8%, var(--bg-inset));
+  box-shadow:0 0 8px color-mix(in srgb, var(--accent) 20%, transparent);
+}
+.ficha-cor-caixa input[type="color"]{
+  width:22px;
+  height:22px;
+  padding:0;
+  background:none;
+  border:1px solid rgba(255,255,255,.2);
+  cursor:pointer;
+  border-radius:50%;
+  overflow:hidden;
+  flex-shrink:0;
+  box-shadow:0 1px 3px rgba(0,0,0,.6);
+}
+.ficha-cor-caixa input[type="color"]::-webkit-color-swatch-wrapper{padding:0}
+.ficha-cor-caixa input[type="color"]::-webkit-color-swatch{border:none;border-radius:50%}
+.ficha-cor-legenda{
+  font-family:'EB Garamond',serif;
+  font-size:12px;
+  color:var(--ink-dim);
+  letter-spacing:.02em;
+  white-space:nowrap;
+}
+
+/* Barra de Ações do Sistema */
+.ficha-acoes-secao{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  margin-top:6px;
+}
+.ficha-acoes-barra{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
+  background:var(--bg-panel-2);
+  border:1px solid var(--line);
+  padding:9px 12px;
+  border-radius:2px;
+}
+.ficha-acoes-primarias,
+.ficha-acoes-arquivos{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
 .btn-acao{
-  padding:11px;border-radius:1px;font-family:'MirageFinal',serif;font-weight:400;
-  font-size:13px;letter-spacing:.05em;text-transform:uppercase;cursor:pointer;
-  border:1px solid var(--line);background:var(--bg-inset);color:var(--ink-dim);
-  transition:border-color .15s ease,color .15s ease;
+  padding:9px 16px;
+  border-radius:2px;
+  font-family:'EB Garamond',Georgia,serif;
+  font-weight:700;
+  font-size:12.5px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  cursor:pointer;
+  border:1px solid var(--line);
+  background:var(--bg-inset);
+  color:var(--ink-dim);
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  transition:all .18s ease;
+  line-height:1.2;
 }
-.btn-acao:hover{border-color:var(--accent);color:var(--accent)}
-.btn-acao.primario{background:var(--accent);color:#050505;border-color:var(--accent);font-weight:700}
-.btn-acao.primario:hover{background:var(--ink);border-color:var(--ink)}
-.btn-acao.perigo:hover{border-color:var(--erro);color:var(--erro)}
+.btn-acao .btn-icone{
+  font-size:11px;
+  opacity:.8;
+  line-height:1;
+}
+.btn-acao:hover{
+  border-color:var(--accent);
+  color:var(--accent);
+  background:color-mix(in srgb, var(--accent) 6%, var(--bg-inset));
+}
 
-.status-msg{font-family:'EB Garamond',serif;font-style:italic;font-size:12px;text-align:center;min-height:16px;color:var(--ink-faint);transition:color .2s}
+/* O botão primário utiliza a cor do jogador de forma refinada, preservando a identidade dinâmica */
+.btn-acao.primario{
+  background:color-mix(in srgb, var(--accent) 22%, var(--bg-inset));
+  border-color:var(--accent);
+  color:var(--accent);
+  font-weight:700;
+  box-shadow:0 0 12px color-mix(in srgb, var(--accent) 20%, transparent);
+}
+.btn-acao.primario:hover{
+  background:var(--accent);
+  color:#070707;
+  border-color:var(--accent);
+  box-shadow:0 0 18px color-mix(in srgb, var(--accent) 45%, transparent);
+}
+.btn-acao.secundario:hover{
+  border-color:color-mix(in srgb, var(--accent) 60%, var(--line));
+  color:var(--ink);
+}
+.btn-acao.utilitario{
+  font-weight:600;
+  font-size:12px;
+  padding:8px 13px;
+  background:var(--bg-void);
+}
+.btn-acao.utilitario:hover{
+  border-color:var(--accent-dim);
+  color:var(--accent);
+}
+
+.status-msg{
+  font-family:'EB Garamond',serif;
+  font-style:italic;
+  font-size:12.5px;
+  text-align:center;
+  min-height:18px;
+  color:var(--ink-faint);
+  transition:color .2s ease;
+  padding:2px 0;
+}
 .status-msg.ok{color:var(--sucesso)}
 .status-msg.erro{color:var(--erro)}
 
-.secao-titulo{
-  font-family:'Old Europe',serif;font-size:16px;color:var(--accent);
-  margin:26px 0 14px;padding-bottom:8px;font-weight:400;letter-spacing:.04em;
-  text-transform:capitalize;
-  display:flex;align-items:center;gap:10px;
-  border-bottom:1px solid var(--line);
+/* Seção de Fichas Salvas */
+.ficha-salvas-secao{
+  margin-top:20px;
+  border-top:1px solid var(--line);
+  padding-top:16px;
 }
-.secao-titulo::before{content:"◆";font-size:8px;color:var(--accent-dim)}
+.ficha-salvas-cabecalho{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:12px;
+}
+.secao-titulo-compacto{
+  font-family:'Old Europe',serif;
+  font-size:16px;
+  color:var(--accent);
+  display:flex;
+  align-items:center;
+  gap:8px;
+  letter-spacing:.03em;
+}
+.secao-titulo-compacto .secao-icone{
+  font-size:8px;
+  color:var(--accent-dim);
+}
+.ficha-qtd-badge{
+  font-family:'EB Garamond',serif;
+  font-style:italic;
+  font-size:12px;
+  color:var(--ink-faint);
+  background:var(--bg-inset);
+  border:1px solid var(--line);
+  padding:2px 8px;
+  border-radius:2px;
+}
 
-.lista-salvas{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px;margin-top:12px}
-.ficha-salva-item{display:flex;justify-content:space-between;align-items:center;gap:8px;background:var(--bg-inset);padding:11px 13px;border:1px solid var(--line)}
-.ficha-salva-info{display:flex;flex-direction:column;gap:2px;overflow:hidden}
-.ficha-salva-nome{font-family:'Old Europe',serif;font-size:14px;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.ficha-salva-data{font-family:'EB Garamond',serif;font-style:italic;font-size:11px;color:var(--ink-faint)}
-.ficha-salva-btns{display:flex;gap:6px;flex-shrink:0}
-.btn-mini{padding:6px 11px;font-size:11px;font-family:'MirageFinal',serif;letter-spacing:.04em;text-transform:uppercase;border:1px solid var(--line);background:var(--bg-void);color:var(--ink-faint);cursor:pointer}
-.btn-mini:hover{border-color:var(--accent);color:var(--accent)}
-.btn-mini.perigo:hover{border-color:var(--erro);color:var(--erro)}
-.vazio-aviso{color:var(--ink-faint);font-style:italic;font-size:12px;text-align:center;padding:14px}
+.lista-salvas{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+  gap:10px;
+}
+.ficha-salva-item{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  background:var(--bg-inset);
+  padding:11px 14px;
+  border:1px solid var(--line);
+  border-radius:2px;
+  transition:border-color .18s ease, transform .15s ease;
+}
+.ficha-salva-item:hover{
+  border-color:color-mix(in srgb, var(--accent) 30%, var(--line));
+}
+.ficha-salva-item.ativa{
+  border-color:color-mix(in srgb, var(--accent) 60%, var(--line));
+  background:color-mix(in srgb, var(--accent) 7%, var(--bg-inset));
+  box-shadow:inset 3px 0 0 var(--accent);
+}
+.ficha-salva-info{
+  display:flex;
+  flex-direction:column;
+  gap:3px;
+  overflow:hidden;
+  min-width:0;
+}
+.ficha-salva-topo-row{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  overflow:hidden;
+}
+.ficha-salva-nome{
+  font-family:'EB Garamond',Georgia,serif;
+  font-weight:700;
+  font-size:14.5px;
+  color:var(--ink);
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  letter-spacing:.01em;
+}
+.tag-aberta{
+  font-family:'EB Garamond',serif;
+  font-size:10px;
+  font-weight:600;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  padding:1px 6px;
+  border-radius:2px;
+  background:color-mix(in srgb, var(--accent) 18%, transparent);
+  color:var(--accent);
+  border:1px solid color-mix(in srgb, var(--accent) 45%, transparent);
+  flex-shrink:0;
+}
+.ficha-salva-data{
+  font-family:'EB Garamond',serif;
+  font-style:italic;
+  font-size:11.5px;
+  color:var(--ink-faint);
+}
+.ficha-salva-btns{
+  display:flex;
+  gap:6px;
+  flex-shrink:0;
+}
+.btn-mini{
+  padding:5px 10px;
+  font-size:11px;
+  font-family:'EB Garamond',Georgia,serif;
+  font-weight:600;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+  border:1px solid var(--line);
+  background:var(--bg-void);
+  color:var(--ink-dim);
+  cursor:pointer;
+  border-radius:2px;
+  transition:all .15s ease;
+}
+.btn-mini:hover{
+  border-color:var(--accent);
+  color:var(--accent);
+  background:color-mix(in srgb, var(--accent) 8%, var(--bg-void));
+}
+.btn-mini.perigo:hover{
+  border-color:var(--erro);
+  color:var(--erro);
+  background:color-mix(in srgb, var(--erro) 12%, var(--bg-void));
+}
+.vazio-aviso{
+  color:var(--ink-faint);
+  font-style:italic;
+  font-size:12.5px;
+  text-align:center;
+  padding:16px;
+  background:var(--bg-inset);
+  border:1px dashed var(--line);
+  border-radius:2px;
+  grid-column:1/-1;
+}
+
+@media(max-width:768px){
+  .ficha-cabecalho-row{
+    flex-direction:column;
+    align-items:center;
+  }
+  .ficha-avatar-wrapper{
+    margin-bottom:4px;
+  }
+  .ficha-metadados-grid{
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+  }
+  .ficha-acoes-barra{
+    flex-direction:column;
+    align-items:stretch;
+  }
+  .ficha-acoes-primarias,
+  .ficha-acoes-arquivos{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    width:100%;
+  }
+  .btn-acao{
+    justify-content:center;
+    padding:10px 12px;
+  }
+}
+@media(max-width:480px){
+  .ficha-metadados-grid{
+    grid-template-columns:1fr;
+  }
+  .ficha-acoes-primarias,
+  .ficha-acoes-arquivos{
+    grid-template-columns:1fr;
+  }
+}
 
 /* ---------- Atributos ---------- */
 
@@ -480,10 +937,11 @@ input[type="color"]::-webkit-color-swatch{border:none;border-radius:50%}
 
 #painel-pericias>.secao-titulo{grid-column:1/-1;margin-top:22px}
 #painel-pericias>.secao-titulo:first-child{margin-top:0}
-.lista-pericias{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;align-items:start}
+.lista-pericias{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%, 280px),1fr));gap:14px;align-items:start}
 
 .pericia-card{
   position:relative;
+  min-width:0;
   background:var(--bg-panel);
   padding:16px;
   border:1px solid var(--line);
@@ -608,66 +1066,205 @@ input[type="color"]::-webkit-color-swatch{border:none;border-radius:50%}
   text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;
   box-shadow:inset 0 1px 4px rgba(0,0,0,.6);
   transition:border-color .2s ease;
+  width:100%;max-width:100%;box-sizing:border-box;min-width:0;
+  container-type:inline-size;
+  overflow:hidden;
+}
+.resultado-painel-topo,
+.resultado-painel-valor,
+.resultado-painel-selo{
+  position:relative;
+  z-index:2;
+}
+
+/* Galhos invasores em auto-contraste para rolagens críticas (Desastre e Amaldiçoado) */
+.resultado-galhos-container{
+  position:absolute;inset:0;width:100%;height:100%;
+  pointer-events:none;z-index:1;overflow:hidden;
+}
+.resultado-galhos-svg{
+  width:100%;height:100%;display:block;
 }
 .resultado-painel::before{
   content:"";position:absolute;top:-1px;left:14px;right:14px;height:1px;
   background:linear-gradient(90deg, transparent, var(--line), transparent);
+  z-index:3;
 }
 .resultado-painel::after{
   content:"";position:absolute;bottom:4px;right:4px;width:7px;height:7px;
   border-bottom:1px solid var(--line-soft);border-right:1px solid var(--line-soft);opacity:.6;
+  z-index:3;
 }
+
+/* --- EVENTO DESASTRE (Alto Contraste Preto e Carmesim com Branco Puro) --- */
 .resultado-painel.desastre{
-  border-color:color-mix(in srgb, var(--desastre-glow) 50%, var(--line));
-  background:linear-gradient(180deg, rgba(122,20,20,.18) 0%, var(--bg-void) 100%);
-  box-shadow:inset 0 1px 12px rgba(122,20,20,.2), 0 0 15px rgba(122,20,20,.15);
+  border:1.5px solid var(--desastre-glow);
+  background:#0a0203;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,0.08), inset 0 0 24px rgba(0,0,0,0.9), 0 0 18px rgba(255,68,68,0.22);
 }
+.resultado-painel.desastre .resultado-painel-titulo{
+  color:#ffffff !important;
+  font-weight:600;
+  letter-spacing:clamp(.08em, 1.4cqi, .18em);
+  text-shadow:0 1px 3px #000000;
+}
+.resultado-painel.desastre .resultado-painel-linha{
+  background:linear-gradient(90deg, transparent, rgba(255,255,255,0.45), transparent);
+}
+.resultado-painel.desastre .resultado-painel-valor{
+  color:#ffffff !important;
+  font-weight:500;
+  text-shadow:0 0 2px #000, 0 0 8px #ffffff, 0 0 22px var(--desastre-glow), 0 0 38px var(--desastre);
+}
+.resultado-painel.desastre .raiz-corpo{
+  fill:#140305;
+  stroke:var(--desastre-glow);
+  stroke-width:1.6px;
+  filter:drop-shadow(0 0 3px rgba(255,68,68,0.6));
+}
+.resultado-painel.desastre .raiz-tendril,
+.resultado-painel.desastre .raiz-espinho{
+  stroke:#f8fafc;
+  stroke-width:2px;
+  fill:none;
+  filter:drop-shadow(0 0 3px var(--desastre-glow));
+}
+.resultado-painel.desastre .corda-trilha,
+.resultado-painel.desastre .corda-hatch,
+.resultado-painel.desastre .no-espiral,
+.resultado-painel.desastre .corda-ponta,
+.resultado-painel.desastre .laco-forca{
+  stroke:#ffffff;
+  fill:none;
+  filter:drop-shadow(0 0 4px var(--desastre-glow));
+}
+.resultado-painel.desastre .corda-trilha{stroke-width:2.6px;}
+.resultado-painel.desastre .corda-hatch,
+.resultado-painel.desastre .no-espiral{stroke-width:1.4px;}
+.resultado-painel.desastre .laco-forca{stroke-width:2.6px;}
+.resultado-painel.desastre .no-corpo{
+  fill:#140305;
+  stroke:#ffffff;
+  stroke-width:1.6px;
+}
+.resultado-painel.desastre .no-anel{
+  fill:#ffffff;
+  stroke:none;
+}
+
+/* --- EVENTO AMALDIÇOADO (Alto Contraste Preto e Espectral com Branco Puro) --- */
 .resultado-painel.amaldicoado{
-  border-color:color-mix(in srgb, var(--amaldicoado-glow) 50%, var(--line));
-  background:linear-gradient(180deg, rgba(74,20,112,.2) 0%, var(--bg-void) 100%);
-  box-shadow:inset 0 1px 12px rgba(74,20,112,.2), 0 0 15px rgba(74,20,112,.15);
+  border:1.5px solid var(--amaldicoado-glow);
+  background:#060209;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,0.08), inset 0 0 26px rgba(0,0,0,0.92), 0 0 20px rgba(176,96,255,0.25);
 }
+.resultado-painel.amaldicoado .resultado-painel-titulo{
+  color:#ffffff !important;
+  font-weight:600;
+  letter-spacing:clamp(.08em, 1.4cqi, .18em);
+  text-shadow:0 1px 3px #000000;
+}
+.resultado-painel.amaldicoado .resultado-painel-linha{
+  background:linear-gradient(90deg, transparent, rgba(255,255,255,0.45), transparent);
+}
+.resultado-painel.amaldicoado .resultado-painel-valor{
+  color:#ffffff !important;
+  font-weight:500;
+  text-shadow:0 0 2px #000, 0 0 8px #ffffff, 0 0 22px var(--amaldicoado-glow), 0 0 40px var(--amaldicoado);
+}
+.resultado-painel.amaldicoado .raiz-corpo{
+  fill:#0f0418;
+  stroke:var(--amaldicoado-glow);
+  stroke-width:1.6px;
+  filter:drop-shadow(0 0 3px rgba(176,96,255,0.6));
+}
+.resultado-painel.amaldicoado .raiz-tendril,
+.resultado-painel.amaldicoado .raiz-espinho{
+  stroke:#f8fafc;
+  stroke-width:2px;
+  fill:none;
+  filter:drop-shadow(0 0 3px var(--amaldicoado-glow));
+}
+.resultado-painel.amaldicoado .corda-trilha,
+.resultado-painel.amaldicoado .corda-hatch,
+.resultado-painel.amaldicoado .no-espiral,
+.resultado-painel.amaldicoado .corda-ponta,
+.resultado-painel.amaldicoado .laco-forca{
+  stroke:#ffffff;
+  fill:none;
+  filter:drop-shadow(0 0 4px var(--amaldicoado-glow));
+}
+.resultado-painel.amaldicoado .corda-trilha{stroke-width:2.6px;}
+.resultado-painel.amaldicoado .corda-hatch,
+.resultado-painel.amaldicoado .no-espiral{stroke-width:1.4px;}
+.resultado-painel.amaldicoado .laco-forca{stroke-width:2.6px;}
+.resultado-painel.amaldicoado .no-corpo{
+  fill:#0f0418;
+  stroke:#ffffff;
+  stroke-width:1.6px;
+}
+.resultado-painel.amaldicoado .no-anel{
+  fill:#ffffff;
+  stroke:none;
+}
+
+/* Animação suave e solene da forca pendurada */
+.forca-grupo{
+  transform-origin: 364px 15px;
+  animation: balanco-forca 4.5s ease-in-out infinite alternate;
+}
+@keyframes balanco-forca{
+  0%{transform:rotate(0deg);}
+  50%{transform:rotate(2.2deg);}
+  100%{transform:rotate(-1.8deg);}
+}
+@media(prefers-reduced-motion:reduce){
+  .forca-grupo{animation:none;}
+}
+
 .resultado-painel.normal{
   border-top:2px solid var(--accent-dim);
 }
 .resultado-painel-topo{
-  display:flex;align-items:center;justify-content:center;gap:10px;
-  width:100%;max-width:320px;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  width:100%;max-width:320px;box-sizing:border-box;min-width:0;
 }
 .resultado-painel-linha{
   flex:1;height:1px;
   background:linear-gradient(90deg, transparent, var(--line), transparent);
 }
 .resultado-painel-titulo{
-  font-family:'MirageFinal',serif;font-size:12.5px;letter-spacing:.14em;
+  font-family:'MirageFinal',serif;font-size:clamp(10px, 3.8cqi, 12.5px);letter-spacing:clamp(.05em, 1.2cqi, .14em);
   text-transform:uppercase;color:var(--ink-faint);white-space:nowrap;
+  max-width:100%;overflow:hidden;text-overflow:ellipsis;
 }
 .resultado-painel-valor{
-  font-family:'MirageFinal',serif;font-size:clamp(44px, 6.5vw, 60px);
+  font-family:'MirageFinal',serif;font-size:clamp(34px, 14cqi, 56px);
   font-weight:400;line-height:1.05;margin:6px 0 10px;letter-spacing:.02em;
   color:var(--accent);
   text-shadow:0 0 14px color-mix(in srgb, var(--accent) 55%, transparent), 0 0 28px color-mix(in srgb, var(--accent) 25%, transparent);
+  max-width:100%;box-sizing:border-box;
 }
-.resultado-painel.desastre .resultado-painel-valor{
-  color:var(--desastre-glow);
-  text-shadow:0 0 14px var(--desastre-glow), 0 0 32px var(--desastre);
-}
-.resultado-painel.amaldicoado .resultado-painel-valor{
-  color:var(--amaldicoado-glow);
-  text-shadow:0 0 14px var(--amaldicoado-glow), 0 0 34px var(--amaldicoado);
-}
+
 .resultado-painel-selo{
-  width:100%;display:flex;justify-content:center;align-items:center;
+  width:100%;max-width:320px;display:flex;justify-content:center;align-items:center;
+  box-sizing:border-box;min-width:0;
 }
 .resultado-painel-selo .dificuldade-selo{margin-top:0}
 .resultado-painel-selo .dificuldade-evento{margin-top:0;width:100%;max-width:320px}
 
 /* Selo de Dificuldade */
 .dificuldade-selo{
-  display:inline-flex;align-items:center;justify-content:center;gap:8px;
-  padding:6px 20px;font-family:'MirageFinal',serif;font-size:14px;letter-spacing:.14em;text-transform:uppercase;
+  display:inline-flex;align-items:center;justify-content:center;gap:6px;
+  padding:5px clamp(8px, 2.5cqi, 16px);
+  font-family:'MirageFinal',serif;
+  font-size:clamp(11px, 3.8cqi, 13.5px);
+  letter-spacing:clamp(0.04em, 1.2cqi, 0.10em);
+  text-transform:uppercase;
   border:1px solid currentColor;border-radius:1px;
   background:color-mix(in srgb, var(--bg-void) 85%, transparent);
+  max-width:100%;box-sizing:border-box;white-space:nowrap;
+  overflow:hidden;text-overflow:ellipsis;min-width:0;
 }
 .dificuldade-normal{
   color:var(--accent);
@@ -675,21 +1272,36 @@ input[type="color"]::-webkit-color-swatch{border:none;border-radius:50%}
   border-color:color-mix(in srgb, var(--accent) 70%, var(--line));
 }
 .dificuldade-evento{
-  display:inline-block;font-family:'MirageFinal',serif;font-size:clamp(19px,2.8vw,26px);letter-spacing:.12em;text-align:center;
-  padding:8px 16px;border:1px solid currentColor;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'MirageFinal',serif;
+  font-size:clamp(12px, 5.6cqi, 21px);
+  letter-spacing:clamp(0.05em, 1.8cqi, 0.12em);
+  text-align:center;
+  padding:7px clamp(6px, 2.5cqi, 14px);
+  border:1.5px solid currentColor;border-radius:1px;
   animation:pulso-evento 1.7s ease-in-out infinite;
+  box-sizing:border-box;width:100%;max-width:320px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;
 }
 .dificuldade-desastre{
-  color:var(--desastre-glow);text-shadow:0 0 8px var(--desastre-glow),0 0 22px var(--desastre);
-  border-color:var(--desastre-glow);background:rgba(122,20,20,.2);
+  color:#ffffff !important;
+  background:#140305 !important;
+  border:1.5px solid var(--desastre-glow) !important;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,0.12), 0 0 14px rgba(255,68,68,0.4) !important;
+  text-shadow:0 0 4px #ffffff, 0 0 14px var(--desastre-glow) !important;
+  font-weight:600 !important;
 }
 .dificuldade-amaldicoado{
-  color:var(--amaldicoado-glow);text-shadow:0 0 8px var(--amaldicoado-glow),0 0 26px var(--amaldicoado);
-  border-color:var(--amaldicoado-glow);background:rgba(74,20,112,.2);
+  color:#ffffff !important;
+  background:#0f0418 !important;
+  border:1.5px solid var(--amaldicoado-glow) !important;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,0.12), 0 0 16px rgba(176,96,255,0.4) !important;
+  text-shadow:0 0 4px #ffffff, 0 0 16px var(--amaldicoado-glow) !important;
+  font-weight:600 !important;
 }
 @keyframes pulso-evento{
-  0%,100%{text-shadow:0 0 8px currentColor,0 0 18px currentColor;}
-  50%{text-shadow:0 0 15px currentColor,0 0 40px currentColor;}
+  0%,100%{box-shadow:inset 0 0 0 1px rgba(255,255,255,0.12), 0 0 10px currentColor;}
+  50%{box-shadow:inset 0 0 0 1px rgba(255,255,255,0.2), 0 0 20px currentColor;}
 }
 @media(prefers-reduced-motion:reduce){.dificuldade-evento{animation:none}}
 
@@ -724,12 +1336,6 @@ input[type="color"]::-webkit-color-swatch{border:none;border-radius:50%}
   .custom-grid{grid-template-columns:1fr}
   .custom-full{grid-column:auto}
   .galho-svg{display:none}
-}
-
-@media(min-width:760px){
-  .ficha-classe-grid{grid-template-columns:repeat(3,1fr)}
-  .btn-linha{display:flex;gap:8px;width:auto;flex-wrap:wrap}
-  .btn-acao{width:auto;padding:11px 22px;white-space:nowrap}
 }
 
 </style>
@@ -899,77 +1505,125 @@ input[type="color"]::-webkit-color-swatch{border:none;border-radius:50%}
 <div class="container">
 <h2>Ficha do Personagem</h2>
 <div class="ficha-topo">
-  <div class="ficha-cabecalho-row">
-    <div class="ficha-avatar" id="avatar-clique" onclick="document.getElementById('input-avatar').click()">
-      <img id="ficha_avatar_img" alt="Retrato do personagem">
-      <div id="avatar_placeholder" class="avatar-placeholder">Adicionar<br>retrato</div>
-      <button type="button" class="avatar-remover" id="avatar_remover" onclick="event.stopPropagation();removerAvatar()">&times;</button>
-    </div>
-    <input type="file" id="input-avatar" accept="image/png,image/jpeg,image/gif" style="display:none" onchange="carregarAvatar(event)">
-    <div class="ficha-cabecalho-info">
-      <div class="ficha-nome-row">
-        <input type="text" id="ficha_nome" placeholder="Nome do personagem / ficha" value="Novo Personagem">
-      </div>
-      <div class="ficha-classe-grid">
-        <div class="input-group">
-          <label>Nível</label>
-          <select id="ficha_nivel">
-            <option value="">—</option>
-            <option>MISERÁVEL</option>
-            <option>MEDÍOCRE</option>
-            <option>HÁBIL</option>
-            <option>FORTE</option>
-            <option>ELITE</option>
-            <option>MESTRE</option>
-            <option>SUPER</option>
-            <option>SUPREMO</option>
-            <option>SEMI-DEUS</option>
-          </select>
-        </div>
-        <div class="input-group">
-          <label>Primeira Classe</label>
-          <select id="ficha_classe1" onchange="atualizarOpcoesClasse()">
-            <option value="">(nenhuma)</option>
-            <option>Lutador</option>
-            <option>Atirador</option>
-            <option>Eteromante</option>
-            <option>Alquimista</option>
-            <option>Ladino</option>
-          </select>
-        </div>
-        <div class="input-group">
-          <label>Segunda Classe</label>
-          <select id="ficha_classe2" onchange="atualizarOpcoesClasse()">
-            <option value="">(nenhuma)</option>
-            <option>Lutador</option>
-            <option>Atirador</option>
-            <option>Eteromante</option>
-            <option>Alquimista</option>
-            <option>Ladino</option>
-          </select>
+  <!-- Cartão de Perfil e Identidade -->
+  <div class="ficha-perfil-card">
+    <div class="ficha-cabecalho-row">
+      <!-- Retrato -->
+      <div class="ficha-avatar-wrapper">
+        <div class="ficha-avatar" id="avatar-clique" onclick="document.getElementById('input-avatar').click()" title="Clique para escolher uma imagem de retrato">
+          <img id="ficha_avatar_img" alt="Retrato do personagem">
+          <div id="avatar_placeholder" class="avatar-placeholder">
+            <span class="avatar-icone-add">❖</span>
+            <span>Retrato</span>
+            <span class="avatar-dica">Adicionar</span>
+          </div>
+          <button type="button" class="avatar-remover" id="avatar_remover" title="Remover imagem" onclick="event.stopPropagation();removerAvatar()">&times;</button>
         </div>
       </div>
-      <div class="cor-principal-linha">
-        <label for="ficha_cor">Cor Principal</label>
-        <input type="color" id="ficha_cor" value="#c9b183" oninput="definirCorPrincipal(this.value)" onchange="definirCorPrincipal(this.value)">
-      </div>
-    </div>
-  </div>
-  <div class="btn-linha">
-    <button class="btn-acao primario" onclick="salvarFicha()">Salvar Ficha</button>
-    <button class="btn-acao" onclick="salvarComoNovaFicha()">Salvar como Nova</button>
-  </div>
-  <div class="btn-linha">
-    <button class="btn-acao" onclick="exportarJSON()">Exportar (.json)</button>
-    <button class="btn-acao" onclick="document.getElementById('input-importar').click()">Importar (.json)</button>
-  </div>
-  <input type="file" id="input-importar" accept="application/json" style="display:none" onchange="importarJSON(event)">
-  <div class="status-msg" id="status-msg"></div>
-</div>
+      <input type="file" id="input-avatar" accept="image/png,image/jpeg,image/gif" style="display:none" onchange="carregarAvatar(event)">
 
-<div class="secao-titulo" style="margin-top:20px">Fichas Salvas</div>
-<div id="lista-fichas-salvas" class="lista-salvas">
-  <div class="vazio-aviso">Nenhuma ficha salva ainda.</div>
+      <!-- Informações do Personagem -->
+      <div class="ficha-cabecalho-info">
+        <div class="ficha-campo-nome">
+          <label for="ficha_nome" class="ficha-rotulo">Nome do Personagem</label>
+          <div class="ficha-input-nome-wrap">
+            <input type="text" id="ficha_nome" placeholder="Nome do personagem..." value="Novo Personagem">
+          </div>
+        </div>
+
+        <div class="ficha-metadados-grid">
+          <div class="input-group">
+            <label for="ficha_nivel">Nível</label>
+            <div class="select-wrap">
+              <select id="ficha_nivel">
+                <option value="">—</option>
+                <option>MISERÁVEL</option>
+                <option>MEDÍOCRE</option>
+                <option>HÁBIL</option>
+                <option>FORTE</option>
+                <option>ELITE</option>
+                <option>MESTRE</option>
+                <option>SUPER</option>
+                <option>SUPREMO</option>
+                <option>SEMI-DEUS</option>
+              </select>
+            </div>
+          </div>
+          <div class="input-group">
+            <label for="ficha_classe1">1ª Classe</label>
+            <div class="select-wrap">
+              <select id="ficha_classe1" onchange="atualizarOpcoesClasse()">
+                <option value="">(nenhuma)</option>
+                <option>Lutador</option>
+                <option>Atirador</option>
+                <option>Eteromante</option>
+                <option>Alquimista</option>
+                <option>Ladino</option>
+              </select>
+            </div>
+          </div>
+          <div class="input-group">
+            <label for="ficha_classe2">2ª Classe</label>
+            <div class="select-wrap">
+              <select id="ficha_classe2" onchange="atualizarOpcoesClasse()">
+                <option value="">(nenhuma)</option>
+                <option>Lutador</option>
+                <option>Atirador</option>
+                <option>Eteromante</option>
+                <option>Alquimista</option>
+                <option>Ladino</option>
+              </select>
+            </div>
+          </div>
+          <div class="input-group ficha-cor-grupo">
+            <label for="ficha_cor">Cor do Tema</label>
+            <div class="ficha-cor-caixa" onclick="document.getElementById('ficha_cor').click()" title="Personalizar cor de destaque da ficha">
+              <input type="color" id="ficha_cor" value="#c9b183" oninput="definirCorPrincipal(this.value)" onchange="definirCorPrincipal(this.value)">
+              <span class="ficha-cor-legenda">Personalizar</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Barra de Ações do Sistema -->
+  <div class="ficha-acoes-secao">
+    <div class="ficha-acoes-barra">
+      <div class="ficha-acoes-primarias">
+        <button type="button" class="btn-acao primario" onclick="salvarFicha()">
+          <span class="btn-icone">✦</span> Salvar Ficha
+        </button>
+        <button type="button" class="btn-acao secundario" onclick="salvarComoNovaFicha()">
+          <span class="btn-icone">✧</span> Salvar como Nova
+        </button>
+      </div>
+      <div class="ficha-acoes-arquivos">
+        <button type="button" class="btn-acao utilitario" onclick="exportarJSON()" title="Exportar dados da ficha para arquivo JSON">
+          <span class="btn-icone">⇣</span> Exportar (.json)
+        </button>
+        <button type="button" class="btn-acao utilitario" onclick="document.getElementById('input-importar').click()" title="Importar arquivo JSON de ficha">
+          <span class="btn-icone">⇡</span> Importar (.json)
+        </button>
+      </div>
+    </div>
+    <input type="file" id="input-importar" accept="application/json" style="display:none" onchange="importarJSON(event)">
+    <div class="status-msg" id="status-msg"></div>
+  </div>
+
+  <!-- Fichas Salvas no Navegador -->
+  <div class="ficha-salvas-secao">
+    <div class="ficha-salvas-cabecalho">
+      <div class="secao-titulo-compacto">
+        <span class="secao-icone">◆</span>
+        <span>Fichas Salvas no Navegador</span>
+      </div>
+      <span class="ficha-qtd-badge" id="qtd-fichas-salvas">0 salvas</span>
+    </div>
+    <div id="lista-fichas-salvas" class="lista-salvas">
+      <div class="vazio-aviso">Nenhuma ficha salva ainda. Use "Salvar Ficha" para arquivar o personagem atual.</div>
+    </div>
+  </div>
 </div>
 </div>
 
@@ -2227,10 +2881,69 @@ return FAIXAS_DIFICULDADE[FAIXAS_DIFICULDADE.length-1];
 function montarSeloDificuldade(resultado){
 const faixa=obterDificuldade(resultado);
 if(faixa.tipo==="normal"){
-return `<span class="dificuldade-selo dificuldade-normal">${faixa.nome}</span>`;
+return `<span class="dificuldade-selo dificuldade-normal" title="${faixa.nome}">${faixa.nome}</span>`;
 }
 const classeEvento=faixa.tipo==="desastre"?"dificuldade-desastre":"dificuldade-amaldicoado";
-return `<div class="dificuldade-evento ${classeEvento}">${faixa.nome}</div>`;
+return `<div class="dificuldade-evento ${classeEvento}" title="${faixa.nome}">${faixa.nome}</div>`;
+}
+
+function montarGalhosInvasores(tipo){
+if(tipo!=="desastre"&&tipo!=="amaldicoado")return "";
+return `<div class="resultado-galhos-container" aria-hidden="true">
+  <svg class="resultado-galhos-svg" viewBox="0 0 420 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <g class="raizes-woodcut-grupo">
+      <!-- Galho retorcido superior esquerdo (estilo xilogravura orgânica) -->
+      <path class="raiz-corpo" d="M-10,-10 L95,-10 C82,14 66,22 45,30 C60,38 75,42 92,38 C78,48 55,50 35,42 C22,55 8,72 -10,85 Z" />
+      <path class="raiz-tendril" d="M45,30 C35,48 20,68 0,80" />
+      <path class="raiz-espinho" d="M32,45 C38,48 44,48 50,46" />
+      <path class="raiz-tendril" d="M92,38 C115,36 138,44 155,58 C145,55 130,52 118,54" />
+      <path class="raiz-espinho" d="M125,45 C132,40 136,32 135,25" />
+
+      <!-- Raízes retorcidas inferiores esquerdas subindo pelo canto -->
+      <path class="raiz-corpo" d="M-10,210 L-10,130 C15,138 28,152 38,168 C55,152 75,142 98,138 C82,150 68,166 58,182 C72,185 88,184 105,178 C90,190 70,198 50,198 C35,208 15,212 -10,210 Z" />
+      <path class="raiz-tendril" d="M38,168 C50,135 72,110 102,95" />
+      <path class="raiz-espinho" d="M65,130 C75,124 82,115 85,105" />
+      <path class="raiz-espinho" d="M82,112 C86,118 92,122 100,124" />
+      <path class="raiz-tendril" d="M98,138 C120,136 142,144 158,156" />
+
+      <!-- Raízes retorcidas inferiores direitas sob a forca -->
+      <path class="raiz-corpo" d="M430,210 L430,145 C405,152 390,165 378,180 C362,168 345,162 320,160 C338,172 350,186 358,202 L430,210 Z" />
+      <path class="raiz-tendril" d="M378,180 C355,155 330,138 298,130" />
+      <path class="raiz-espinho" d="M345,150 C340,142 334,136 325,134" />
+      <path class="raiz-espinho" d="M320,140 C318,148 314,154 306,158" />
+
+      <!-- Galho retorcido superior direito que sustenta a corda da forca -->
+      <path class="raiz-corpo" d="M430,-10 L330,-10 C342,12 356,24 372,32 C350,28 332,32 315,42 C330,44 345,42 360,38 C380,48 405,55 430,58 Z" />
+      <path class="raiz-tendril" d="M315,42 C285,55 255,60 225,58" />
+      <path class="raiz-espinho" d="M280,53 C274,45 272,36 274,28" />
+
+      <!-- A FORCA (Nó e Laço de Xilogravura em Alto Contraste à Direita) -->
+      <g class="forca-grupo">
+        <!-- Corda principal descendo do galho -->
+        <path class="corda-trilha" d="M364,15 L364,68" />
+        <!-- Entalhes de textura da corda retorcida -->
+        <line class="corda-hatch" x1="361" y1="24" x2="367" y2="28" />
+        <line class="corda-hatch" x1="361" y1="34" x2="367" y2="38" />
+        <line class="corda-hatch" x1="361" y1="44" x2="367" y2="48" />
+        <line class="corda-hatch" x1="361" y1="54" x2="367" y2="58" />
+
+        <!-- Barril do nó de forca (espirais características) -->
+        <rect class="no-corpo" x="358" y="68" width="12" height="26" rx="2" />
+        <line class="no-espiral" x1="358" y1="73" x2="370" y2="73" />
+        <line class="no-espiral" x1="358" y1="78" x2="370" y2="78" />
+        <line class="no-espiral" x1="358" y1="83" x2="370" y2="83" />
+        <line class="no-espiral" x1="358" y1="88" x2="370" y2="88" />
+
+        <!-- Ponta solta cortada da corda -->
+        <path class="corda-ponta" d="M370,71 C377,68 381,74 379,80" />
+
+        <!-- Laço aberto da forca em alto contraste -->
+        <path class="laco-forca" d="M364,94 C344,110 342,148 364,166 C386,148 384,110 364,94 Z" />
+        <circle class="no-anel" cx="364" cy="94" r="3" />
+      </g>
+    </g>
+  </svg>
+</div>`;
 }
 
 function encontrarPericia(nome){
@@ -2322,6 +3035,7 @@ ${temAux?`<div class="dados-etapa"><span class="dados-rotulo">${passoAux}. Atrib
 <div class="dados-soma-pontos">Soma dos Pontos = <strong class="dados-destaque">${totalPontosFormatado}</strong></div>
 </div>
 <div class="resultado-painel ${faixa.tipo}">
+  ${montarGalhosInvasores(faixa.tipo)}
   <div class="resultado-painel-topo">
     <span class="resultado-painel-linha"></span>
     <span class="resultado-painel-titulo">${passoFinal}. RESULTADO DO TESTE</span>
@@ -2581,10 +3295,15 @@ function formatarData(iso){
 
 function renderizarListaFichas(){
     const container = document.getElementById("lista-fichas-salvas");
+    const badge = document.getElementById("qtd-fichas-salvas");
     const indice = carregarIndiceFichas();
 
+    if(badge){
+        badge.textContent = indice.length === 1 ? "1 salva" : indice.length + " salvas";
+    }
+
     if(!indice.length){
-        container.innerHTML = '<div class="vazio-aviso">Nenhuma ficha salva ainda.</div>';
+        container.innerHTML = '<div class="vazio-aviso">Nenhuma ficha salva ainda. Use "Salvar Ficha" para arquivar o personagem atual.</div>';
         return;
     }
 
@@ -2592,28 +3311,44 @@ function renderizarListaFichas(){
 
     container.innerHTML = "";
     indice.forEach(f=>{
+        const isAberta = (fichaId === f.id);
         const item = document.createElement("div");
-        item.className = "ficha-salva-item";
+        item.className = "ficha-salva-item" + (isAberta ? " ativa" : "");
 
         const info = document.createElement("div");
         info.className = "ficha-salva-info";
+
+        const topoRow = document.createElement("div");
+        topoRow.className = "ficha-salva-topo-row";
+
         const nomeEl = document.createElement("div");
         nomeEl.className = "ficha-salva-nome";
-        nomeEl.textContent = f.nome + (fichaId===f.id ? " (aberta)" : "");
+        nomeEl.textContent = f.nome;
+        topoRow.appendChild(nomeEl);
+
+        if(isAberta){
+            const tag = document.createElement("span");
+            tag.className = "tag-aberta";
+            tag.textContent = "ativa";
+            topoRow.appendChild(tag);
+        }
+
         const dataEl = document.createElement("div");
         dataEl.className = "ficha-salva-data";
         dataEl.textContent = formatarData(f.atualizadoEm);
-        info.append(nomeEl, dataEl);
+        info.append(topoRow, dataEl);
 
         const btns = document.createElement("div");
         btns.className = "ficha-salva-btns";
 
         const btnAbrir = document.createElement("button");
+        btnAbrir.type = "button";
         btnAbrir.className = "btn-mini";
         btnAbrir.textContent = "Abrir";
         btnAbrir.onclick = ()=>carregarFicha(f.id);
 
         const btnExcluir = document.createElement("button");
+        btnExcluir.type = "button";
         btnExcluir.className = "btn-mini perigo";
         btnExcluir.textContent = "Excluir";
         btnExcluir.onclick = ()=>excluirFicha(f.id, f.nome);
