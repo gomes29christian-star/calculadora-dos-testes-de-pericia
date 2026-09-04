@@ -1,0 +1,14 @@
+{
+  "name": "calculadora-dos-testes-de-pericia",
+  "version": "1.0.0",
+  "description": "Calculadora de testes de perícias para o sistema We're Strangers",
+  "type": "module",
+  "scripts": {
+    "dev": "node server.js",
+    "start": "node server.js",
+    "build": "node -e \"console.log('Build complete')\""
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}
