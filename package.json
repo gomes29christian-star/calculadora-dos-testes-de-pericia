@@ -9,7 +9,8 @@
     "build": "node -e \"console.log('Build complete')\""
   },
   "dependencies": {
-    "express": "^4.21.2"
+    "express": "^4.21.2",
+    "ws": "^8.21.3"
   },
   "devDependencies": {
     "opentype.js": "^2.0.0"
