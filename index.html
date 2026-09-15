@@ -394,8 +394,8 @@ select option, select optgroup {
 }
 body.modo-claro select option,
 body.modo-claro select optgroup {
-  background-color: #ffffff;
-  color: #121212;
+  background-color: #eae1d0;
+  color: #171410;
 }
 
 .select-wrap{
@@ -800,25 +800,25 @@ body.modo-claro select optgroup {
 
 /* Suporte ao Modo Claro */
 body.modo-claro .ficha-recursos-card {
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7), 0 2px 8px rgba(0, 0, 0, 0.03);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45), 0 2px 8px rgba(40, 30, 15, 0.06);
 }
 body.modo-claro .recurso-card {
-  background: #fbf8f2;
-  border-color: #dfd7c8;
+  background: #eae1d0;
+  border-color: #cbbfab;
 }
 body.modo-claro .recurso-inputs {
-  background: #f4eee1;
-  border-color: #d8cebe;
+  background: #dfd5c2;
+  border-color: #bdaf98;
 }
 body.modo-claro .btn-recurso-passo {
-  background: #f4eee1;
-  border-color: #d8cebe;
-  color: #4a453e;
+  background: #dfd5c2;
+  border-color: #bdaf98;
+  color: #433c30;
 }
 body.modo-claro .btn-recursos-restaurar {
-  background: #f4eee1;
-  border-color: #d8cebe;
-  color: #4a453e;
+  background: #dfd5c2;
+  border-color: #bdaf98;
+  color: #433c30;
 }
 body.modo-claro .recurso-barra-container {
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.15);
@@ -1041,6 +1041,56 @@ body.modo-claro .btn-zerar-todos-temp:hover {
   color:var(--accent);
 }
 
+.btn-modo-salvamento{
+  font-size:11.5px;
+  padding:8px 12px;
+  background:var(--bg-void);
+  border-color:var(--line);
+  color:var(--ink-dim);
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  cursor:pointer;
+  user-select:none;
+}
+.btn-modo-salvamento:hover{
+  border-color:var(--accent);
+  color:var(--accent);
+}
+.btn-modo-salvamento.manual-ativo{
+  border-color:color-mix(in srgb, var(--accent) 70%, var(--line));
+  background:color-mix(in srgb, var(--accent) 12%, var(--bg-inset));
+  color:var(--accent);
+  box-shadow:0 0 10px color-mix(in srgb, var(--accent) 15%, transparent);
+}
+.indicador-modo-ponto{
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:#38bdf8;
+  box-shadow:0 0 6px rgba(56, 189, 248, 0.6);
+  display:inline-block;
+  transition:all 0.2s ease;
+}
+.btn-modo-salvamento.manual-ativo .indicador-modo-ponto{
+  background:var(--accent);
+  box-shadow:0 0 8px var(--accent);
+}
+body.modo-claro .btn-modo-salvamento{
+  background:#f8f4ec;
+  border-color:#d8cebe;
+  color:#5c5549;
+}
+body.modo-claro .btn-modo-salvamento:hover{
+  border-color:var(--accent);
+  color:#1a1713;
+}
+body.modo-claro .btn-modo-salvamento.manual-ativo{
+  background:color-mix(in srgb, var(--accent) 18%, #f8f4ec);
+  border-color:var(--accent);
+  color:#1a1713;
+}
+
 .status-msg{
   font-family:'EB Garamond',serif;
   font-style:italic;
@@ -1065,6 +1115,49 @@ body.modo-claro .btn-zerar-todos-temp:hover {
   justify-content:space-between;
   align-items:center;
   margin-bottom:12px;
+  gap:12px;
+  flex-wrap:wrap;
+}
+.ficha-salvas-titulo-bloco{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.ficha-salvas-acoes-topo{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex-wrap:wrap;
+}
+.ficha-selecao-barra-lote{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  flex-wrap:wrap;
+}
+.btn-mini.btn-modo-selecao{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+}
+.btn-mini.btn-modo-selecao.ativo-modo{
+  background:color-mix(in srgb, var(--accent) 18%, var(--bg-void));
+  border-color:var(--accent);
+  color:var(--accent);
+}
+.btn-mini:disabled{
+  opacity:0.45;
+  cursor:not-allowed;
+  pointer-events:none;
+}
+.btn-mini.neutro{
+  border-color:var(--line);
+  color:var(--ink-faint);
+}
+.btn-mini.neutro:hover{
+  border-color:var(--line-heavy);
+  color:var(--ink);
+  background:var(--bg-inset);
 }
 .secao-titulo-compacto{
   font-family:'Old Europe',serif;
@@ -1104,7 +1197,8 @@ body.modo-claro .btn-zerar-todos-temp:hover {
   padding:11px 14px;
   border:1px solid var(--line);
   border-radius:2px;
-  transition:border-color .18s ease, transform .15s ease;
+  transition:border-color .18s ease, transform .15s ease, background-color .18s ease;
+  position:relative;
 }
 .ficha-salva-item:hover{
   border-color:color-mix(in srgb, var(--accent) 30%, var(--line));
@@ -1114,12 +1208,38 @@ body.modo-claro .btn-zerar-todos-temp:hover {
   background:color-mix(in srgb, var(--accent) 7%, var(--bg-inset));
   box-shadow:inset 3px 0 0 var(--accent);
 }
+.ficha-salva-item.modo-selecao{
+  cursor:pointer;
+  user-select:none;
+}
+.ficha-salva-item.modo-selecao:hover{
+  border-color:color-mix(in srgb, var(--erro) 40%, var(--line));
+  background:color-mix(in srgb, var(--erro) 5%, var(--bg-inset));
+}
+.ficha-salva-item.selecionada{
+  border-color:var(--erro);
+  background:color-mix(in srgb, var(--erro) 12%, var(--bg-inset));
+  box-shadow:inset 3px 0 0 var(--erro);
+}
+.ficha-salva-checkbox-wrap{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-shrink:0;
+}
+.ficha-salva-checkbox{
+  width:16px;
+  height:16px;
+  cursor:pointer;
+  accent-color:var(--erro);
+}
 .ficha-salva-info{
   display:flex;
   flex-direction:column;
   gap:3px;
   overflow:hidden;
   min-width:0;
+  flex:1;
 }
 .ficha-salva-topo-row{
   display:flex;
@@ -2369,29 +2489,29 @@ body.modo-claro .btn-zerar-todos-temp:hover {
 }
 
 body.modo-claro .modal-confirmacao-janela {
-  background: #fdfbf7;
-  border-color: #d1c7b7;
+  background: #eae1d0;
+  border-color: #bdaf98;
   border-top: 2px solid #a82424;
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 16px 40px rgba(40, 30, 15, 0.25);
 }
 body.modo-claro .modal-confirmacao-cabecalho {
-  background: #f4eee1;
-  border-bottom-color: #d8cebe;
+  background: #dfd5c2;
+  border-bottom-color: #cbbfab;
 }
 body.modo-claro .modal-confirmacao-titulo {
   color: #a82424;
 }
 body.modo-claro .modal-confirmacao-corpo {
-  color: #1e1b18;
+  color: #171410;
 }
 body.modo-claro .modal-confirmacao-rodape {
-  background: #f4eee1;
-  border-top-color: #d8cebe;
+  background: #dfd5c2;
+  border-top-color: #cbbfab;
 }
 body.modo-claro .btn-confirm-cancelar {
-  background: #ebe3d3;
-  border-color: #cbbeaa;
-  color: #4a453e;
+  background: #dad0bc;
+  border-color: #bdaf98;
+  color: #433c30;
 }
 body.modo-claro .btn-confirm-cancelar:hover {
   border-color: #2b2723;
@@ -2595,17 +2715,17 @@ body.modo-claro .btn-confirm-cancelar:hover {
 
 /* Modo claro para novos componentes */
 body.modo-claro .barra-alteracoes-flutuante {
-  background: #ffffff;
+  background: #eae1d0;
   border-color: var(--accent);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18), 0 0 14px color-mix(in srgb, var(--accent) 35%, transparent);
+  box-shadow: 0 12px 30px rgba(40, 30, 15, 0.2), 0 0 14px color-mix(in srgb, var(--accent) 35%, transparent);
 }
 body.modo-claro .ficha-aviso-alteracoes {
-  background: color-mix(in srgb, var(--accent) 10%, #fff);
-  border-color: color-mix(in srgb, var(--accent) 60%, #ccc);
+  background: color-mix(in srgb, var(--accent) 10%, #eae1d0);
+  border-color: color-mix(in srgb, var(--accent) 60%, #bdaf98);
 }
 body.modo-claro .btn-salvar-alteracoes-dock {
-  background: color-mix(in srgb, var(--accent) 18%, #fff);
-  color: #1a1612;
+  background: color-mix(in srgb, var(--accent) 18%, #eae1d0);
+  color: #171410;
 }
 body.modo-claro .btn-salvar-alteracoes-dock:hover {
   background: var(--accent);
@@ -2673,15 +2793,17 @@ body.modo-claro .btn-salvar-alteracoes-dock:hover {
    ============================================================ */
 html[data-theme="claro"],
 body.modo-claro {
-  --bg-void: #ebe6dc;
-  --bg-panel: #fcfbfa;
-  --bg-panel-2: #f4efe6;
-  --bg-inset: #e6e0d4;
-  --ink: #141311;
-  --ink-dim: #3f3b35;
-  --ink-faint: #736d62;
-  --line: #d1c9bd;
-  --line-soft: #dfd7cb;
+  --bg-void: #dcd4c3;
+  --bg-panel: #eae1d0;
+  --bg-panel-2: #e2d8c6;
+  --bg-card: #e6dcc9;
+  --bg-inset: #d5cbba;
+  --ink: #171410;
+  --ink-dim: #433c30;
+  --ink-faint: #736957;
+  --line: #bdaf98;
+  --line-soft: #cbbfab;
+  --shadow: rgba(40, 30, 15, 0.12);
   --accent-dim: color-mix(in srgb, var(--accent) 70%, #1e1912 25%);
   --desastre: #8b1515;
   --desastre-glow: #b91c1c;
@@ -2693,8 +2815,8 @@ body.modo-claro {
 
 body.modo-claro {
   background:
-    radial-gradient(ellipse 120% 70% at 50% -10%, #ded7ca 0%, transparent 60%),
-    radial-gradient(ellipse 140% 90% at 50% 110%, #e2dbcf 0%, transparent 65%),
+    radial-gradient(ellipse 120% 70% at 50% -10%, #d2c8b5 0%, transparent 60%),
+    radial-gradient(ellipse 140% 90% at 50% 110%, #cfc4b0 0%, transparent 65%),
     var(--bg-void);
   color: var(--ink);
 }
@@ -2725,28 +2847,28 @@ body.modo-claro .galho-svg {
 }
 
 body.modo-claro .container {
-  box-shadow: 0 4px 22px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 22px rgba(40, 30, 15, 0.08);
 }
 
 body.modo-claro .ficha-perfil-card {
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7), 0 2px 8px rgba(0, 0, 0, 0.03);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45), 0 2px 8px rgba(40, 30, 15, 0.05);
 }
 
 body.modo-claro .btn-tema-toggle {
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 8px rgba(40, 30, 15, 0.10);
 }
 body.modo-claro .btn-tema-toggle:hover {
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 4px 14px rgba(40, 30, 15, 0.16);
 }
 
 body.modo-claro .grid-atributos input {
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.08);
+  box-shadow: inset 0 1px 3px rgba(40, 30, 15, 0.12);
 }
 
 body.modo-claro .select-wrap select,
 body.modo-claro input[type="text"],
 body.modo-claro input[type="number"] {
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.06);
+  box-shadow: inset 0 1px 2px rgba(40, 30, 15, 0.08);
 }
 
 body.modo-claro .btn-rolar {
@@ -2759,63 +2881,63 @@ body.modo-claro .btn-rolar:hover {
 }
 
 body.modo-claro .btn-secundario {
-  background: color-mix(in srgb, var(--accent) 5%, transparent);
+  background: color-mix(in srgb, var(--accent) 6%, transparent);
 }
 
 body.modo-claro .dificuldade-normal {
   text-shadow: none;
   font-weight: 600;
-  background: color-mix(in srgb, var(--accent) 12%, #ffffff);
+  background: color-mix(in srgb, var(--accent) 15%, #eae1d0);
 }
 
 body.modo-claro .dado-chip {
-  background: #f4efe7;
+  background: #e2d8c6;
   border-color: var(--line);
   color: var(--ink);
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.08);
+  box-shadow: inset 0 1px 2px rgba(40, 30, 15, 0.12);
 }
 
 body.modo-claro .ponto-item {
-  background: #ede7dc;
+  background: #dad0bc;
   border-color: var(--line-soft);
 }
 
 body.modo-claro .modal-historico-overlay {
-  background: rgba(28, 25, 20, 0.52);
+  background: rgba(28, 25, 20, 0.60);
 }
 
 body.modo-claro .modal-historico-janela {
-  background: linear-gradient(180deg, #fdfcf9 0%, #f3efe6 100%);
+  background: linear-gradient(180deg, #ede5d4 0%, #e2d8c6 100%);
   border-color: var(--line);
-  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.2), 0 2px 10px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 18px 50px rgba(40, 30, 15, 0.28), 0 2px 10px rgba(40, 30, 15, 0.12);
 }
 
 body.modo-claro .modal-historico-cabecalho {
-  background: rgba(0, 0, 0, 0.03);
+  background: rgba(0, 0, 0, 0.04);
   border-bottom-color: var(--line);
 }
 
 body.modo-claro .modal-historico-subbarra {
-  background: rgba(0, 0, 0, 0.02);
+  background: rgba(0, 0, 0, 0.03);
   border-bottom-color: var(--line);
 }
 
 body.modo-claro .modal-historico-rodape {
-  background: rgba(0, 0, 0, 0.03);
+  background: rgba(0, 0, 0, 0.04);
   border-top-color: var(--line);
 }
 
 body.modo-claro .historico-card {
-  background: #fbf9f4;
+  background: #e6ddcc;
   border-color: var(--line);
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 1px 4px rgba(40, 30, 15, 0.06);
 }
 body.modo-claro .historico-card:hover {
-  background: #ffffff;
+  background: #ede4d3;
 }
 
 body.modo-claro .historico-dado-chip {
-  background: rgba(0, 0, 0, 0.06);
+  background: rgba(0, 0, 0, 0.07);
   border-color: var(--line);
   color: var(--ink);
 }
@@ -2840,7 +2962,7 @@ body.modo-claro .resultado-box {
 }
 
 body.modo-claro .btn-acao.primario {
-  background: color-mix(in srgb, var(--accent) 15%, #ffffff);
+  background: color-mix(in srgb, var(--accent) 18%, #eae1d0);
   color: color-mix(in srgb, var(--accent) 75%, #000000);
 }
 body.modo-claro .btn-acao.primario:hover {
@@ -4242,6 +4364,159 @@ html.tem-contorno-letras .conq-btn-desbloquear {
 }
 
 /* ==========================================================================
+   CONQUISTA SECRETA "ANTI-CONTRASTE" - ANIMAÇÃO DE STROKES PISCANDO EM ROXO
+   ========================================================================== */
+@keyframes piscarStrokesRoxoTexto {
+  0% {
+    -webkit-text-stroke: 0px transparent;
+    text-stroke: 0px transparent;
+    filter: none;
+  }
+  14% {
+    -webkit-text-stroke: 2px #a855f7 !important;
+    text-stroke: 2px #a855f7 !important;
+    filter: drop-shadow(0 0 10px rgba(168, 85, 247, 0.95)) drop-shadow(0 0 20px rgba(147, 51, 234, 0.7));
+  }
+  28% {
+    -webkit-text-stroke: 0px transparent !important;
+    text-stroke: 0px transparent !important;
+    filter: none;
+  }
+  48% {
+    -webkit-text-stroke: 2px #a855f7 !important;
+    text-stroke: 2px #a855f7 !important;
+    filter: drop-shadow(0 0 10px rgba(168, 85, 247, 0.95)) drop-shadow(0 0 20px rgba(147, 51, 234, 0.7));
+  }
+  62% {
+    -webkit-text-stroke: 0px transparent !important;
+    text-stroke: 0px transparent !important;
+    filter: none;
+  }
+  80% {
+    -webkit-text-stroke: 2px #a855f7 !important;
+    text-stroke: 2px #a855f7 !important;
+    filter: drop-shadow(0 0 10px rgba(168, 85, 247, 0.95)) drop-shadow(0 0 20px rgba(147, 51, 234, 0.7));
+  }
+  100% {
+    -webkit-text-stroke: 0px transparent;
+    text-stroke: 0px transparent;
+    filter: none;
+  }
+}
+
+@keyframes piscarStrokesRoxoSvg {
+  0%, 28%, 62%, 100% {
+    stroke: transparent;
+    filter: none;
+  }
+  14%, 48%, 80% {
+    stroke: #a855f7 !important;
+    filter: drop-shadow(0 0 8px rgba(168, 85, 247, 0.95));
+  }
+}
+
+html.animacao-strokes-roxas .btn-rolar,
+html.animacao-strokes-roxas .grid-atributos .input-group label,
+html.animacao-strokes-roxas .grid-atributos input,
+html.animacao-strokes-roxas .categoria-icone,
+html.animacao-strokes-roxas .categoria-chevron,
+html.animacao-strokes-roxas .ornamento-simbolo,
+html.animacao-strokes-roxas .dados-resultado summary::after,
+html.animacao-strokes-roxas .dados-rotulo::before,
+html.animacao-strokes-roxas .secao-icone,
+html.animacao-strokes-roxas .avatar-icone-add,
+html.animacao-strokes-roxas .recurso-aura .recurso-icone,
+html.animacao-strokes-roxas .recurso-temp-sinal,
+html.animacao-strokes-roxas .recurso-temp-wrap input,
+html.animacao-strokes-roxas .resultado-box.total span:not(.rotulo),
+html.animacao-strokes-roxas .resultado-resumo,
+html.animacao-strokes-roxas .dados-destaque,
+html.animacao-strokes-roxas .resultado-painel-valor,
+html.animacao-strokes-roxas .dificuldade-normal,
+html.animacao-strokes-roxas .categoria-nome,
+html.animacao-strokes-roxas .secao-titulo-compacto,
+html.animacao-strokes-roxas .secao-titulo-compacto span,
+html.animacao-strokes-roxas .ficha-salva-badge,
+html.animacao-strokes-roxas .ficha-salva-nome,
+html.animacao-strokes-roxas .badge-historico,
+html.animacao-strokes-roxas .historico-pericia-indice,
+html.animacao-strokes-roxas .barra-rotulo-aura,
+html.animacao-strokes-roxas .barra-alteracoes-texto strong,
+html.animacao-strokes-roxas .titulo-universo .adorno-texto,
+html.animacao-strokes-roxas .btn-secundario,
+html.animacao-strokes-roxas .btn-inline-salvar-alteracoes,
+html.animacao-strokes-roxas .btn-salvar-alteracoes-dock,
+html.animacao-strokes-roxas .btn-confirm-salvar-modal,
+html.animacao-strokes-roxas .modal-confirmacao-janela.tema-salvar .modal-confirmacao-titulo,
+html.animacao-strokes-roxas .modal-confirmacao-janela.tema-salvar .modal-confirm-icone,
+html.animacao-strokes-roxas .btn-acao.primario,
+html.animacao-strokes-roxas .inv-metrica-valor,
+html.animacao-strokes-roxas .inv-metrica-rotulo,
+html.animacao-strokes-roxas .inv-metrica-divisor,
+html.animacao-strokes-roxas .inv-metrica-unidade,
+html.animacao-strokes-roxas .inv-input-carga-max,
+html.animacao-strokes-roxas #inv-carga-pct,
+html.animacao-strokes-roxas #inv-total-itens,
+html.animacao-strokes-roxas #inv-total-lotes-rotulo,
+html.animacao-strokes-roxas .inv-form-titulo,
+html.animacao-strokes-roxas .inv-form-titulo span,
+html.animacao-strokes-roxas .comp-titulo,
+html.animacao-strokes-roxas .comp-titulo span,
+html.animacao-strokes-roxas .comp-resumo-espaco,
+html.animacao-strokes-roxas .comp-resumo-espaco strong,
+html.animacao-strokes-roxas .comp-card-slots-valor,
+html.animacao-strokes-roxas .comp-card-icone,
+html.animacao-strokes-roxas .comp-card-nome-wrap,
+html.animacao-strokes-roxas .inv-hud-titulo,
+html.animacao-strokes-roxas .inv-hud-titulo span,
+html.animacao-strokes-roxas .inv-btn-fast-swap,
+html.animacao-strokes-roxas .inv-btn-fast-swap .swap-icon,
+html.animacao-strokes-roxas .inv-hud-slot-nome,
+html.animacao-strokes-roxas .inv-hud-slot-card.ocupado .inv-hud-slot-nome,
+html.animacao-strokes-roxas .inv-hud-item-nome,
+html.animacao-strokes-roxas #inv-hud-maos-secao .btn-hud-guardar,
+html.animacao-strokes-roxas #inv-hud-maos-secao .btn-hud-soltar,
+html.animacao-strokes-roxas .inv-item-nome,
+html.animacao-strokes-roxas .inv-item-card-nome,
+html.animacao-strokes-roxas .inv-filtro-btn,
+html.animacao-strokes-roxas .inv-visao-btn,
+html.animacao-strokes-roxas .inv-busca-icone,
+html.animacao-strokes-roxas .inv-qtd-display,
+html.animacao-strokes-roxas .inv-qtd-badge,
+html.animacao-strokes-roxas .inv-item-peso-badge,
+html.animacao-strokes-roxas .inv-badge-tag,
+html.animacao-strokes-roxas .inv-tabela-tatica th,
+html.animacao-strokes-roxas .inv-btn-recarregar,
+html.animacao-strokes-roxas .inv-btn-ceder,
+html.animacao-strokes-roxas #btn-receber-item,
+html.animacao-strokes-roxas .conq-metrica-valor,
+html.animacao-strokes-roxas .conq-metrica-rotulo,
+html.animacao-strokes-roxas .conq-metrica-total,
+html.animacao-strokes-roxas .conq-metrica-unidade,
+html.animacao-strokes-roxas .conq-tab-btn-n1,
+html.animacao-strokes-roxas .conq-tab-btn-n2,
+html.animacao-strokes-roxas .conq-card-titulo,
+html.animacao-strokes-roxas .conq-card-pts,
+html.animacao-strokes-roxas .conq-btn-desbloquear,
+html.animacao-strokes-roxas .aba-nav-btn.ativa .aba-texto,
+html.animacao-strokes-roxas .pericia-card .rotulo,
+html.animacao-strokes-roxas h1,
+html.animacao-strokes-roxas h2,
+html.animacao-strokes-roxas h3 {
+  animation: piscarStrokesRoxoTexto 0.85s cubic-bezier(0.22, 1, 0.36, 1) forwards !important;
+  paint-order: stroke fill !important;
+}
+
+html.animacao-strokes-roxas svg path,
+html.animacao-strokes-roxas svg line,
+html.animacao-strokes-roxas svg circle,
+html.animacao-strokes-roxas svg polyline,
+html.animacao-strokes-roxas svg rect,
+html.animacao-strokes-roxas .galho-svg path {
+  animation: piscarStrokesRoxoSvg 0.85s cubic-bezier(0.22, 1, 0.36, 1) forwards !important;
+}
+
+/* ==========================================================================
    MÓDULO DE CONQUISTAS & FEITOS (OFICIAIS / CAMPANHA & INDIVIDUAL / EQUIPE)
    ========================================================================== */
 .conq-painel-resumo {
@@ -4634,18 +4909,285 @@ html.tem-contorno-letras .conq-btn-desbloquear {
 }
 
 .conq-card.conq-secreta {
-  border-color: rgba(157, 78, 221, 0.35);
-  background: linear-gradient(135deg, rgba(123, 44, 191, 0.08), var(--bg-card));
+  border-color: var(--line);
+  background: linear-gradient(135deg, rgba(123, 44, 191, 0.04), var(--bg-card));
   cursor: default;
+  position: relative;
 }
 .conq-card.conq-secreta:hover {
-  border-color: rgba(157, 78, 221, 0.65);
-  box-shadow: 0 6px 18px rgba(157, 78, 221, 0.2);
+  border-color: var(--line-soft);
+  box-shadow: 0 4px 14px var(--shadow);
 }
+
+/* Efeito de nevoeiro e opacidade variável para cartas secretas bloqueadas */
+#conq-lista-grid .conq-card.conq-secreta.bloqueada,
+#conq-lista-grid .conq-card.conq-secreta:not(.desbloqueada) {
+  border-color: rgba(147, 51, 234, 0.35);
+  background: linear-gradient(135deg, rgba(88, 28, 135, 0.18), rgba(46, 16, 101, 0.12), var(--bg-card));
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  animation: nevoeiroBordaSecreta 8s ease-in-out infinite alternate,
+             oscilacaoDesfoqueMisterio 9.5s ease-in-out infinite alternate,
+             oscilacaoSaturacaoRoxa 7.2s ease-in-out infinite alternate;
+  isolation: isolate;
+}
+
+/* Camada dinâmica de névoa densa em deriva contínua com saturação roxa enriquecida */
+#conq-lista-grid .conq-card.conq-secreta.bloqueada::before,
+#conq-lista-grid .conq-card.conq-secreta:not(.desbloqueada):before {
+  content: "";
+  position: absolute;
+  top: -40%;
+  left: -40%;
+  width: 180%;
+  height: 180%;
+  background: radial-gradient(ellipse at 30% 40%, rgba(168, 85, 247, 0.32) 0%, rgba(126, 34, 206, 0.18) 35%, transparent 70%),
+              radial-gradient(ellipse at 70% 65%, rgba(192, 132, 252, 0.28) 0%, rgba(147, 51, 234, 0.14) 40%, transparent 65%),
+              radial-gradient(circle at 50% 50%, rgba(168, 85, 247, 0.22) 0%, transparent 60%);
+  filter: blur(8px);
+  pointer-events: none;
+  z-index: 0;
+  animation: derivaNevoeiroDensa 12s ease-in-out infinite alternate;
+  transition: opacity 0.5s ease;
+}
+
+/* Camada de borda e vinheta de neblina púrpura oscilante */
+#conq-lista-grid .conq-card.conq-secreta.bloqueada::after,
+#conq-lista-grid .conq-card.conq-secreta:not(.desbloqueada):after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: inset 0 0 20px rgba(168, 85, 247, 0.26), inset 0 0 40px rgba(107, 33, 168, 0.18);
+  pointer-events: none;
+  z-index: 1;
+  animation: nevoeiroBordaVignette 6s ease-in-out infinite alternate;
+  transition: opacity 0.5s ease;
+}
+
+#conq-lista-grid .conq-card.conq-secreta.bloqueada > *,
+#conq-lista-grid .conq-card.conq-secreta:not(.desbloqueada) > * {
+  position: relative;
+  z-index: 2;
+}
+
+#conq-lista-grid .conq-card.conq-secreta.bloqueada .conq-card-desc,
+#conq-lista-grid .conq-card.conq-secreta:not(.desbloqueada) .conq-card-desc {
+  opacity: 0 !important;
+  filter: blur(10px) !important;
+  user-select: none;
+  pointer-events: none;
+  transform: scale(0.96);
+  transition: opacity 0.45s ease-out, filter 0.45s ease-out, transform 0.45s ease-out;
+}
+
+/* Revelação gradual e lenta da descrição ao segurar o card por 5 segundos */
+#conq-lista-grid .conq-card.conq-secreta.bloqueada.segurando-revelacao .conq-card-desc,
+#conq-lista-grid .conq-card.conq-secreta:not(.desbloqueada).segurando-revelacao .conq-card-desc {
+  opacity: 0.95 !important;
+  filter: blur(0px) !important;
+  transform: scale(1);
+  transition: opacity 5s linear, filter 5s ease-out, transform 5s ease-out;
+}
+
+#conq-lista-grid .conq-card.conq-secreta.bloqueada.descricao-revelada .conq-card-desc,
+#conq-lista-grid .conq-card.conq-secreta:not(.desbloqueada).descricao-revelada .conq-card-desc {
+  opacity: 1 !important;
+  filter: blur(0px) !important;
+  transform: scale(1);
+  pointer-events: auto;
+  transition: opacity 0.3s ease, filter 0.3s ease, transform 0.3s ease;
+}
+
+#conq-lista-grid .conq-card.conq-secreta.bloqueada:hover,
+#conq-lista-grid .conq-card.conq-secreta:not(.desbloqueada):hover {
+  border-color: rgba(168, 85, 247, 0.65);
+  box-shadow: 0 6px 20px rgba(147, 51, 234, 0.35);
+  backdrop-filter: blur(0.5px);
+  -webkit-backdrop-filter: blur(0.5px);
+}
+
+#conq-lista-grid .conq-card.conq-secreta.bloqueada:hover::before,
+#conq-lista-grid .conq-card.conq-secreta:not(.desbloqueada):hover::before {
+  opacity: 0.45;
+  animation-play-state: paused;
+}
+
+#conq-lista-grid .conq-card.conq-secreta.bloqueada:hover::after,
+#conq-lista-grid .conq-card.conq-secreta:not(.desbloqueada):hover::after {
+  opacity: 0.45;
+  animation-play-state: paused;
+}
+
+#conq-lista-grid .conq-card.conq-secreta.bloqueada:hover.descricao-revelada .conq-card-desc,
+#conq-lista-grid .conq-card.conq-secreta:not(.desbloqueada):hover.descricao-revelada .conq-card-desc {
+  opacity: 1 !important;
+  filter: blur(0px) !important;
+  animation-play-state: paused;
+}
+
+.conq-card.segurando-revelacao {
+  cursor: grabbing !important;
+  user-select: none !important;
+  -webkit-user-select: none !important;
+  transform: scale(0.985) !important;
+  border-color: rgba(199, 125, 255, 0.85) !important;
+  box-shadow: 0 0 26px rgba(157, 78, 221, 0.6), inset 0 0 16px rgba(199, 125, 255, 0.25) !important;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+@keyframes derivaNevoeiroDensa {
+  0% {
+    transform: translate(-5%, -4%) scale(1) rotate(0deg);
+    opacity: 0.65;
+  }
+  25% {
+    transform: translate(4%, -2%) scale(1.06) rotate(1.5deg);
+    opacity: 0.95;
+  }
+  50% {
+    transform: translate(2%, 5%) scale(0.96) rotate(-1deg);
+    opacity: 0.55;
+  }
+  75% {
+    transform: translate(-6%, 3%) scale(1.08) rotate(2deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(5%, -5%) scale(1.02) rotate(-2deg);
+    opacity: 0.70;
+  }
+}
+
+@keyframes nevoeiroBordaVignette {
+  0% {
+    opacity: 0.50;
+    box-shadow: inset 0 0 16px rgba(147, 51, 234, 0.20), inset 0 0 30px rgba(88, 28, 135, 0.14);
+  }
+  50% {
+    opacity: 0.95;
+    box-shadow: inset 0 0 28px rgba(192, 132, 252, 0.35), inset 0 0 50px rgba(126, 34, 206, 0.25);
+  }
+  100% {
+    opacity: 0.65;
+    box-shadow: inset 0 0 22px rgba(168, 85, 247, 0.25), inset 0 0 36px rgba(107, 33, 168, 0.18);
+  }
+}
+
+@keyframes nevoeiroBordaSecreta {
+  0% {
+    border-color: rgba(147, 51, 234, 0.28);
+    box-shadow: 0 0 12px rgba(147, 51, 234, 0.15), inset 0 0 14px rgba(88, 28, 135, 0.12);
+  }
+  25% {
+    border-color: rgba(192, 132, 252, 0.55);
+    box-shadow: 0 0 22px rgba(168, 85, 247, 0.30), inset 0 0 24px rgba(126, 34, 206, 0.20);
+  }
+  50% {
+    border-color: rgba(126, 34, 206, 0.24);
+    box-shadow: 0 0 8px rgba(107, 33, 168, 0.12), inset 0 0 12px rgba(59, 7, 100, 0.14);
+  }
+  75% {
+    border-color: rgba(168, 85, 247, 0.48);
+    box-shadow: 0 0 20px rgba(192, 132, 252, 0.26), inset 0 0 22px rgba(147, 51, 234, 0.18);
+  }
+  100% {
+    border-color: rgba(147, 51, 234, 0.38);
+    box-shadow: 0 0 15px rgba(126, 34, 206, 0.20), inset 0 0 18px rgba(88, 28, 135, 0.15);
+  }
+}
+
+@keyframes nevoeiroTextoSecreto {
+  0% {
+    opacity: 0.55;
+    filter: blur(0.2px);
+  }
+  30% {
+    opacity: 0.26;
+    filter: blur(0.75px);
+  }
+  65% {
+    opacity: 0.65;
+    filter: blur(0.1px);
+  }
+  100% {
+    opacity: 0.20;
+    filter: blur(0.95px);
+  }
+}
+
+@keyframes oscilacaoDesfoqueMisterio {
+  0% {
+    backdrop-filter: blur(1px);
+    -webkit-backdrop-filter: blur(1px);
+  }
+  35% {
+    backdrop-filter: blur(2.8px);
+    -webkit-backdrop-filter: blur(2.8px);
+  }
+  70% {
+    backdrop-filter: blur(1.3px);
+    -webkit-backdrop-filter: blur(1.3px);
+  }
+  100% {
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+  }
+}
+
+@keyframes oscilacaoSaturacaoRoxa {
+  0% {
+    filter: saturate(0.95) brightness(0.97);
+  }
+  25% {
+    filter: saturate(1.75) brightness(1.12);
+  }
+  55% {
+    filter: saturate(1.2) brightness(0.99);
+  }
+  80% {
+    filter: saturate(1.95) brightness(1.18);
+  }
+  100% {
+    filter: saturate(1.05) brightness(0.96);
+  }
+}
+
+@keyframes pulsoBordaSecretaDesbloqueada {
+  0% {
+    border-color: #c77dff;
+    box-shadow: 0 0 14px rgba(199, 125, 255, 0.4), 0 0 24px rgba(157, 78, 221, 0.25), inset 0 0 10px rgba(157, 78, 221, 0.18);
+  }
+  50% {
+    border-color: #e0aaff;
+    box-shadow: 0 0 24px #c77dff, 0 0 42px rgba(157, 78, 221, 0.55), inset 0 0 16px rgba(224, 170, 255, 0.35);
+  }
+  100% {
+    border-color: #c77dff;
+    box-shadow: 0 0 14px rgba(199, 125, 255, 0.4), 0 0 24px rgba(157, 78, 221, 0.25), inset 0 0 10px rgba(157, 78, 221, 0.18);
+  }
+}
+
+#conq-lista-grid .conq-card.conq-secreta.desbloqueada,
 .conq-card.conq-secreta.desbloqueada {
-  border-color: #9d4edd;
-  background: linear-gradient(135deg, rgba(157, 78, 221, 0.18), var(--bg-card));
-  box-shadow: 0 0 16px rgba(157, 78, 221, 0.25);
+  border-color: #c77dff;
+  background: linear-gradient(135deg, rgba(157, 78, 221, 0.22), var(--bg-card));
+  box-shadow: 0 0 20px rgba(199, 125, 255, 0.45);
+  animation: pulsoBordaSecretaDesbloqueada 3.2s ease-in-out infinite alternate;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  filter: none !important;
+}
+.conq-card.conq-secreta.desbloqueada::before,
+.conq-card.conq-secreta.desbloqueada::after {
+  display: none !important;
+}
+.conq-card.conq-secreta.desbloqueada .conq-card-desc {
+  animation: none;
+  opacity: 0.9;
+  filter: none;
 }
 .conq-card.conq-secreta.desbloqueada .conq-card-icone {
   color: #e0aaff;
@@ -4664,6 +5206,178 @@ html.tem-contorno-letras .conq-btn-desbloquear {
   background: rgba(157, 78, 221, 0.2);
   color: #c77dff;
   border-color: rgba(157, 78, 221, 0.45);
+}
+
+/* ============================================================
+   CINEMÁTICA SUPERNOVA & REVELAÇÃO DA CONQUISTA EPILÉPTICO
+   ============================================================ */
+.overlay-cinematica-epileptico {
+  position: fixed;
+  inset: 0;
+  z-index: 99999999;
+  pointer-events: all;
+  overflow: hidden;
+  background: transparent;
+}
+
+.overlay-cinematica-epileptico.fase-supernova {
+  background: transparent;
+}
+
+.overlay-cinematica-epileptico .supernova-core {
+  position: absolute;
+  top: var(--supernova-origem-y, 50%);
+  left: var(--supernova-origem-x, 50%);
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(circle, #ffffff 0%, #ffffff 40%, rgba(255, 255, 255, 0.95) 60%, rgba(255, 255, 255, 0) 100%);
+  box-shadow: 0 0 100px 50px rgba(255, 255, 255, 1), 0 0 200px 100px rgba(255, 255, 255, 0.8);
+  animation: expansaoSupernovaBranca 3.5s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+}
+
+.overlay-cinematica-epileptico .supernova-flash-total {
+  position: absolute;
+  inset: 0;
+  background: #ffffff;
+  opacity: 0;
+  pointer-events: none;
+  animation: claridadeTotalBranca 3.5s cubic-bezier(0.4, 0, 0.2, 1) 0.6s forwards;
+}
+
+@keyframes expansaoSupernovaBranca {
+  0% {
+    width: 10px;
+    height: 10px;
+    opacity: 0.2;
+    transform: translate(-50%, -50%) scale(0.1);
+  }
+  30% {
+    width: 160px;
+    height: 160px;
+    opacity: 0.9;
+    transform: translate(-50%, -50%) scale(1);
+    box-shadow: 0 0 120px 60px rgba(255, 255, 255, 1), 0 0 300px 150px rgba(255, 240, 220, 0.9);
+  }
+  70% {
+    width: 600px;
+    height: 600px;
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(2.5);
+    box-shadow: 0 0 200px 120px rgba(255, 255, 255, 1), 0 0 600px 300px rgba(255, 255, 255, 1);
+  }
+  100% {
+    width: 250vmax;
+    height: 250vmax;
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+    box-shadow: 0 0 400px 200px rgba(255, 255, 255, 1);
+  }
+}
+
+@keyframes claridadeTotalBranca {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.overlay-cinematica-epileptico.fase-blackout {
+  background: #000000 !important;
+  opacity: 1 !important;
+  transition: none !important;
+}
+
+.overlay-cinematica-epileptico.fase-blackout .supernova-core,
+.overlay-cinematica-epileptico.fase-blackout .supernova-flash-total {
+  display: none !important;
+}
+
+.overlay-cinematica-epileptico.fase-revelacao-roxa {
+  background: #000000;
+  opacity: 1;
+  pointer-events: none;
+  animation: dissolverBlackoutComLuzRoxa 4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.overlay-cinematica-epileptico .aura-roxa-nascendo {
+  position: absolute;
+  top: var(--card-origem-y, 50%);
+  left: var(--card-origem-x, 50%);
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(circle, rgba(224, 170, 255, 0.95) 0%, rgba(157, 78, 221, 0.85) 30%, rgba(90, 24, 154, 0.5) 60%, transparent 80%);
+  animation: expansaoAuraRoxa 4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes expansaoAuraRoxa {
+  0% {
+    width: 0px;
+    height: 0px;
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.1);
+  }
+  25% {
+    width: 250px;
+    height: 250px;
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+    box-shadow: 0 0 100px 50px rgba(157, 78, 221, 0.9), 0 0 200px 100px rgba(123, 44, 191, 0.7);
+  }
+  60% {
+    width: 900px;
+    height: 900px;
+    opacity: 0.85;
+    transform: translate(-50%, -50%) scale(1.6);
+  }
+  100% {
+    width: 260vmax;
+    height: 260vmax;
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(2.2);
+  }
+}
+
+@keyframes dissolverBlackoutComLuzRoxa {
+  0% {
+    opacity: 1;
+    background: #000000;
+  }
+  30% {
+    opacity: 0.95;
+  }
+  70% {
+    opacity: 0.45;
+  }
+  100% {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+.conq-card.destaque-supernova-epileptico {
+  animation: pulsoCardEpileptico 2.5s ease-in-out infinite alternate !important;
+  box-shadow: 0 0 30px rgba(199, 125, 255, 0.8), 0 0 60px rgba(157, 78, 221, 0.5) !important;
+  border-color: #e0aaff !important;
+  position: relative;
+  z-index: 10;
+}
+
+@keyframes pulsoCardEpileptico {
+  0% {
+    box-shadow: 0 0 20px rgba(157, 78, 221, 0.6), inset 0 0 15px rgba(224, 170, 255, 0.3);
+    transform: scale(1);
+  }
+  100% {
+    box-shadow: 0 0 45px rgba(224, 170, 255, 0.9), 0 0 80px rgba(157, 78, 221, 0.7), inset 0 0 30px rgba(224, 170, 255, 0.5);
+    transform: scale(1.03);
+  }
 }
 
 /* Efeito visual na Logo do Rodapé para o Easter Egg */
@@ -4726,22 +5440,22 @@ html.tem-contorno-letras .conq-btn-desbloquear {
   animation: giroMalabatonto 0.9s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-/* Animação comemorativa do Trenzinho de luz (Atalhos 1 a 9) */
+/* Animação comemorativa do Trenzinho de luz (Atalhos 1 a 9) - Brilho Roxo Místico */
 @keyframes ondaTrenzinhoLuz {
   0% {
     transform: scale(1) translateY(0);
-    box-shadow: 0 0 0 rgba(255, 215, 0, 0);
+    box-shadow: 0 0 0 rgba(157, 78, 221, 0);
   }
   35% {
     transform: scale(1.18) translateY(-3px);
-    box-shadow: 0 0 16px #ffd166, 0 0 28px rgba(255, 158, 0, 0.7);
-    border-color: #ffd166;
-    background: rgba(255, 209, 102, 0.28);
-    color: #fff;
+    box-shadow: 0 0 18px #c77dff, 0 0 32px rgba(157, 78, 221, 0.85), inset 0 0 12px rgba(224, 170, 255, 0.4);
+    border-color: #c77dff;
+    background: rgba(157, 78, 221, 0.32);
+    color: #ffffff;
   }
   100% {
     transform: scale(1) translateY(0);
-    box-shadow: 0 0 0 rgba(255, 215, 0, 0);
+    box-shadow: 0 0 0 rgba(157, 78, 221, 0);
   }
 }
 .trenzinho-luz-onda {
@@ -4749,8 +5463,8 @@ html.tem-contorno-letras .conq-btn-desbloquear {
   z-index: 10;
 }
 .trenzinho-passo {
-  box-shadow: 0 0 12px #ffd166 !important;
-  border-color: #ffd166 !important;
+  box-shadow: 0 0 14px #c77dff, inset 0 0 8px rgba(157, 78, 221, 0.4) !important;
+  border-color: #c77dff !important;
   transform: translateY(-2px);
   transition: all 0.15s ease;
 }
@@ -5176,8 +5890,8 @@ html.tem-contorno-letras .aba-nav-btn.ativa .aba-texto {
 }
 
 body.modo-claro .atalho-select-pericia option {
-  background-color: #ffffff !important;
-  color: #121110 !important;
+  background-color: #eae1d0 !important;
+  color: #171410 !important;
 }
 
 .btn-testar-atalho {
@@ -5256,10 +5970,10 @@ body.modo-claro .atalho-select-pericia option {
 }
 
 body.modo-claro .popup-atalho-rolagem {
-  background: #fbf9f4;
-  border-color: #c9bc9e;
-  color: #1a1715;
-  box-shadow: 0 16px 44px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(120, 95, 45, 0.2);
+  background: #eae1d0;
+  border-color: #bdaf98;
+  color: #171410;
+  box-shadow: 0 16px 44px rgba(40, 30, 15, 0.28), 0 0 0 1px rgba(120, 95, 45, 0.2);
 }
 
 .popup-atalho-card {
@@ -5280,8 +5994,8 @@ body.modo-claro .popup-atalho-rolagem {
 }
 
 body.modo-claro .popup-atalho-cabecalho {
-  background: #f1ebd9;
-  border-bottom-color: #d8ceb8;
+  background: #dfd5c2;
+  border-bottom-color: #cbbfab;
 }
 
 .popup-atalho-pericia-info {
@@ -5367,8 +6081,8 @@ body.modo-claro .popup-atalho-cabecalho {
 }
 
 body.modo-claro .popup-detalhes-rolagem {
-  background: #f4ede0;
-  border-color: #d8ceb8;
+  background: #dfd5c2;
+  border-color: #cbbfab;
 }
 
 .popup-detalhes-summary {
@@ -5386,7 +6100,7 @@ body.modo-claro .popup-detalhes-rolagem {
 }
 
 body.modo-claro .popup-detalhes-summary {
-  background: #eae1cd;
+  background: #dad0bc;
 }
 
 .popup-detalhes-summary:hover {
@@ -5408,8 +6122,8 @@ body.modo-claro .popup-detalhes-summary {
 }
 
 body.modo-claro .popup-atalho-rodape {
-  background: #f1ebd9;
-  border-top-color: #d8ceb8;
+  background: #dfd5c2;
+  border-top-color: #cbbfab;
 }
 
 .popup-atalho-gravado-tag {
@@ -6276,14 +6990,14 @@ body.modo-claro .tatico-recurso-card,
 body.modo-claro .tatico-condicoes-card,
 body.modo-claro .tatico-pericias-secao,
 body.modo-claro .tatico-resultado-box {
-  background: #fbf9f4;
-  border-color: #dfd7c8;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  background: #eae1d0;
+  border-color: #cbbfab;
+  box-shadow: 0 2px 10px rgba(40, 30, 15, 0.08);
 }
 
 body.modo-claro .tatico-skill-card {
-  background: #f4eee1;
-  border-color: #dfd7c8;
+  background: #e2d8c6;
+  border-color: #cbbfab;
 }
 
 body.modo-claro .tatico-recurso-inputs-wrap,
@@ -6294,8 +7008,8 @@ body.modo-claro .btn-tatico-filtro,
 body.modo-claro .tatico-busca-wrap,
 body.modo-claro .tatico-skill-detalhes,
 body.modo-claro .tatico-res-item {
-  background: #ede6d6;
-  border-color: #d8cebe;
+  background: #dfd5c2;
+  border-color: #bdaf98;
 }
 
 @media (max-width: 768px) {
@@ -7239,8 +7953,8 @@ body.modo-claro .campanha-historico-box,
 body.modo-claro .modal-membro-janela,
 body.modo-claro .campanha-mestre-box,
 body.modo-claro .campanha-diario-box {
-  background: #ede6d6;
-  border-color: #d8cebe;
+  background: #eae1d0;
+  border-color: #cbbfab;
 }
 body.modo-claro .campanha-input,
 body.modo-claro .campanha-chat-input,
@@ -7249,8 +7963,8 @@ body.modo-claro .campanha-feed-item,
 body.modo-claro .btn-ver-feitos-membro,
 body.modo-claro .campanha-stat-icon,
 body.modo-claro .campanha-diario-textarea {
-  background: #fbf7ee;
-  border-color: #dfd6c5;
+  background: #dfd5c2;
+  border-color: #bdaf98;
 }
 
 /* Sub-abas de Navegação Interna da Campanha */
@@ -7432,16 +8146,12 @@ body.modo-claro .campanha-diario-textarea {
 <body>
 
 <div class="cabecalho-topo">
-<!-- Barra de Configurações do Cabeçalho (Modo Claro/Escuro & Atalhos de Teclado) -->
+<!-- Barra de Configurações do Cabeçalho (Modo Claro/Escuro) -->
 <div class="cabecalho-controles-wrap">
   <div class="cabecalho-botoes-grupo">
     <button type="button" class="btn-tema-toggle" id="btn-tema-toggle" onclick="alternarModoTema()" title="Mudar para Modo Claro" aria-label="Alternar entre modo escuro e claro">
       <span class="btn-tema-icone" id="btn-tema-icone">☀️</span>
       <span class="btn-tema-rotulo" id="btn-tema-rotulo">Modo Claro</span>
-    </button>
-    <button type="button" class="btn-config-atalhos" id="btn-config-atalhos" onclick="abrirModalConfigAtalhos()" title="Configurar atalhos de teclado (1-9) para rolagem rápida de perícias" aria-label="Configurar atalhos de teclado 1 a 9">
-      <span class="btn-config-icone">⚡</span>
-      <span class="btn-config-rotulo">Atalhos (1-9)</span>
     </button>
   </div>
 </div>
@@ -7932,7 +8642,7 @@ body.modo-claro .campanha-diario-textarea {
 
     <div class="ficha-acoes-barra">
       <div class="ficha-acoes-primarias">
-        <button type="button" id="btn-salvar-ficha-principal" class="btn-acao primario" onclick="salvarFicha()">
+        <button type="button" id="btn-salvar-ficha-principal" class="btn-acao primario" onclick="salvarFicha()" style="display:none;">
           <span class="btn-icone">✦</span> <span id="txt-btn-salvar-principal">Salvar Ficha</span>
         </button>
         <button type="button" class="btn-acao secundario" onclick="salvarComoNovaFicha()">
@@ -7940,6 +8650,11 @@ body.modo-claro .campanha-diario-textarea {
         </button>
         <button type="button" class="btn-acao neutro" onclick="novaFicha()" title="Limpar formulário para criar um novo personagem">
           <span class="btn-icone">↺</span> Nova Ficha
+        </button>
+        <button type="button" id="btn-toggle-salvamento-manual" class="btn-acao btn-modo-salvamento" onclick="alternarModoSalvamentoManual()" title="Alternar entre Salvamento Automático (padrão) e Salvamento Manual para esta ficha">
+          <span class="indicador-modo-ponto" id="indicador-modo-salvamento"></span>
+          <span class="btn-icone" id="icone-modo-salvamento">⚡</span>
+          <span id="txt-modo-salvamento">Salvamento: Automático</span>
         </button>
       </div>
       <div class="ficha-acoes-arquivos">
@@ -7956,13 +8671,34 @@ body.modo-claro .campanha-diario-textarea {
   </div>
 
   <!-- Fichas Salvas no Navegador -->
-  <div class="ficha-salvas-secao">
+  <div class="ficha-salvas-secao" id="secao-fichas-salvas">
     <div class="ficha-salvas-cabecalho">
-      <div class="secao-titulo-compacto">
-        <span class="secao-icone">◆</span>
-        <span>Fichas Salvas no Navegador</span>
+      <div class="ficha-salvas-titulo-bloco">
+        <div class="secao-titulo-compacto">
+          <span class="secao-icone">◆</span>
+          <span>Fichas Salvas no Navegador</span>
+        </div>
+        <span class="ficha-qtd-badge" id="qtd-fichas-salvas">0 salvas</span>
       </div>
-      <span class="ficha-qtd-badge" id="qtd-fichas-salvas">0 salvas</span>
+      <div class="ficha-salvas-acoes-topo" id="ficha-salvas-acoes-topo">
+        <button type="button" class="btn-mini btn-modo-selecao" id="btn-toggle-selecao-fichas" onclick="alternarModoSelecaoFichas()" title="Selecionar múltiplas fichas para exclusão em lote">
+          <span>☑</span> <span id="txt-toggle-selecao-fichas">Selecionar Múltiplas</span>
+        </button>
+        <div class="ficha-selecao-barra-lote" id="ficha-selecao-barra-lote" style="display:none;">
+          <button type="button" class="btn-mini" id="btn-selecionar-todas-fichas" onclick="selecionarTodasFichas()" title="Marcar todas as fichas salvas">
+            Selecionar Todas
+          </button>
+          <button type="button" class="btn-mini" id="btn-desmarcar-todas-fichas" onclick="desmarcarTodasFichas()" title="Desmarcar todas as fichas">
+            Desmarcar
+          </button>
+          <button type="button" class="btn-mini perigo" id="btn-excluir-selecionadas" onclick="solicitarExcluirFichasSelecionadas()" title="Excluir permanentemente todas as fichas marcadas" disabled>
+            <span>🗑</span> Excluir (<span id="qtd-fichas-selecionadas-num">0</span>)
+          </button>
+          <button type="button" class="btn-mini neutro" onclick="cancelarModoSelecaoFichas()" title="Cancelar e sair do modo de seleção">
+            ✕ Fechar
+          </button>
+        </div>
+      </div>
     </div>
     <div id="lista-fichas-salvas" class="lista-salvas">
       <div class="vazio-aviso">Nenhuma ficha salva ainda. Use "Salvar Ficha" para arquivar o personagem atual.</div>
@@ -9567,13 +10303,6 @@ if(window.innerWidth <= 768){
           <div class="campanha-stat-lbl">Pontuação Total do Grupo</div>
         </div>
       </div>
-      <div class="campanha-stat-card">
-        <div class="campanha-stat-icon">🔮</div>
-        <div>
-          <div class="campanha-stat-val" id="campanha-stat-secretas-totais">0</div>
-          <div class="campanha-stat-lbl">Segredos Desvendados</div>
-        </div>
-      </div>
     </div>
 
     <!-- Navegação por Sub-abas da Campanha -->
@@ -9648,7 +10377,6 @@ if(window.innerWidth <= 768){
             <button type="button" class="campanha-filtro-pill" onclick="filtrarFeedCampanha('rolagem')" id="btn-feed-filtro-rolagem">🎲 Rolagens</button>
             <button type="button" class="campanha-filtro-pill" onclick="filtrarFeedCampanha('equipe')" id="btn-feed-filtro-equipe">🤝 Equipe</button>
             <button type="button" class="campanha-filtro-pill" onclick="filtrarFeedCampanha('individual')" id="btn-feed-filtro-individual">👤 Individuais</button>
-            <button type="button" class="campanha-filtro-pill" onclick="filtrarFeedCampanha('secreta')" id="btn-feed-filtro-secreta">🔮 Secretas</button>
             <button type="button" class="campanha-filtro-pill" onclick="filtrarFeedCampanha('chat')" id="btn-feed-filtro-chat">💬 Chat</button>
           </div>
         </div>
@@ -10546,6 +11274,9 @@ function definirCorPrincipal(valor, registrarAlteracao = true){
     if (registrarAlteracao) {
         marcarAlteracaoFeita();
     }
+    if (typeof verificarGatilhoAntiContraste === "function") {
+        verificarGatilhoAntiContraste();
+    }
 }
 
 function alternarContornoLetras(ativo, registrarAlteracao = true){
@@ -10570,6 +11301,9 @@ function alternarContornoLetras(ativo, registrarAlteracao = true){
 
     if(registrarAlteracao){
         marcarAlteracaoFeita();
+    }
+    if (typeof verificarGatilhoAntiContraste === "function") {
+        verificarGatilhoAntiContraste();
     }
 }
 
@@ -11400,31 +12134,105 @@ document.getElementById("custom_divisor").value="2";
 
 /* ============================================================
    SISTEMA DE AVISO E NOTIFICAÇÃO DE ALTERAÇÕES NÃO SALVAS
-   Gerencia o estado de modificação da ficha, atualizando o
-   botão "Salvar alterações", a barra flutuante de notificação
-   e executando o salvamento automático com debounce de 2s.
+   E CONTROLE DE MODO DE SALVAMENTO (AUTOMÁTICO vs. MANUAL)
+   - Automático (padrão): Salva continuamente de forma silenciosa.
+     Botão Salvar Ficha e avisos pop-ups em 2s ficam indisponíveis.
+   - Manual (opcional): Desativa o salvamento automático contínuo.
+     Habilita o botão Salvar Ficha e os avisos de alterações pendentes.
    ============================================================ */
 let temAlteracoesNaoSalvas = false;
 let autoSaveDebounceTimeout = null;
+let salvamentoManualAtivo = false; // Padrão: false (Modo Automático ativo por padrão)
 const DEBOUNCE_SALVAMENTO_MS = 2000;
 
+function atualizarUIModoSalvamento(){
+    const btnSalvarPrincipal = document.getElementById("btn-salvar-ficha-principal");
+    const avisoInline = document.getElementById("ficha-aviso-alteracoes-inline");
+    const bannerFlutuante = document.getElementById("barra-alteracoes-flutuante");
+    const btnModo = document.getElementById("btn-toggle-salvamento-manual");
+    const txtModo = document.getElementById("txt-modo-salvamento");
+    const iconeModo = document.getElementById("icone-modo-salvamento");
+
+    if(salvamentoManualAtivo){
+        if(btnSalvarPrincipal) btnSalvarPrincipal.style.display = "inline-flex";
+        if(btnModo){
+            btnModo.classList.add("manual-ativo");
+            btnModo.title = "Modo de Salvamento MANUAL ativado. Clique para alternar para Automático.";
+        }
+        if(txtModo) txtModo.textContent = "Salvamento: Manual";
+        if(iconeModo) iconeModo.textContent = "💾";
+        atualizarUIAlteracoesPendentes();
+    }else{
+        if(btnSalvarPrincipal){
+            btnSalvarPrincipal.style.display = "none";
+            btnSalvarPrincipal.classList.remove("tem-alteracoes");
+        }
+        if(avisoInline) avisoInline.classList.remove("visivel");
+        if(bannerFlutuante) bannerFlutuante.classList.remove("visivel");
+        if(btnModo){
+            btnModo.classList.remove("manual-ativo");
+            btnModo.title = "Modo de Salvamento AUTOMÁTICO ativado (padrão). Clique para ativar Salvamento Manual.";
+        }
+        if(txtModo) txtModo.textContent = "Salvamento: Automático";
+        if(iconeModo) iconeModo.textContent = "⚡";
+    }
+}
+
+function alternarModoSalvamentoManual(forcarValor){
+    if(typeof forcarValor === "boolean"){
+        salvamentoManualAtivo = forcarValor;
+    }else{
+        salvamentoManualAtivo = !salvamentoManualAtivo;
+    }
+    atualizarUIModoSalvamento();
+
+    if(!salvamentoManualAtivo){
+        // Ao voltar para o modo automático, salva silenciosamente caso haja algo pendente
+        if(temAlteracoesNaoSalvas){
+            salvarFicha(true);
+        }
+        mostrarStatus("⚡ Salvamento Automático ativado (as alterações serão salvas continuamente sem pop-ups).", "ok");
+    }else{
+        mostrarStatus("💾 Salvamento Manual ativado (use o botão Salvar Ficha para gravar suas modificações).", "");
+        if(temAlteracoesNaoSalvas){
+            atualizarUIAlteracoesPendentes();
+        }
+    }
+    // Salva a preferência de modo na própria ficha
+    if(!salvamentoManualAtivo){
+        salvarFicha(true);
+    }
+}
+
 function agendarSalvamentoAutomaticoDebounced(){
+    if(salvamentoManualAtivo){
+        return; // No modo manual, não efetua salvamento automático
+    }
     if (autoSaveDebounceTimeout) {
         clearTimeout(autoSaveDebounceTimeout);
     }
     autoSaveDebounceTimeout = setTimeout(() => {
-        if (temAlteracoesNaoSalvas) {
+        if (temAlteracoesNaoSalvas && !salvamentoManualAtivo) {
             salvarFicha(true);
         }
     }, DEBOUNCE_SALVAMENTO_MS);
 }
 
-function marcarAlteracaoFeita(){
-    if(!temAlteracoesNaoSalvas){
-        temAlteracoesNaoSalvas = true;
-        atualizarUIAlteracoesPendentes();
+function salvarFichaAutomatico(){
+    if(!salvamentoManualAtivo){
+        salvarFicha(true);
+    }else{
+        marcarAlteracaoFeita();
     }
-    agendarSalvamentoAutomaticoDebounced();
+}
+
+function marcarAlteracaoFeita(){
+    temAlteracoesNaoSalvas = true;
+    if(salvamentoManualAtivo){
+        atualizarUIAlteracoesPendentes();
+    }else{
+        agendarSalvamentoAutomaticoDebounced();
+    }
 }
 
 function limparAlteracoesNaoSalvas(){
@@ -11441,6 +12249,20 @@ function atualizarUIAlteracoesPendentes(){
     const avisoInline = document.getElementById("ficha-aviso-alteracoes-inline");
     const btnSalvarPrincipal = document.getElementById("btn-salvar-ficha-principal");
     const txtBtnSalvar = document.getElementById("txt-btn-salvar-principal");
+
+    if(!salvamentoManualAtivo){
+        if(bannerFlutuante) bannerFlutuante.classList.remove("visivel");
+        if(avisoInline) avisoInline.classList.remove("visivel");
+        if(btnSalvarPrincipal){
+            btnSalvarPrincipal.style.display = "none";
+            btnSalvarPrincipal.classList.remove("tem-alteracoes");
+        }
+        return;
+    }
+
+    if(btnSalvarPrincipal){
+        btnSalvarPrincipal.style.display = "inline-flex";
+    }
 
     if(temAlteracoesNaoSalvas){
         if(bannerFlutuante) bannerFlutuante.classList.add("visivel");
@@ -11686,16 +12508,20 @@ function coletarEstadoFicha(){
         },
         conquistas: {
             campanha: (typeof conquistasCampanha !== "undefined") ? conquistasCampanha.map(c => ({...c})) : [],
-            desbloqueadas: (typeof conquistasDesbloqueadas !== "undefined") ? Array.from(conquistasDesbloqueadas) : [],
+            desbloqueadas: (typeof conquistasDesbloqueadas !== "undefined") ? (typeof ofuscarListaConquistasParaSalvar === "function" ? ofuscarListaConquistasParaSalvar(Array.from(conquistasDesbloqueadas)) : Array.from(conquistasDesbloqueadas)) : [],
             secretasDesbloqueadas: (typeof conquistasSecretasDesbloqueadas !== "undefined") ? conquistasSecretasDesbloqueadas : false
         },
         atalhosTeclado: (typeof atalhosTecladoConfig !== "undefined") ? { ...atalhosTecladoConfig } : null,
+        salvamentoManual: salvamentoManualAtivo,
         modoClaro: modoClaroAtivo,
         atualizadoEm: new Date().toISOString()
     };
 }
 
 function aplicarEstadoFicha(estado){
+    salvamentoManualAtivo = !!estado.salvamentoManual;
+    atualizarUIModoSalvamento();
+
     document.getElementById("ficha_nome").value = estado.nome || "Personagem sem nome";
     document.getElementById("ficha_nivel").value = estado.nivel || "";
     document.getElementById("ficha_classe1").value = estado.classe1 || "";
@@ -11815,7 +12641,12 @@ function aplicarEstadoFicha(estado){
     const conqSalvas = estado.conquistas || {};
     if(typeof conquistasCampanha !== "undefined"){
         conquistasCampanha = Array.isArray(conqSalvas.campanha) ? conqSalvas.campanha.map(c => ({...c})) : [];
-        conquistasDesbloqueadas = new Set(Array.isArray(conqSalvas.desbloqueadas) ? conqSalvas.desbloqueadas : []);
+        const rawDesbloqueadas = Array.isArray(conqSalvas.desbloqueadas) ? conqSalvas.desbloqueadas : [];
+        const idsDecodificados = (typeof desofuscarListaConquistasCarregadas === "function") ? desofuscarListaConquistasCarregadas(rawDesbloqueadas) : rawDesbloqueadas;
+        conquistasDesbloqueadas = new Set(idsDecodificados);
+        if (typeof salvarSegredosDesbloqueadosStorage === "function") {
+            salvarSegredosDesbloqueadosStorage();
+        }
         // A aba SECRETAS só é exibida mediante duplo-clique na logo do rodapé
         conquistasSecretasDesbloqueadas = false;
         const btnSecretas = document.getElementById("conq-btn-n1-secretas");
@@ -11931,6 +12762,437 @@ function limparChavesOrfas(){
     }
 }
 
+/* ============================================================
+   MECANISMO DE COMPRESSÃO LZ-STRING PARA LOCALSTORAGE
+   Comprime o JSON das fichas em caracteres UTF-16 seguros,
+   reduzindo o tamanho ocupado em até 70-85% e evitando
+   estouro da cota de 5MB do navegador ao salvar imagens e
+   estados complexos. Mantém total retrocompatibilidade.
+   ============================================================ */
+const LZStringStorage = (function(){
+    const f = String.fromCharCode;
+    const LZ = {
+        compressToUTF16: function(input) {
+            if (input == null) return "";
+            return LZ._compress(input, 15, function(a) {
+                return f(a + 32);
+            }) + " ";
+        },
+        decompressFromUTF16: function(compressed) {
+            if (compressed == null) return "";
+            if (compressed === "") return null;
+            return LZ._decompress(compressed.length, 16384, function(index) {
+                return compressed.charCodeAt(index) - 32;
+            });
+        },
+        _compress: function(uncompressed, bitsPerChar, getCharFromInt) {
+            if (uncompressed == null) return "";
+            let i, value,
+                context_dictionary = {},
+                context_dictionaryToCreate = {},
+                context_c = "",
+                context_wc = "",
+                context_w = "",
+                context_enlargeIn = 2,
+                context_dictSize = 3,
+                context_numBits = 2,
+                context_data = [],
+                context_data_val = 0,
+                context_data_position = 0,
+                ii;
+
+            for (ii = 0; ii < uncompressed.length; ii += 1) {
+                context_c = uncompressed.charAt(ii);
+                if (!Object.prototype.hasOwnProperty.call(context_dictionary, context_c)) {
+                    context_dictionary[context_c] = context_dictSize++;
+                    context_dictionaryToCreate[context_c] = true;
+                }
+
+                context_wc = context_w + context_c;
+                if (Object.prototype.hasOwnProperty.call(context_dictionary, context_wc)) {
+                    context_w = context_wc;
+                } else {
+                    if (Object.prototype.hasOwnProperty.call(context_dictionaryToCreate, context_w)) {
+                        if (context_w.charCodeAt(0) < 256) {
+                            for (i = 0; i < context_numBits; i++) {
+                                context_data_val = (context_data_val << 1);
+                                if (context_data_position == bitsPerChar - 1) {
+                                    context_data_position = 0;
+                                    context_data.push(getCharFromInt(context_data_val));
+                                    context_data_val = 0;
+                                } else {
+                                    context_data_position++;
+                                }
+                            }
+                            value = context_w.charCodeAt(0);
+                            for (i = 0; i < 8; i++) {
+                                context_data_val = (context_data_val << 1) | (value & 1);
+                                if (context_data_position == bitsPerChar - 1) {
+                                    context_data_position = 0;
+                                    context_data.push(getCharFromInt(context_data_val));
+                                    context_data_val = 0;
+                                } else {
+                                    context_data_position++;
+                                }
+                                value = value >> 1;
+                            }
+                        } else {
+                            value = 1;
+                            for (i = 0; i < context_numBits; i++) {
+                                context_data_val = (context_data_val << 1) | value;
+                                if (context_data_position == bitsPerChar - 1) {
+                                    context_data_position = 0;
+                                    context_data.push(getCharFromInt(context_data_val));
+                                    context_data_val = 0;
+                                } else {
+                                    context_data_position++;
+                                }
+                                value = 0;
+                            }
+                            value = context_w.charCodeAt(0);
+                            for (i = 0; i < 16; i++) {
+                                context_data_val = (context_data_val << 1) | (value & 1);
+                                if (context_data_position == bitsPerChar - 1) {
+                                    context_data_position = 0;
+                                    context_data.push(getCharFromInt(context_data_val));
+                                    context_data_val = 0;
+                                } else {
+                                    context_data_position++;
+                                }
+                                value = value >> 1;
+                            }
+                        }
+                        context_enlargeIn--;
+                        if (context_enlargeIn == 0) {
+                            context_enlargeIn = Math.pow(2, context_numBits);
+                            context_numBits++;
+                        }
+                        delete context_dictionaryToCreate[context_w];
+                    } else {
+                        value = context_dictionary[context_w];
+                        for (i = 0; i < context_numBits; i++) {
+                            context_data_val = (context_data_val << 1) | (value & 1);
+                            if (context_data_position == bitsPerChar - 1) {
+                                context_data_position = 0;
+                                context_data.push(getCharFromInt(context_data_val));
+                                context_data_val = 0;
+                            } else {
+                                context_data_position++;
+                            }
+                            value = value >> 1;
+                        }
+                    }
+                    context_enlargeIn--;
+                    if (context_enlargeIn == 0) {
+                        context_enlargeIn = Math.pow(2, context_numBits);
+                        context_numBits++;
+                    }
+                    context_dictionary[context_wc] = context_dictSize++;
+                    context_w = String(context_c);
+                }
+            }
+
+            if (context_w !== "") {
+                if (Object.prototype.hasOwnProperty.call(context_dictionaryToCreate, context_w)) {
+                    if (context_w.charCodeAt(0) < 256) {
+                        for (i = 0; i < context_numBits; i++) {
+                            context_data_val = (context_data_val << 1);
+                            if (context_data_position == bitsPerChar - 1) {
+                                context_data_position = 0;
+                                context_data.push(getCharFromInt(context_data_val));
+                                context_data_val = 0;
+                            } else {
+                                context_data_position++;
+                            }
+                        }
+                        value = context_w.charCodeAt(0);
+                        for (i = 0; i < 8; i++) {
+                            context_data_val = (context_data_val << 1) | (value & 1);
+                            if (context_data_position == bitsPerChar - 1) {
+                                context_data_position = 0;
+                                context_data.push(getCharFromInt(context_data_val));
+                                context_data_val = 0;
+                            } else {
+                                context_data_position++;
+                            }
+                            value = value >> 1;
+                        }
+                    } else {
+                        value = 1;
+                        for (i = 0; i < context_numBits; i++) {
+                            context_data_val = (context_data_val << 1) | value;
+                            if (context_data_position == bitsPerChar - 1) {
+                                context_data_position = 0;
+                                context_data.push(getCharFromInt(context_data_val));
+                                context_data_val = 0;
+                            } else {
+                                context_data_position++;
+                            }
+                            value = 0;
+                        }
+                        value = context_w.charCodeAt(0);
+                        for (i = 0; i < 16; i++) {
+                            context_data_val = (context_data_val << 1) | (value & 1);
+                            if (context_data_position == bitsPerChar - 1) {
+                                context_data_position = 0;
+                                context_data.push(getCharFromInt(context_data_val));
+                                context_data_val = 0;
+                            } else {
+                                context_data_position++;
+                            }
+                            value = value >> 1;
+                        }
+                    }
+                    context_enlargeIn--;
+                    if (context_enlargeIn == 0) {
+                        context_enlargeIn = Math.pow(2, context_numBits);
+                        context_numBits++;
+                    }
+                    delete context_dictionaryToCreate[context_w];
+                } else {
+                    value = context_dictionary[context_w];
+                    for (i = 0; i < context_numBits; i++) {
+                        context_data_val = (context_data_val << 1) | (value & 1);
+                        if (context_data_position == bitsPerChar - 1) {
+                            context_data_position = 0;
+                            context_data.push(getCharFromInt(context_data_val));
+                            context_data_val = 0;
+                        } else {
+                            context_data_position++;
+                        }
+                        value = value >> 1;
+                    }
+                }
+                context_enlargeIn--;
+                if (context_enlargeIn == 0) {
+                    context_enlargeIn = Math.pow(2, context_numBits);
+                    context_numBits++;
+                }
+            }
+
+            // Mark the end of the stream
+            value = 2;
+            for (i = 0; i < context_numBits; i++) {
+                context_data_val = (context_data_val << 1) | (value & 1);
+                if (context_data_position == bitsPerChar - 1) {
+                    context_data_position = 0;
+                    context_data.push(getCharFromInt(context_data_val));
+                    context_data_val = 0;
+                } else {
+                    context_data_position++;
+                }
+                value = value >> 1;
+            }
+
+            // Flush the last char
+            while (true) {
+                context_data_val = (context_data_val << 1);
+                if (context_data_position == bitsPerChar - 1) {
+                    context_data.push(getCharFromInt(context_data_val));
+                    break;
+                } else context_data_position++;
+            }
+            return context_data.join('');
+        },
+        _decompress: function(length, resetValue, getNextValue) {
+            let dictionary = [],
+                next,
+                enlargeIn = 4,
+                dictSize = 4,
+                numBits = 3,
+                entry = "",
+                result = [],
+                i,
+                w,
+                bits, resb, maxpower, power,
+                c,
+                data = { val: getNextValue(0), position: resetValue, index: 1 };
+
+            for (i = 0; i < 3; i += 1) {
+                dictionary[i] = i;
+            }
+
+            bits = 0;
+            maxpower = Math.pow(2, 2);
+            power = 1;
+            while (power != maxpower) {
+                resb = data.val & data.position;
+                data.position >>= 1;
+                if (data.position == 0) {
+                    data.position = resetValue;
+                    data.val = getNextValue(data.index++);
+                }
+                bits |= (resb > 0 ? 1 : 0) * power;
+                power <<= 1;
+            }
+
+            switch (next = bits) {
+                case 0:
+                    bits = 0;
+                    maxpower = Math.pow(2, 8);
+                    power = 1;
+                    while (power != maxpower) {
+                        resb = data.val & data.position;
+                        data.position >>= 1;
+                        if (data.position == 0) {
+                            data.position = resetValue;
+                            data.val = getNextValue(data.index++);
+                        }
+                        bits |= (resb > 0 ? 1 : 0) * power;
+                        power <<= 1;
+                    }
+                    c = f(bits);
+                    break;
+                case 1:
+                    bits = 0;
+                    maxpower = Math.pow(2, 16);
+                    power = 1;
+                    while (power != maxpower) {
+                        resb = data.val & data.position;
+                        data.position >>= 1;
+                        if (data.position == 0) {
+                            data.position = resetValue;
+                            data.val = getNextValue(data.index++);
+                        }
+                        bits |= (resb > 0 ? 1 : 0) * power;
+                        power <<= 1;
+                    }
+                    c = f(bits);
+                    break;
+                case 2:
+                    return "";
+            }
+            dictionary[3] = c;
+            w = c;
+            result.push(c);
+            while (true) {
+                if (data.index > length) {
+                    return "";
+                }
+
+                bits = 0;
+                maxpower = Math.pow(2, numBits);
+                power = 1;
+                while (power != maxpower) {
+                    resb = data.val & data.position;
+                    data.position >>= 1;
+                    if (data.position == 0) {
+                        data.position = resetValue;
+                        data.val = getNextValue(data.index++);
+                    }
+                    bits |= (resb > 0 ? 1 : 0) * power;
+                    power <<= 1;
+                }
+
+                switch (c = bits) {
+                    case 0:
+                        bits = 0;
+                        maxpower = Math.pow(2, 8);
+                        power = 1;
+                        while (power != maxpower) {
+                            resb = data.val & data.position;
+                            data.position >>= 1;
+                            if (data.position == 0) {
+                                data.position = resetValue;
+                                data.val = getNextValue(data.index++);
+                            }
+                            bits |= (resb > 0 ? 1 : 0) * power;
+                            power <<= 1;
+                        }
+
+                        dictionary[dictSize++] = f(bits);
+                        c = dictSize - 1;
+                        enlargeIn--;
+                        break;
+                    case 1:
+                        bits = 0;
+                        maxpower = Math.pow(2, 16);
+                        power = 1;
+                        while (power != maxpower) {
+                            resb = data.val & data.position;
+                            data.position >>= 1;
+                            if (data.position == 0) {
+                                data.position = resetValue;
+                                data.val = getNextValue(data.index++);
+                            }
+                            bits |= (resb > 0 ? 1 : 0) * power;
+                            power <<= 1;
+                        }
+                        dictionary[dictSize++] = f(bits);
+                        c = dictSize - 1;
+                        enlargeIn--;
+                        break;
+                    case 2:
+                        return result.join('');
+                }
+
+                if (enlargeIn == 0) {
+                    enlargeIn = Math.pow(2, numBits);
+                    numBits++;
+                }
+
+                if (dictionary[c]) {
+                    entry = dictionary[c];
+                } else {
+                    if (c === dictSize) {
+                        entry = w + w.charAt(0);
+                    } else {
+                        return null;
+                    }
+                }
+                result.push(entry);
+
+                // Add w+entry[0] to the dictionary.
+                dictionary[dictSize++] = w + entry.charAt(0);
+                enlargeIn--;
+
+                w = entry;
+
+                if (enlargeIn == 0) {
+                    enlargeIn = Math.pow(2, numBits);
+                    numBits++;
+                }
+            }
+        }
+    };
+    return LZ;
+})();
+
+const PREFIXO_COMPRESSAO_STORAGE = "LZC:v1:";
+
+function compactarDadosStorage(dados){
+    if(dados === null || dados === undefined) return "";
+    const textoJson = typeof dados === "string" ? dados : JSON.stringify(dados);
+    try{
+        const compactado = LZStringStorage.compressToUTF16(textoJson);
+        if(compactado && compactado.length < textoJson.length){
+            return PREFIXO_COMPRESSAO_STORAGE + compactado;
+        }
+    }catch(e){
+        console.warn("Aviso ao compactar dados do localStorage:", e);
+    }
+    return textoJson;
+}
+
+function descompactarDadosStorage(bruto){
+    if(!bruto || typeof bruto !== "string") return null;
+    if(bruto.startsWith(PREFIXO_COMPRESSAO_STORAGE)){
+        try{
+            const descompactado = LZStringStorage.decompressFromUTF16(bruto.slice(PREFIXO_COMPRESSAO_STORAGE.length));
+            if(descompactado){
+                return JSON.parse(descompactado);
+            }
+        }catch(e){
+            console.warn("Aviso ao descompactar dados do localStorage:", e);
+        }
+    }
+    try{
+        return JSON.parse(bruto);
+    }catch(e){
+        return null;
+    }
+}
+
 async function otimizarArmazenamentoExistente(){
     limparChavesOrfas();
     try{
@@ -11938,18 +13200,27 @@ async function otimizarArmazenamentoExistente(){
         for(const item of indice){
             const chave = CHAVE_PREFIXO + "ficha:" + item.id;
             const bruto = localStorage.getItem(chave);
-            if(bruto && bruto.length > 60000){
-                try{
-                    const est = JSON.parse(bruto);
-                    if(est && est.avatar && est.avatar.length > 50000){
-                        const avatarOtimizado = await otimizarImagemAvatar(est.avatar, 320, 420, 0.80);
-                        if(avatarOtimizado && avatarOtimizado.length < est.avatar.length){
-                            est.avatar = avatarOtimizado;
-                            localStorage.setItem(chave, JSON.stringify(est));
-                            salvarFichaIDB(item.id, est).catch(()=>{});
-                        }
+            if(bruto){
+                const est = descompactarDadosStorage(bruto);
+                if(est){
+                    let mudou = false;
+                    if(est.avatar && est.avatar.length > 50000){
+                        try{
+                            const avatarOtimizado = await otimizarImagemAvatar(est.avatar, 320, 420, 0.80);
+                            if(avatarOtimizado && avatarOtimizado.length < est.avatar.length){
+                                est.avatar = avatarOtimizado;
+                                mudou = true;
+                            }
+                        }catch(eOtim){}
                     }
-                }catch(eFicha){}
+                    if(!bruto.startsWith(PREFIXO_COMPRESSAO_STORAGE) || mudou){
+                        const novoCompactado = compactarDadosStorage(est);
+                        try{
+                            localStorage.setItem(chave, novoCompactado);
+                            salvarFichaIDB(item.id, est).catch(()=>{});
+                        }catch(eSalvar){}
+                    }
+                }
             }
         }
     }catch(e){
@@ -11989,9 +13260,10 @@ async function salvarFicha(silencioso = false){
         const estado = coletarEstadoFicha();
         let salvoComSucesso = false;
 
-        // Tentativa 1: salvar normalmente no localStorage
+        // Tentativa 1: salvar com compressão LZString no localStorage
         try{
-            localStorage.setItem(CHAVE_PREFIXO+"ficha:"+fichaId, JSON.stringify(estado));
+            const payloadCompactado = compactarDadosStorage(estado);
+            localStorage.setItem(CHAVE_PREFIXO+"ficha:"+fichaId, payloadCompactado);
             salvoComSucesso = true;
         }catch(errQuota){
             console.warn("Aviso de quota ao salvar no localStorage. Executando rotinas de alívio...", errQuota);
@@ -12008,19 +13280,20 @@ async function salvarFicha(silencioso = false){
                 }catch(eComp){}
             }
 
-            // 3. Tenta salvar novamente no localStorage
+            // 3. Tenta salvar novamente no localStorage comprimido
             try{
-                localStorage.setItem(CHAVE_PREFIXO+"ficha:"+fichaId, JSON.stringify(estado));
+                const payloadCompactado2 = compactarDadosStorage(estado);
+                localStorage.setItem(CHAVE_PREFIXO+"ficha:"+fichaId, payloadCompactado2);
                 salvoComSucesso = true;
             }catch(errQuota2){
                 console.warn("localStorage permaneceu cheio. Salvando no IndexedDB:", errQuota2);
                 // 4. Salva ficha completa com imagem no IndexedDB (sem limite de 5MB)
                 const salvoIDB = await salvarFichaIDB(fichaId, estado);
                 if(salvoIDB){
-                    // No localStorage, guarda uma versão leve para manter integridade da lista
+                    // No localStorage, guarda uma versão leve comprimida para manter integridade da lista
                     const estadoLeve = {...estado, avatar: ""};
                     try{
-                        localStorage.setItem(CHAVE_PREFIXO+"ficha:"+fichaId, JSON.stringify(estadoLeve));
+                        localStorage.setItem(CHAVE_PREFIXO+"ficha:"+fichaId, compactarDadosStorage(estadoLeve));
                     }catch(eLeve){}
                     salvoComSucesso = true;
                 }
@@ -12046,8 +13319,6 @@ async function salvarFicha(silencioso = false){
 
         if(!silencioso){
             mostrarStatus("✓ Ficha \"" + estado.nome + "\" salva com sucesso.", "ok");
-        } else {
-            mostrarStatus("✓ Salvamento automático (localStorage).", "ok");
         }
         limparAlteracoesNaoSalvas();
         renderizarListaFichas();
@@ -12102,9 +13373,7 @@ async function carregarFicha(id){
         let estado = null;
         const bruto = localStorage.getItem(CHAVE_PREFIXO+"ficha:"+id);
         if(bruto){
-            try{
-                estado = JSON.parse(bruto);
-            }catch(e){}
+            estado = descompactarDadosStorage(bruto);
         }
 
         // Se a ficha no localStorage não tiver avatar ou se não existir no localStorage, busca no IndexedDB
@@ -12259,9 +13528,142 @@ function formatarData(iso){
     }
 }
 
+/* ============================================================
+   SELEÇÃO MÚLTIPLA E EXCLUSÃO EM LOTE DE FICHAS SALVAS
+   ============================================================ */
+let modoSelecaoFichas = false;
+let fichasSelecionadasSet = new Set();
+
+function alternarModoSelecaoFichas(){
+    const indice = carregarIndiceFichas();
+    if(!indice || indice.length === 0){
+        mostrarStatus("Não há fichas salvas para selecionar.", "aviso");
+        return;
+    }
+    modoSelecaoFichas = !modoSelecaoFichas;
+    fichasSelecionadasSet.clear();
+    renderizarListaFichas();
+}
+
+function cancelarModoSelecaoFichas(){
+    modoSelecaoFichas = false;
+    fichasSelecionadasSet.clear();
+    renderizarListaFichas();
+}
+
+function toggleSelecaoFicha(id){
+    if(fichasSelecionadasSet.has(id)){
+        fichasSelecionadasSet.delete(id);
+    } else {
+        fichasSelecionadasSet.add(id);
+    }
+    atualizarControlesSelecaoFichas();
+    const itens = document.querySelectorAll("#lista-fichas-salvas .ficha-salva-item");
+    itens.forEach(item => {
+        if(item.dataset.fichaId === id){
+            const isSel = fichasSelecionadasSet.has(id);
+            item.classList.toggle("selecionada", isSel);
+            const chk = item.querySelector(".ficha-salva-checkbox");
+            if(chk) chk.checked = isSel;
+        }
+    });
+}
+
+function selecionarTodasFichas(){
+    const indice = carregarIndiceFichas();
+    fichasSelecionadasSet.clear();
+    indice.forEach(f => fichasSelecionadasSet.add(f.id));
+    atualizarControlesSelecaoFichas();
+    renderizarListaFichas();
+}
+
+function desmarcarTodasFichas(){
+    fichasSelecionadasSet.clear();
+    atualizarControlesSelecaoFichas();
+    renderizarListaFichas();
+}
+
+function atualizarControlesSelecaoFichas(){
+    const qtdNumEl = document.getElementById("qtd-fichas-selecionadas-num");
+    const btnExcluir = document.getElementById("btn-excluir-selecionadas");
+    const btnToggle = document.getElementById("btn-toggle-selecao-fichas");
+    const txtToggle = document.getElementById("txt-toggle-selecao-fichas");
+    const barraLote = document.getElementById("ficha-selecao-barra-lote");
+
+    const qtd = fichasSelecionadasSet.size;
+    if(qtdNumEl) qtdNumEl.textContent = qtd;
+    if(btnExcluir) btnExcluir.disabled = (qtd === 0);
+
+    if(barraLote && btnToggle){
+        if(modoSelecaoFichas){
+            barraLote.style.display = "flex";
+            btnToggle.style.display = "none";
+            btnToggle.classList.add("ativo-modo");
+        } else {
+            barraLote.style.display = "none";
+            btnToggle.style.display = "inline-flex";
+            btnToggle.classList.remove("ativo-modo");
+            if(txtToggle) txtToggle.textContent = "Selecionar Múltiplas";
+        }
+    }
+}
+
+function solicitarExcluirFichasSelecionadas(){
+    const qtd = fichasSelecionadasSet.size;
+    if(qtd === 0) return;
+
+    const indice = carregarIndiceFichas();
+    const fichasParaExcluir = indice.filter(f => fichasSelecionadasSet.has(f.id));
+    if(!fichasParaExcluir.length) return;
+
+    const listaNomesHTML = fichasParaExcluir.map(f => `<li><strong>${escapeHTML(f.nome || "Ficha sem nome")}</strong> <span style="font-size:0.85em;color:var(--ink-faint);">(${formatarData(f.atualizadoEm)})</span></li>`).join("");
+
+    abrirModalConfirmacao({
+        titulo: "Excluir Fichas Selecionadas",
+        icone: "🗑",
+        mensagem: `Tem certeza que deseja excluir permanentemente as <strong>${qtd} ${qtd === 1 ? 'ficha selecionada' : 'fichas selecionadas'}</strong>?<br><div style="margin:10px 0;max-height:140px;overflow-y:auto;background:var(--bg-inset);padding:8px 12px;border:1px solid var(--line);border-radius:3px;text-align:left;"><ul style="margin:0;padding-left:18px;font-size:0.92em;display:flex;flex-direction:column;gap:4px;">${listaNomesHTML}</ul></div><span style="display:block;margin-top:8px;font-size:0.9em;opacity:0.85;color:var(--ink-faint);">Esta ação removerá as fichas salvas do navegador e não poderá ser desfeita.</span>`,
+        rotuloConfirmar: `Sim, Excluir ${qtd} ${qtd === 1 ? 'Ficha' : 'Fichas'}`,
+        aoConfirmar: async () => {
+            await confirmarExclusaoMultiplasFichas(fichasParaExcluir);
+        }
+    });
+}
+
+async function confirmarExclusaoMultiplasFichas(fichasParaExcluir){
+    try{
+        for(const f of fichasParaExcluir){
+            localStorage.removeItem(CHAVE_PREFIXO+"ficha:"+f.id);
+            try{
+                await excluirFichaIDB(f.id);
+            }catch(errIdb){
+                console.warn("Erro ao excluir ficha do IndexedDB:", f.id, errIdb);
+            }
+            if(fichaId === f.id){
+                fichaId = null;
+            }
+        }
+
+        const idsExcluidos = new Set(fichasParaExcluir.map(f => f.id));
+        const indice = carregarIndiceFichas();
+        const novoIndice = indice.filter(f => !idsExcluidos.has(f.id));
+        salvarIndiceFichas(novoIndice);
+
+        const totalExcluidas = fichasParaExcluir.length;
+        fichasSelecionadasSet.clear();
+        modoSelecaoFichas = false;
+
+        mostrarStatus(`✓ ${totalExcluidas} ${totalExcluidas === 1 ? 'ficha excluída' : 'fichas excluídas'} com sucesso.`, "ok");
+        renderizarListaFichas();
+    }catch(e){
+        console.error("Erro ao excluir múltiplas fichas:", e);
+        mostrarStatus("✗ Ocorreu um erro ao excluir algumas fichas.", "erro");
+    }
+}
+
 function renderizarListaFichas(){
     const container = document.getElementById("lista-fichas-salvas");
     const badge = document.getElementById("qtd-fichas-salvas");
+    const btnToggle = document.getElementById("btn-toggle-selecao-fichas");
     const indice = carregarIndiceFichas();
 
     if(badge){
@@ -12269,17 +13671,45 @@ function renderizarListaFichas(){
     }
 
     if(!indice.length){
-        container.innerHTML = '<div class="vazio-aviso">Nenhuma ficha salva ainda. Use "Salvar Ficha" para arquivar o personagem atual.</div>';
+        modoSelecaoFichas = false;
+        fichasSelecionadasSet.clear();
+        atualizarControlesSelecaoFichas();
+        if(btnToggle) btnToggle.disabled = true;
+        if(container) container.innerHTML = '<div class="vazio-aviso">Nenhuma ficha salva ainda. Use "Salvar Ficha" para arquivar o personagem atual.</div>';
         return;
     }
+
+    if(btnToggle) btnToggle.disabled = false;
+    atualizarControlesSelecaoFichas();
 
     indice.sort((a,b)=> new Date(b.atualizadoEm) - new Date(a.atualizadoEm));
 
     container.innerHTML = "";
     indice.forEach(f=>{
         const isAberta = (fichaId === f.id);
+        const isSelecionada = fichasSelecionadasSet.has(f.id);
         const item = document.createElement("div");
-        item.className = "ficha-salva-item" + (isAberta ? " ativa" : "");
+        item.className = "ficha-salva-item" + (isAberta ? " ativa" : "") + (modoSelecaoFichas ? " modo-selecao" : "") + (isSelecionada ? " selecionada" : "");
+        item.dataset.fichaId = f.id;
+
+        if(modoSelecaoFichas){
+            item.onclick = () => {
+                toggleSelecaoFicha(f.id);
+            };
+
+            const checkWrap = document.createElement("div");
+            checkWrap.className = "ficha-salva-checkbox-wrap";
+            const chk = document.createElement("input");
+            chk.type = "checkbox";
+            chk.className = "ficha-salva-checkbox";
+            chk.checked = isSelecionada;
+            chk.onclick = (e) => {
+                e.stopPropagation();
+                toggleSelecaoFicha(f.id);
+            };
+            checkWrap.appendChild(chk);
+            item.appendChild(checkWrap);
+        }
 
         const info = document.createElement("div");
         info.className = "ficha-salva-info";
@@ -12303,24 +13733,34 @@ function renderizarListaFichas(){
         dataEl.className = "ficha-salva-data";
         dataEl.textContent = formatarData(f.atualizadoEm);
         info.append(topoRow, dataEl);
+        item.appendChild(info);
 
-        const btns = document.createElement("div");
-        btns.className = "ficha-salva-btns";
+        if(!modoSelecaoFichas){
+            const btns = document.createElement("div");
+            btns.className = "ficha-salva-btns";
 
-        const btnAbrir = document.createElement("button");
-        btnAbrir.type = "button";
-        btnAbrir.className = "btn-mini";
-        btnAbrir.textContent = "Abrir";
-        btnAbrir.onclick = ()=>solicitarCarregarFicha(f.id, f.nome);
+            const btnAbrir = document.createElement("button");
+            btnAbrir.type = "button";
+            btnAbrir.className = "btn-mini";
+            btnAbrir.textContent = "Abrir";
+            btnAbrir.onclick = (e)=>{
+                e.stopPropagation();
+                solicitarCarregarFicha(f.id, f.nome);
+            };
 
-        const btnExcluir = document.createElement("button");
-        btnExcluir.type = "button";
-        btnExcluir.className = "btn-mini perigo";
-        btnExcluir.textContent = "Excluir";
-        btnExcluir.onclick = ()=>solicitarExcluirFicha(f.id, f.nome);
+            const btnExcluir = document.createElement("button");
+            btnExcluir.type = "button";
+            btnExcluir.className = "btn-mini perigo";
+            btnExcluir.textContent = "Excluir";
+            btnExcluir.onclick = (e)=>{
+                e.stopPropagation();
+                solicitarExcluirFicha(f.id, f.nome);
+            };
 
-        btns.append(btnAbrir, btnExcluir);
-        item.append(info, btns);
+            btns.append(btnAbrir, btnExcluir);
+            item.appendChild(btns);
+        }
+
         container.appendChild(item);
     });
 }
@@ -12397,6 +13837,7 @@ function importarJSON(event){
 function inicializarStorage(){
     const statusEl = document.getElementById("status-storage");
     try{
+        atualizarUIModoSalvamento();
         renderizarListaFichas();
         statusEl.textContent = "Fichas salvas neste navegador — use Exportar para levar a ficha a outro dispositivo.";
         otimizarArmazenamentoExistente();
@@ -12774,10 +14215,31 @@ function aplicarModoTema(modo, salvarStorage = true) {
             localStorage.setItem(STORAGE_TEMA_KEY, modoClaroAtivo ? "claro" : "escuro");
         } catch (e) {}
     }
+
+    if (typeof verificarGatilhoAntiContraste === "function") {
+        verificarGatilhoAntiContraste();
+    }
+}
+
+let _historicoAlternanciaTema = [];
+function verificarGatilhoEpileptico() {
+    if (window._bloqueioEpilepticoEmAndamento) return;
+    const agora = Date.now();
+    _historicoAlternanciaTema.push(agora);
+    // Mantém apenas alternâncias feitas nos últimos 5.5 segundos
+    _historicoAlternanciaTema = _historicoAlternanciaTema.filter(t => agora - t <= 5500);
+    if (_historicoAlternanciaTema.length >= 10) {
+        if (typeof desbloquearConquistaSecreta === "function") {
+            desbloquearConquistaSecreta("sec_epileptico");
+        }
+        _historicoAlternanciaTema = [];
+    }
 }
 
 function alternarModoTema() {
+    if (window._bloqueioEpilepticoEmAndamento) return;
     aplicarModoTema(modoClaroAtivo ? "escuro" : "claro", true);
+    verificarGatilhoEpileptico();
 }
 
 function inicializarModoTema() {
@@ -13684,30 +15146,50 @@ function exibirModalCodigoGerado(itemNome, codeStr) {
     }, 150);
 }
 
-function confirmarCederItemParaFichaLocal(itemId, targetFichaId, targetFichaNome) {
+async function confirmarCederItemParaFichaLocal(itemId, targetFichaId, targetFichaNome) {
     const itemIndex = inventarioItens.findIndex(it => it.id === itemId);
     if (itemIndex === -1) return;
     const item = inventarioItens[itemIndex];
 
     try {
-        const rawTarget = localStorage.getItem("we_are_strangers_ficha_" + targetFichaId);
+        let chaveAlvo = CHAVE_PREFIXO + "ficha:" + targetFichaId;
+        let rawTarget = localStorage.getItem(chaveAlvo);
         if (!rawTarget) {
+            chaveAlvo = "we_are_strangers_ficha_" + targetFichaId;
+            rawTarget = localStorage.getItem(chaveAlvo);
+        }
+
+        let targetData = rawTarget ? descompactarDadosStorage(rawTarget) : null;
+        if (!targetData) {
+            targetData = await carregarFichaIDB(targetFichaId);
+        }
+
+        if (!targetData) {
             mostrarStatus("✗ Ficha de destino não encontrada no armazenamento local.", "erro");
             return;
         }
 
-        const targetData = JSON.parse(rawTarget);
-        if (!targetData.inventarioItens) targetData.inventarioItens = [];
+        if (!targetData.inventario) {
+            targetData.inventario = { cargaMaxima: 20.0, compartimentos: [], itens: [] };
+        }
+        if (!Array.isArray(targetData.inventario.itens)) {
+            targetData.inventario.itens = targetData.inventarioItens || [];
+        }
 
         const itemTransferido = JSON.parse(JSON.stringify(item));
         itemTransferido.id = "item_" + Date.now() + "_" + Math.random().toString(36).substring(2, 6);
         itemTransferido.compartimentoId = "comp_geral";
         itemTransferido.empunhado = false;
 
-        targetData.inventarioItens.push(itemTransferido);
+        targetData.inventario.itens.push(itemTransferido);
         targetData.atualizadoEm = new Date().toISOString();
 
-        localStorage.setItem("we_are_strangers_ficha_" + targetFichaId, JSON.stringify(targetData));
+        try {
+            localStorage.setItem(CHAVE_PREFIXO + "ficha:" + targetFichaId, compactarDadosStorage(targetData));
+        } catch (errQuota) {
+            console.warn("Aviso de quota ao transferir item:", errQuota);
+        }
+        salvarFichaIDB(targetFichaId, targetData).catch(() => {});
 
         inventarioItens.splice(itemIndex, 1);
 
@@ -15106,6 +16588,24 @@ const CONQUISTAS_SECRETAS = [
         titulo: "Trenzinho de luz",
         pontos: 0,
         desc: "Siga os atalhos."
+    },
+    {
+        id: "sec_epileptico",
+        nivel1: "secretas",
+        nivel2: "individual",
+        icone: "⚡",
+        titulo: "Epiléptico",
+        pontos: 0,
+        desc: "Último herói da Terra: aaaaaaaaaaaaaaaaAAAAAAAAAAAAAAAAAAAHHHHHHH!!!!!!!!!"
+    },
+    {
+        id: "sec_anti_contraste",
+        nivel1: "secretas",
+        nivel2: "individual",
+        icone: "🫥",
+        titulo: "Anti-Contraste",
+        pontos: 0,
+        desc: "Tire os textos da ficha sem tirar os textos da ficha"
     }
 ];
 
@@ -15118,17 +16618,105 @@ let conqTermoBusca = "";
 let modalConqCampanhaEmEdicaoId = null;
 let modalCodigoConqModo = "exportar";
 
+/* ============================================================
+   CAMADA DE CRIPTOGRAFIA / OFUSCAÇÃO DE CONQUISTAS SECRETAS
+   Evita que jogadores inspecionem o JSON salvo ou o localStorage
+   e descubram os segredos e gatilhos ocultos da aplicação.
+   ============================================================ */
+const _WAS_SEC_SALT = "WAS_SECRET_SALT_2026_#StrangersSecretKey!";
+
+function ofuscarIdSecreto(id) {
+    if (!id || typeof id !== "string") return id;
+    try {
+        let res = "";
+        for (let i = 0; i < id.length; i++) {
+            const cCode = id.charCodeAt(i);
+            const sCode = _WAS_SEC_SALT.charCodeAt((i * 11 + 17) % _WAS_SEC_SALT.length);
+            res += String.fromCharCode(cCode ^ sCode);
+        }
+        const b64 = btoa(unescape(encodeURIComponent(res)));
+        return "_sec_enc_" + b64.replace(/=/g, "");
+    } catch(e) {
+        return id;
+    }
+}
+
+function desofuscarIdSecreto(token) {
+    if (!token || typeof token !== "string") return token;
+    // Se for legado em texto puro conhecido, aceita diretamente
+    if (CONQUISTAS_SECRETAS.some(c => c.id === token)) {
+        return token;
+    }
+    if (!token.startsWith("_sec_enc_")) {
+        return token;
+    }
+    try {
+        let b64 = token.substring(9);
+        while (b64.length % 4 !== 0) {
+            b64 += "=";
+        }
+        const str = decodeURIComponent(escape(atob(b64)));
+        let id = "";
+        for (let i = 0; i < str.length; i++) {
+            const cCode = str.charCodeAt(i);
+            const sCode = _WAS_SEC_SALT.charCodeAt((i * 11 + 17) % _WAS_SEC_SALT.length);
+            id += String.fromCharCode(cCode ^ sCode);
+        }
+        if (CONQUISTAS_SECRETAS.some(c => c.id === id)) {
+            return id;
+        }
+        return token;
+    } catch(e) {
+        return token;
+    }
+}
+
+function ofuscarListaConquistasParaSalvar(listaIds) {
+    if (!Array.isArray(listaIds)) return [];
+    return listaIds.map(id => {
+        if (CONQUISTAS_SECRETAS.some(c => c.id === id)) {
+            return ofuscarIdSecreto(id);
+        }
+        return id;
+    });
+}
+
+function desofuscarListaConquistasCarregadas(listaTokens) {
+    if (!Array.isArray(listaTokens)) return [];
+    return listaTokens.map(tok => {
+        if (typeof tok === "string" && (tok.startsWith("_sec_enc_") || tok.startsWith("sec_"))) {
+            return desofuscarIdSecreto(tok);
+        }
+        return tok;
+    });
+}
+
+function salvarSegredosDesbloqueadosStorage() {
+    try {
+        const segredosAtivos = Array.from(conquistasDesbloqueadas).filter(id => CONQUISTAS_SECRETAS.some(c => c.id === id));
+        const ofuscados = segredosAtivos.map(id => ofuscarIdSecreto(id));
+        localStorage.setItem("we_are_strangers_segredos_desbloqueados", JSON.stringify(ofuscados));
+    } catch(e) {}
+}
+
 function verificarConquistasSecretasArmazenadas() {
     try {
         localStorage.removeItem("we_are_strangers_conquistas_secretas");
-        const segredosSalvos = JSON.parse(localStorage.getItem("we_are_strangers_segredos_desbloqueados") || "[]");
-        if (Array.isArray(segredosSalvos)) {
-            segredosSalvos.forEach(id => {
-                if (CONQUISTAS_SECRETAS.some(c => c.id === id)) {
-                    conquistasDesbloqueadas.add(id);
-                }
-            });
+        const raw = localStorage.getItem("we_are_strangers_segredos_desbloqueados");
+        if (raw) {
+            const segredosSalvos = JSON.parse(raw || "[]");
+            if (Array.isArray(segredosSalvos)) {
+                segredosSalvos.forEach(item => {
+                    const idReal = desofuscarIdSecreto(item);
+                    if (CONQUISTAS_SECRETAS.some(c => c.id === idReal)) {
+                        conquistasDesbloqueadas.add(idReal);
+                    }
+                });
+            }
         }
+        // Garante armazenamento ofuscado
+        salvarSegredosDesbloqueadosStorage();
+
         // A aba de SECRETAS sempre inicia estritamente oculta até o jogador dar duplo-clique na logo
         conquistasSecretasDesbloqueadas = false;
         const btnSecretas = document.getElementById("conq-btn-n1-secretas");
@@ -15167,13 +16755,7 @@ function desbloquearConquistaSecreta(id) {
         btnSecretas.style.display = "inline-flex";
     }
 
-    try {
-        const segredosSalvos = JSON.parse(localStorage.getItem("we_are_strangers_segredos_desbloqueados") || "[]");
-        if (!segredosSalvos.includes(id)) {
-            segredosSalvos.push(id);
-            localStorage.setItem("we_are_strangers_segredos_desbloqueados", JSON.stringify(segredosSalvos));
-        }
-    } catch(e) {}
+    salvarSegredosDesbloqueadosStorage();
 
     const conquista = CONQUISTAS_SECRETAS.find(c => c.id === id);
     const titulo = conquista ? conquista.titulo : id;
@@ -15202,7 +16784,131 @@ function desbloquearConquistaSecreta(id) {
         transmitirConquistaSecretaCampanha(conquista || { id, titulo, desc: "" });
     }
 
+    if (id === "sec_epileptico") {
+        executarCinematicaEpileptico();
+    } else if (id === "sec_anti_contraste") {
+        executarAnimacaoStrokesRoxas();
+    }
+
     return true;
+}
+
+function executarCinematicaEpileptico() {
+    // 1. O site inteiro TRAVA no modo escuro imediatamente
+    window._bloqueioEpilepticoEmAndamento = true;
+    aplicarModoTema("escuro", true);
+
+    const btnTema = document.getElementById("btn-tema-toggle");
+    if (btnTema) {
+        btnTema.style.pointerEvents = "none";
+        btnTema.style.opacity = "0.5";
+        btnTema.setAttribute("disabled", "true");
+    }
+
+    // 2. Cinco segundos depois (5000ms), inicia a animação lenta de super-nova branca
+    // saindo do símbolo do Sol do modo claro até tomar a tela completamente
+    setTimeout(() => {
+        let origemX = window.innerWidth / 2;
+        let origemY = window.innerHeight / 2;
+
+        const elSol = document.getElementById("btn-tema-icone") || document.getElementById("btn-tema-toggle");
+        if (elSol) {
+            const rect = elSol.getBoundingClientRect();
+            origemX = rect.left + rect.width / 2;
+            origemY = rect.top + rect.height / 2;
+        }
+
+        let overlay = document.getElementById("overlay-cinematica-epileptico");
+        if (!overlay) {
+            overlay = document.createElement("div");
+            overlay.id = "overlay-cinematica-epileptico";
+            document.body.appendChild(overlay);
+        }
+        overlay.className = "overlay-cinematica-epileptico fase-supernova";
+        overlay.style.setProperty("--supernova-origem-x", `${origemX}px`);
+        overlay.style.setProperty("--supernova-origem-y", `${origemY}px`);
+        overlay.innerHTML = `
+            <div class="supernova-core"></div>
+            <div class="supernova-flash-total"></div>
+        `;
+
+        if (typeof tocarEfeitoSonoro === "function") {
+            tocarEfeitoSonoro({ tipo: "amaldicoado" }, 35, 2);
+        }
+
+        // 3. Fica travado com a forte luz branca por 10 segundos após a expansão (3.5s + 10s = 13.5s)
+        // e, do nada, o site inteiro fica PRETO
+        setTimeout(() => {
+            overlay.className = "overlay-cinematica-epileptico fase-blackout";
+            overlay.innerHTML = "";
+
+            // Durante o blackout, prepara a navegação para a aba de Conquistas Secretas
+            if (typeof alternarAba === "function") {
+                alternarAba("conquistas", false);
+            }
+            conquistasSecretasDesbloqueadas = true;
+            const btnSecretas = document.getElementById("conq-btn-n1-secretas");
+            if (btnSecretas) {
+                btnSecretas.style.display = "inline-flex";
+            }
+            if (typeof alternarNivel1Conquistas === "function") {
+                alternarNivel1Conquistas("secretas");
+            }
+            if (typeof renderizarListaConquistas === "function") {
+                renderizarListaConquistas();
+            }
+
+            // Centraliza no card da conquista Epiléptico
+            setTimeout(() => {
+                const cardEpileptico = document.getElementById("conq-card-sec_epileptico") ||
+                    document.querySelector('#conq-lista-grid .conq-card[data-conq-id="sec_epileptico"]');
+                if (cardEpileptico) {
+                    cardEpileptico.scrollIntoView({ behavior: "instant", block: "center" });
+                }
+            }, 100);
+
+            // 4. Cinco segundos depois (5000ms após o blackout), o site clareia numa leve transição
+            // de uma luz roxa que nasce do card da conquista e ilumina e revela a página com a conquista desbloqueada
+            setTimeout(() => {
+                let cardX = window.innerWidth / 2;
+                let cardY = window.innerHeight / 2;
+
+                const cardEpileptico = document.getElementById("conq-card-sec_epileptico") ||
+                    document.querySelector('#conq-lista-grid .conq-card[data-conq-id="sec_epileptico"]');
+                if (cardEpileptico) {
+                    const r = cardEpileptico.getBoundingClientRect();
+                    cardX = r.left + r.width / 2;
+                    cardY = r.top + r.height / 2;
+                    cardEpileptico.classList.add("destaque-supernova-epileptico");
+                }
+
+                overlay.className = "overlay-cinematica-epileptico fase-revelacao-roxa";
+                overlay.style.setProperty("--card-origem-x", `${cardX}px`);
+                overlay.style.setProperty("--card-origem-y", `${cardY}px`);
+                overlay.innerHTML = `<div class="aura-roxa-nascendo"></div>`;
+
+                if (typeof tocarEfeitoSonoro === "function") {
+                    tocarEfeitoSonoro({ tipo: "vitoria" }, 40, 2);
+                }
+
+                // Finaliza a cinemática após a transição da luz roxa (~4s)
+                setTimeout(() => {
+                    if (overlay && overlay.parentNode) {
+                        overlay.parentNode.removeChild(overlay);
+                    }
+                    window._bloqueioEpilepticoEmAndamento = false;
+                    if (btnTema) {
+                        btnTema.style.pointerEvents = "";
+                        btnTema.style.opacity = "";
+                        btnTema.removeAttribute("disabled");
+                    }
+                }, 4000);
+
+            }, 5000); // 5 segundos de blackout total
+
+        }, 13500); // 3.5s de expansão + 10s travado no branco total
+
+    }, 5000); // 5 segundos travado no modo escuro antes da supernova
 }
 
 let historicoCliquesFastSwapMalabarismo = [];
@@ -15339,6 +17045,127 @@ function dispararAnimacaoTrenzinhoDeLuz() {
     }
 }
 
+/* ============================================================
+   CONQUISTA SECRETA "ANTI-CONTRASTE" - LÓGICA E DISPARO
+   ============================================================ */
+function executarAnimacaoStrokesRoxas() {
+    // Bloqueia a animação caso as conquistas secretas não tenham sido desbloqueadas pelo duplo-clique na logo
+    const segredosDesbloqueados = (typeof conquistasSecretasDesbloqueadas !== "undefined" && conquistasSecretasDesbloqueadas) &&
+        (typeof conquistasDesbloqueadas !== "undefined" && conquistasDesbloqueadas.has("sec_easteregg_rodape"));
+    if (!segredosDesbloqueados) return;
+
+    document.documentElement.classList.remove("animacao-strokes-roxas");
+    void document.documentElement.offsetWidth;
+    document.documentElement.classList.add("animacao-strokes-roxas");
+
+    setTimeout(() => {
+        document.documentElement.classList.remove("animacao-strokes-roxas");
+    }, 950);
+}
+
+function normalizarHexRgb(hexCor) {
+    if (!hexCor || typeof hexCor !== "string") return null;
+    let hex = hexCor.trim();
+    if (hex.startsWith("#")) hex = hex.slice(1);
+    if (hex.length === 3) {
+        hex = hex.split("").map(c => c + c).join("");
+    }
+    if (hex.length !== 6) return null;
+    const r = parseInt(hex.substring(0, 2), 16);
+    const g = parseInt(hex.substring(2, 4), 16);
+    const b = parseInt(hex.substring(4, 6), 16);
+    if (isNaN(r) || isNaN(g) || isNaN(b)) return null;
+    return { r, g, b };
+}
+
+function calcularDistanciaRgb(r1, g1, b1, r2, g2, b2) {
+    return Math.sqrt((r1 - r2) ** 2 + (g1 - g2) ** 2 + (b1 - b2) ** 2);
+}
+
+function verificarCorAntiContraste(hexCor, modoClaro) {
+    const rgb = normalizarHexRgb(hexCor);
+    if (!rgb) return false;
+    const { r, g, b } = rgb;
+
+    if (modoClaro) {
+        // Modo Claro: tons pergaminho/creme de fundo da ficha (#eae1d0, #e6dcc9, #dcd4c3, #e2d8c6, #dfd5c2, #fcfbfa, #ebe6dc, etc.)
+        const alvosClaro = [
+            [234, 225, 208], // #eae1d0 (pergaminho novo)
+            [230, 220, 201], // #e6dcc9
+            [220, 212, 195], // #dcd4c3
+            [226, 216, 198], // #e2d8c6
+            [223, 213, 194], // #dfd5c2
+            [213, 203, 186], // #d5cbba
+            [252, 251, 250], // #fcfbfa
+            [244, 239, 230], // #f4efe6
+            [235, 230, 220], // #ebe6dc
+            [251, 248, 242], // #fbf8f2
+            [255, 255, 255]  // #ffffff
+        ];
+        for (const [ar, ag, ab] of alvosClaro) {
+            if (calcularDistanciaRgb(r, g, b, ar, ag, ab) <= 45) {
+                return true;
+            }
+        }
+        // Faixa de tons de pergaminho/creme de baixo contraste
+        if (r >= 200 && g >= 190 && b >= 170 && Math.abs(r - g) <= 30 && Math.abs(g - b) <= 35) {
+            return true;
+        }
+        return false;
+    } else {
+        // Modo Escuro: tons escuros/quase pretos de fundo da ficha (#111111, #080808, #161616, #141312, #0a0a0a, #000000, #171410)
+        const alvosEscuro = [
+            [17, 17, 17],    // #111111
+            [8, 8, 8],       // #080808
+            [22, 22, 22],    // #161616
+            [20, 19, 18],    // #141312
+            [10, 10, 10],    // #0a0a0a
+            [0, 0, 0],       // #000000
+            [23, 20, 16],    // #171410
+            [28, 25, 20],    // #1c1914
+            [26, 26, 26]     // #1a1a1a
+        ];
+        for (const [ar, ag, ab] of alvosEscuro) {
+            if (calcularDistanciaRgb(r, g, b, ar, ag, ab) <= 45) {
+                return true;
+            }
+        }
+        // Qualquer tom muito escuro onde todos os canais RGB são <= 35
+        if (r <= 35 && g <= 35 && b <= 35) {
+            return true;
+        }
+        return false;
+    }
+}
+
+function verificarGatilhoAntiContraste() {
+    // 1. Só pode ser desbloqueada após a primeira conquista secreta "eSPECtador Incherido" (duplo clique na logo)
+    const eSPECtadorDesbloqueado = (typeof conquistasSecretasDesbloqueadas !== "undefined" && conquistasSecretasDesbloqueadas) &&
+        (typeof conquistasDesbloqueadas !== "undefined" && conquistasDesbloqueadas.has("sec_easteregg_rodape"));
+
+    if (!eSPECtadorDesbloqueado) {
+        return;
+    }
+
+    if (typeof conquistasDesbloqueadas !== "undefined" && conquistasDesbloqueadas.has("sec_anti_contraste")) {
+        return;
+    }
+
+    // 2. O jogador deve estar com o Contorno desligado
+    if (typeof contornoLetrasAtivo !== "undefined" && contornoLetrasAtivo) {
+        return;
+    }
+
+    // 3. Obter cor tema atual e modo do tema
+    const corAtual = (typeof corPrincipalAtual !== "undefined" && corPrincipalAtual) ? corPrincipalAtual : (document.getElementById("ficha_cor")?.value || "");
+    const modoClaro = typeof modoClaroAtivo !== "undefined" ? modoClaroAtivo : document.body.classList.contains("modo-claro");
+
+    // 4. Verificar se a cor corresponde ao tom quase invisível no modo atual (ou muito próximo)
+    if (verificarCorAntiContraste(corAtual, modoClaro)) {
+        desbloquearConquistaSecreta("sec_anti_contraste");
+    }
+}
+
 function desbloquearAbaConquistasSecretas(comAnimacao = true) {
     conquistasSecretasDesbloqueadas = true;
 
@@ -15355,13 +17182,7 @@ function desbloquearAbaConquistasSecretas(comAnimacao = true) {
 
     if (!conquistasDesbloqueadas.has("sec_easteregg_rodape")) {
         conquistasDesbloqueadas.add("sec_easteregg_rodape");
-        try {
-            const segredosSalvos = JSON.parse(localStorage.getItem("we_are_strangers_segredos_desbloqueados") || "[]");
-            if (!segredosSalvos.includes("sec_easteregg_rodape")) {
-                segredosSalvos.push("sec_easteregg_rodape");
-                localStorage.setItem("we_are_strangers_segredos_desbloqueados", JSON.stringify(segredosSalvos));
-            }
-        } catch(e) {}
+        salvarSegredosDesbloqueadosStorage();
         if (typeof salvarFichaAutomatico === "function") {
             salvarFichaAutomatico();
         } else if (typeof marcarAlteracaoFeita === "function") {
@@ -15371,6 +17192,10 @@ function desbloquearAbaConquistasSecretas(comAnimacao = true) {
 
     if (typeof renderizarListaConquistas === "function") {
         renderizarListaConquistas();
+    }
+
+    if (typeof verificarGatilhoAntiContraste === "function") {
+        verificarGatilhoAntiContraste();
     }
 }
 
@@ -15613,7 +17438,9 @@ function renderizarListaConquistas() {
         const estaDesbloqueada = conquistasDesbloqueadas.has(c.id);
         const ehSecreta = (c.nivel1 === "secretas");
         const card = document.createElement("div");
-        card.className = "conq-card" + (ehSecreta ? " conq-secreta" : "") + (estaDesbloqueada ? " desbloqueada" : "");
+        card.id = "conq-card-" + c.id;
+        card.setAttribute("data-conq-id", c.id);
+        card.className = "conq-card" + (ehSecreta ? " conq-secreta" : "") + (estaDesbloqueada ? " desbloqueada" : " bloqueada");
         if (!ehSecreta) {
             card.onclick = () => alternarDesbloqueioConquista(c.id);
         } else {
@@ -15688,6 +17515,49 @@ function renderizarListaConquistas() {
 
         corpo.append(topoRow, descEl, rodapeRow);
         card.append(checkEl, iconeBox, corpo);
+
+        if (ehSecreta && !estaDesbloqueada) {
+            let timerSegurar = null;
+            let segurando = false;
+
+            const iniciarSegurar = (e) => {
+                if (e.button !== undefined && e.button !== 0) return;
+                segurando = true;
+                card.classList.remove("descricao-revelada");
+                card.classList.add("segurando-revelacao");
+
+                timerSegurar = setTimeout(() => {
+                    if (!segurando) return;
+                    card.classList.add("descricao-revelada");
+
+                    if (typeof tocarEfeitoSonoro === "function") {
+                        tocarEfeitoSonoro({ tipo: "misterio" }, 15, 1);
+                    } else if (typeof tocarSom === "function") {
+                        tocarSom("conquista");
+                    }
+                }, 5000);
+            };
+
+            const cancelarSegurar = () => {
+                if (!segurando && !timerSegurar) return;
+                segurando = false;
+                if (timerSegurar) {
+                    clearTimeout(timerSegurar);
+                    timerSegurar = null;
+                }
+                card.classList.remove("segurando-revelacao");
+                card.classList.remove("descricao-revelada");
+            };
+
+            card.addEventListener("pointerdown", iniciarSegurar);
+            card.addEventListener("pointerup", cancelarSegurar);
+            card.addEventListener("pointerleave", cancelarSegurar);
+            card.addEventListener("pointercancel", cancelarSegurar);
+            card.addEventListener("contextmenu", (e) => {
+                e.preventDefault();
+            });
+        }
+
         grid.appendChild(card);
     });
 }
@@ -17098,17 +18968,19 @@ function processarMensagemCampanha(msg) {
         const { item, remetente, sala } = msg;
         if (sala) salaCampanhaAtiva = sala;
         if (item) {
-            inventario.push({
-                id: item.id || ('item_' + Date.now()),
+            const padraoComp = (inventarioCompartimentos && inventarioCompartimentos.length > 0) ? inventarioCompartimentos[0].id : "comp_bolsos";
+            inventarioItens.push({
+                id: item.id || ('item_' + Date.now().toString(36)),
                 nome: item.nome || 'Item Desconhecido',
-                categoria: item.categoria || 'Geral',
+                tipo: item.categoria || item.tipo || 'outro',
                 qtd: parseInt(item.qtd, 10) || 1,
                 peso: parseFloat(item.peso) || 0,
+                espaco: parseInt(item.espaco, 10) || 1,
                 desc: item.desc || '',
-                equipado: false
+                compartimentoId: padraoComp
             });
             if (typeof salvarFichaAutomatico === "function") salvarFichaAutomatico();
-            if (typeof renderizarInventario === "function") renderizarInventario();
+            if (typeof atualizarInventarioUI === "function") atualizarInventarioUI();
             exibirToastItemRecebido(item, remetente);
         }
         renderizarPainelCampanha();
@@ -17427,12 +19299,12 @@ function abrirModalTransferirItem() {
     const selDest = document.getElementById("select-destinatario-transferir");
     if (!selItem || !selDest) return;
 
-    if (inventario.length === 0) {
+    if (!Array.isArray(inventarioItens) || inventarioItens.length === 0) {
         mostrarStatus("Seu inventário está vazio no momento.", "aviso");
         return;
     }
 
-    selItem.innerHTML = inventario.map((item, idx) => `<option value="${idx}">${item.nome} (Qtd: ${item.qtd || 1})</option>`).join("");
+    selItem.innerHTML = inventarioItens.map((item, idx) => `<option value="${idx}">${item.nome} (Qtd: ${item.qtd || 1})</option>`).join("");
 
     const membros = salaCampanhaAtiva?.membros || [];
     const meuId = localStorage.getItem('we_are_strangers_player_uuid');
@@ -17470,18 +19342,18 @@ function executarTransferenciaItem() {
     const itemIdx = parseInt(selItem.value, 10);
     const destId = selDest.value;
 
-    if (isNaN(itemIdx) || itemIdx < 0 || itemIdx >= inventario.length) return;
-    const itemAEnviar = inventario[itemIdx];
+    if (isNaN(itemIdx) || itemIdx < 0 || itemIdx >= inventarioItens.length) return;
+    const itemAEnviar = inventarioItens[itemIdx];
 
     // Remove 1 unidade do item ou remove o item inteiro
     if (itemAEnviar.qtd && itemAEnviar.qtd > 1) {
         itemAEnviar.qtd -= 1;
     } else {
-        inventario.splice(itemIdx, 1);
+        inventarioItens.splice(itemIdx, 1);
     }
 
     if (typeof salvarFichaAutomatico === "function") salvarFichaAutomatico();
-    if (typeof renderizarInventario === "function") renderizarInventario();
+    if (typeof atualizarInventarioUI === "function") atualizarInventarioUI();
 
     const nomePersonagem = (document.getElementById("nome_personagem")?.value || "").trim() || "Personagem";
 
@@ -17492,7 +19364,7 @@ function executarTransferenciaItem() {
             item: {
                 id: itemAEnviar.id,
                 nome: itemAEnviar.nome,
-                categoria: itemAEnviar.categoria,
+                categoria: itemAEnviar.tipo || itemAEnviar.categoria || "outro",
                 peso: itemAEnviar.peso,
                 desc: itemAEnviar.desc,
                 qtd: 1
@@ -17666,7 +19538,7 @@ function exibirToastConquistaEquipe(conquista, desbloqueadoPor) {
 
 function filtrarFeedCampanha(tipo) {
     filtroFeedCampanhaAtivo = tipo;
-    ['todos', 'rolagem', 'equipe', 'individual', 'secreta', 'chat'].forEach(t => {
+    ['todos', 'rolagem', 'equipe', 'individual', 'chat'].forEach(t => {
         const btn = document.getElementById(`btn-feed-filtro-${t}`);
         if (btn) {
             if (t === tipo) {
@@ -17704,7 +19576,6 @@ function renderizarPainelCampanha() {
     const statMembros = document.getElementById("campanha-stat-membros");
     const statEquipe = document.getElementById("campanha-stat-equipe-conq");
     const statPontos = document.getElementById("campanha-stat-pontos-totais");
-    const statSecretas = document.getElementById("campanha-stat-secretas-totais");
 
     const membros = salaCampanhaAtiva.membros || [];
     const conquistasEquipeIds = salaCampanhaAtiva.conquistasEquipe || [];
@@ -17720,21 +19591,18 @@ function renderizarPainelCampanha() {
         if (c) pontosTotalGrupo += (c.pontos || 0);
     });
 
-    const setSecretasDesvendadas = new Set();
     membros.forEach(m => {
         (m.conquistasIndividuais || []).forEach(indId => {
             const c = [...CONQUISTAS_OFICIAIS, ...conquistasCampanha].find(item => item.id === indId);
             if (c) pontosTotalGrupo += (c.pontos || 0);
         });
         (m.conquistasSecretas || []).forEach(secId => {
-            setSecretasDesvendadas.add(secId);
             const c = CONQUISTAS_SECRETAS.find(item => item.id === secId);
             if (c) pontosTotalGrupo += (c.pontos || 0);
         });
     });
 
     if (statPontos) statPontos.textContent = `${pontosTotalGrupo} pts`;
-    if (statSecretas) statSecretas.textContent = `${setSecretasDesvendadas.size}`;
 
     // 2. Renderizar Membros da Equipe
     renderizarMembrosCampanha();
@@ -17765,7 +19633,6 @@ function renderizarMembrosCampanha() {
         }
 
         const qtdIndiv = (m.conquistasIndividuais || []).length;
-        const qtdSec = (m.conquistasSecretas || []).length;
 
         let totalPtsMembro = 0;
         (m.conquistasIndividuais || []).forEach(cId => {
@@ -17830,7 +19697,6 @@ function renderizarMembrosCampanha() {
 
             <div class="campanha-membro-stats">
                 <span class="campanha-membro-badge" title="Feitos Individuais Desbloqueados">👤 ${qtdIndiv} Feitos</span>
-                <span class="campanha-membro-badge secreta" title="Segredos Desvendados">🔮 ${qtdSec} Segredos</span>
                 <span class="campanha-membro-badge" style="background:rgba(212,175,55,0.12); color:#d4af37; border-color:rgba(212,175,55,0.3);" title="Pontuação">⭐ ${totalPtsMembro} pts</span>
             </div>
 
@@ -18040,15 +19906,11 @@ function abrirModalDetalhesMembro(membro) {
 
     if (corpoEl) {
         const indIds = membro.conquistasIndividuais || [];
-        const secIds = membro.conquistasSecretas || [];
-
         const conqIndivs = indIds.map(id => [...CONQUISTAS_OFICIAIS, ...conquistasCampanha].find(c => c.id === id)).filter(Boolean);
-        const conqSecs = secIds.map(id => CONQUISTAS_SECRETAS.find(c => c.id === id)).filter(Boolean);
 
         let html = `
             <div style="display:flex; gap:16px; margin-bottom:16px; padding-bottom:12px; border-bottom:1px solid var(--line-soft);">
                 <div><strong>Feitos Individuais:</strong> ${conqIndivs.length}</div>
-                <div><strong>Segredos Desvendados:</strong> ${conqSecs.length}</div>
             </div>
         `;
 
@@ -18057,7 +19919,7 @@ function abrirModalDetalhesMembro(membro) {
         if (conqIndivs.length === 0) {
             html += `<p style="font-size:12px; color:var(--ink-dim); margin-bottom:16px;">Nenhum feito individual registrado ainda.</p>`;
         } else {
-            html += `<div style="display:flex; flex-direction:column; gap:8px; margin-bottom:18px;">`;
+            html += `<div style="display:flex; flex-direction:column; gap:8px;">`;
             conqIndivs.forEach(c => {
                 html += `
                     <div style="background:var(--bg-inset); padding:10px; border-radius:6px; border:1px solid var(--line-soft); display:flex; align-items:center; gap:10px;">
@@ -18065,26 +19927,6 @@ function abrirModalDetalhesMembro(membro) {
                         <div style="flex:1;">
                             <div style="font-size:13px; font-weight:bold; color:var(--ink);">${c.titulo} <span style="font-size:11px; color:#d4af37; font-weight:normal;">(+${c.pontos || 0} pts)</span></div>
                             <div style="font-size:11.5px; color:var(--ink-dim);">${c.desc || ""}</div>
-                        </div>
-                    </div>
-                `;
-            });
-            html += `</div>`;
-        }
-
-        // Seção Secretas
-        html += `<h4 style="margin:0 0 10px 0; font-size:14px; color:var(--ink); font-family:'MirageFinal', serif;">🔮 Conquistas Secretas Desvendadas (${conqSecs.length})</h4>`;
-        if (conqSecs.length === 0) {
-            html += `<p style="font-size:12px; color:var(--ink-dim);">Nenhum segredo desvendado por este jogador ainda.</p>`;
-        } else {
-            html += `<div style="display:flex; flex-direction:column; gap:8px;">`;
-            conqSecs.forEach(s => {
-                html += `
-                    <div style="background:rgba(155, 89, 182, 0.08); padding:10px; border-radius:6px; border:1px solid rgba(155, 89, 182, 0.25); display:flex; align-items:center; gap:10px;">
-                        <span style="font-size:18px;">${s.icone || '🔮'}</span>
-                        <div style="flex:1;">
-                            <div style="font-size:13px; font-weight:bold; color:var(--ink);">${s.titulo} <span style="font-size:11px; color:#9b59b6; font-weight:normal;">(+${s.pontos || 0} pts)</span></div>
-                            <div style="font-size:11.5px; color:var(--ink-dim);">${s.desc || ""}</div>
                         </div>
                     </div>
                 `;
